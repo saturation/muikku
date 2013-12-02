@@ -58,12 +58,6 @@
   
   <dependencies>
     <dependency>
-      <groupId>org.jboss.spec</groupId>
-      <artifactId>jboss-javaee-6.0</artifactId>
-      <type>pom</type>
-    </dependency>
-    
-    <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
     </dependency>
@@ -80,6 +74,10 @@
     <dependency>
       <groupId>fi.muikku</groupId>
       <artifactId>security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.transaction</groupId>
+      <artifactId>jboss-transaction-api_1.2_spec</artifactId>
     </dependency>
   </dependencies>
 
