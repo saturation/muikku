@@ -12,7 +12,7 @@
   <packaging>jar</packaging>
   <name>Muikku Persistence</name>
   <description>Muikku Persistence</description>
-  
+
   <properties>
     <tranquil-model-gen.version>1.0.3-SNAPSHOT</tranquil-model-gen.version>
     <!-- 
@@ -129,6 +129,7 @@
             <version>${tranquil-model-gen.version}</version>
           </dependency>
         </dependencies>
+        
         <executions>
           <execution>
             <id>process-metamodel</id>
@@ -219,13 +220,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jboss.spec</groupId>
-      <artifactId>jboss-javaee-6.0</artifactId>
-      <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <scope>provided</scope>
@@ -249,6 +243,7 @@
       <groupId>org.apache.deltaspike.core</groupId>
       <artifactId>deltaspike-core-api</artifactId>
     </dependency>
+    
   </dependencies>
   
   <repositories>
