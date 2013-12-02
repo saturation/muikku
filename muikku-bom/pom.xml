@@ -10,40 +10,61 @@
 
   <properties>
     <muikku.version>1.0.0-SNAPSHOT</muikku.version>
-    <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
-    <jboss-jsf-api_2.1_spec.version>2.0.6.Final</jboss-jsf-api_2.1_spec.version>
-    <jsf-impl.version>2.1.7</jsf-impl.version>
-    <hibernate.version>4.0.1.Final</hibernate.version>
-    <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+    
     <commons-lang.version>3.1</commons-lang.version>
     <commons-io.version>2.4</commons-io.version>
     <commons-codec.version>1.8</commons-codec.version>
-    <resteasy-jaxrs.version>2.3.2.Final</resteasy-jaxrs.version>
-    <tranquil-model.version>1.0.3-SNAPSHOT</tranquil-model.version>
-    <jackson-mapper-asl.version>1.9.2</jackson-mapper-asl.version>
     <maven-aether-provider.version>3.0.4</maven-aether-provider.version>
     <aether-connector-wagon.version>1.13.1</aether-connector-wagon.version>
-    <deltaspike.version>0.3-incubating</deltaspike.version>
-    <apache-httpcomponents.version>4.1.2</apache-httpcomponents.version>
     <prettyfaces-jsf2.version>3.3.3</prettyfaces-jsf2.version>
+    <deltaspike.version>0.5</deltaspike.version>
+    <apache-httpcomponents.version>4.1.2</apache-httpcomponents.version>
+    <resteasy-jaxrs.version>3.0.4.Final</resteasy-jaxrs.version>
+    <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
+    <hibernate-entitymanager.version>4.3.0.Beta4</hibernate-entitymanager.version>
+     
+    <tranquil-model.version>1.0.3-SNAPSHOT</tranquil-model.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-          
+      <!-- Deltaspike -->
+      
       <dependency>
-        <groupId>org.jboss.spec</groupId>
-        <artifactId>jboss-javaee-6.0</artifactId>
-        <type>pom</type>
-        <version>${jboss-javaee6-spec.version}</version>
+        <groupId>org.apache.deltaspike.core</groupId>
+        <artifactId>deltaspike-core-api</artifactId>
+        <version>${deltaspike.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.spec.javax.faces</groupId>
-        <artifactId>jboss-jsf-api_2.1_spec</artifactId>
-        <version>${jboss-jsf-api_2.1_spec.version}</version>
-        <scope>provided</scope>
+        <groupId>org.apache.deltaspike.core</groupId>
+        <artifactId>deltaspike-core-impl</artifactId>
+        <version>${deltaspike.version}</version>
       </dependency>
+      
+      <!-- PrettyFaces -->
+      
+      <dependency>
+        <groupId>com.ocpsoft</groupId>
+        <artifactId>prettyfaces-jsf2</artifactId>
+        <version>${prettyfaces-jsf2.version}</version>
+      </dependency>
+      
+      <!-- Hibernate -->
+  
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate-entitymanager.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
+      </dependency>
+      
+      <!-- RESTEasy -->
       
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
@@ -52,9 +73,9 @@
       </dependency>
 
       <dependency>
-    	<groupId>org.jboss.resteasy</groupId>
-    	<artifactId>async-http-servlet-3.0</artifactId>
-    	<version>${resteasy-jaxrs.version}</version>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>async-http-servlet-3.0</artifactId>
+        <version>${resteasy-jaxrs.version}</version>
       </dependency>
             
       <dependency>
@@ -63,29 +84,21 @@
         <version>${resteasy-jaxrs.version}</version>
       </dependency>
       
+      <!-- Aether -->
+  
       <dependency>
-    	<groupId>org.codehaus.jackson</groupId>
-    	<artifactId>jackson-mapper-asl</artifactId>
-    	<version>${jackson-mapper-asl.version}</version>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-aether-provider</artifactId>
+        <version>${maven-aether-provider.version}</version>
       </dependency>
-
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>${hibernate-validator.version}</version>
-      </dependency> 
       
       <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>${hibernate.version}</version>
-      </dependency> 
-
-      <dependency>
-        <groupId>com.sun.faces</groupId>
-        <artifactId>jsf-impl</artifactId>
-        <version>${jsf-impl.version}</version>
+        <groupId>org.sonatype.aether</groupId>
+        <artifactId>aether-connector-wagon</artifactId>
+        <version>${aether-connector-wagon.version}</version>
       </dependency>
+      
+      <!-- Apache Commons -->    
   
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -106,52 +119,26 @@
       </dependency>
   
       <dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpclient</artifactId>
-	    <version>${apache-httpcomponents.version}</version>
-	  </dependency>
-	    
-	  <dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpcore</artifactId>
-	    <version>${apache-httpcomponents.version}</version>
-	  </dependency>
-  
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate.version}</version>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${apache-httpcomponents.version}</version>
       </dependency>
-  
+        
       <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.5.6</version>
-      </dependency>
-  
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-infinispan</artifactId>
-        <version>${hibernate.version}</version>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>${apache-httpcomponents.version}</version>
       </dependency>
       
-      <dependency>
-	    <groupId>org.apache.maven</groupId>
-	    <artifactId>maven-aether-provider</artifactId>
-	    <version>${maven-aether-provider.version}</version>
-	  </dependency>
-	    
-	  <dependency>
-        <groupId>org.sonatype.aether</groupId>
-        <artifactId>aether-connector-wagon</artifactId>
-        <version>${aether-connector-wagon.version}</version>
-      </dependency>
+      <!-- Tranquil model -->
       
       <dependency>
         <groupId>fi.tranquil-model</groupId>
         <artifactId>tranquil-model</artifactId>
         <version>${tranquil-model.version}</version>
       </dependency>
+      
+      <!-- Muikku -->
       
       <dependency>
         <groupId>fi.muikku</groupId>
@@ -171,11 +158,11 @@
         <version>${muikku.version}</version>
       </dependency> 
 
-    <dependency>
-      <groupId>fi.muikku</groupId>
-      <artifactId>core-plugins</artifactId>
+      <dependency>
+        <groupId>fi.muikku</groupId>
+        <artifactId>core-plugins</artifactId>
         <version>${muikku.version}</version>
-    </dependency>
+      </dependency>
     
       <dependency>
         <groupId>fi.muikku</groupId>
@@ -199,24 +186,6 @@
         <groupId>fi.muikku</groupId>
         <artifactId>muikku-schooldata-pyramus</artifactId>
         <version>${muikku.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.deltaspike.core</groupId>
-        <artifactId>deltaspike-core-api</artifactId>
-		<version>${deltaspike.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.deltaspike.core</groupId>
-        <artifactId>deltaspike-core-impl</artifactId>
-		<version>${deltaspike.version}</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>com.ocpsoft</groupId>
-        <artifactId>prettyfaces-jsf2</artifactId>
-        <version>${prettyfaces-jsf2.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
