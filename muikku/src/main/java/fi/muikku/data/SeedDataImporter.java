@@ -23,8 +23,8 @@ public class SeedDataImporter {
   @PersistenceContext
   private EntityManager em;
 
-  @Inject
-  private UserTransaction tx;
+  //@Inject
+  //private UserTransaction tx;
 
   @Inject
   @Any
