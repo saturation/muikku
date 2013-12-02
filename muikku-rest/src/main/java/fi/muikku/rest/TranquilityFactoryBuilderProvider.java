@@ -32,9 +32,9 @@ public class TranquilityFactoryBuilderProvider {
   	List<EntityLookup> completeLookups = new ArrayList<>();
   	
   	// School Data
-  	baseLookups.add(fi.muikku.schooldata.local.tranquil.BaseLookup.class.newInstance());
-  	compactLookups.add(fi.muikku.schooldata.local.tranquil.CompactLookup.class.newInstance());
-  	completeLookups.add(fi.muikku.schooldata.local.tranquil.CompleteLookup.class.newInstance());
+//  	baseLookups.add(fi.muikku.schooldata.local.tranquil.BaseLookup.class.newInstance());
+//  	compactLookups.add(fi.muikku.schooldata.local.tranquil.CompactLookup.class.newInstance());
+//  	completeLookups.add(fi.muikku.schooldata.local.tranquil.CompleteLookup.class.newInstance());
 
   	// Persistence
   	baseLookups.add(fi.muikku.persistence.tranquil.BaseLookup.class.newInstance());

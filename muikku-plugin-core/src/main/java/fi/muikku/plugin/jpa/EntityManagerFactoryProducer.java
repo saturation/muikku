@@ -38,12 +38,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.ejb.EntityManagerFactoryImpl;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+//import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.hibernate.service.Service;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
-import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
+//import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -89,30 +91,30 @@ public class EntityManagerFactoryProducer {
 		ServiceRegistry coreServiceRegistry = coreSessionFactory.getServiceRegistry();
 	  ServiceRegistryBuilder pluginServiceRegistryBuilder = new ServiceRegistryBuilder();
 	
-    copyServices(coreServiceRegistry, pluginServiceRegistryBuilder,
-  	  org.hibernate.event.service.spi.EventListenerRegistry.class, 
-  		org.hibernate.stat.spi.StatisticsImplementor.class, 
-  		org.hibernate.service.jdbc.connections.spi.MultiTenantConnectionProvider.class, 
-  		org.hibernate.service.config.spi.ConfigurationService.class, 
-  		org.hibernate.service.jdbc.dialect.spi.DialectResolver.class, 
-  		org.hibernate.service.instrumentation.spi.InstrumentationService.class, 
-  		org.hibernate.engine.jdbc.spi.JdbcServices.class, 
-  		org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor.class, 
-  		org.hibernate.service.jdbc.dialect.spi.DialectFactory.class, 
-  		org.hibernate.cache.spi.RegionFactory.class, 
-  		org.hibernate.persister.spi.PersisterFactory.class, 
-  		org.hibernate.id.factory.spi.MutableIdentifierGeneratorFactory.class, 
-  		org.hibernate.engine.transaction.spi.TransactionFactory.class, 
-  		org.hibernate.service.jmx.spi.JmxService.class, 
-  		org.hibernate.engine.jdbc.batch.spi.BatchBuilder.class, 
-  		org.hibernate.persister.spi.PersisterClassResolver.class,
-  		org.hibernate.service.jndi.spi.JndiService.class,
-		  org.hibernate.service.jta.platform.spi.JtaPlatform.class,
-      org.hibernate.service.spi.SessionFactoryServiceRegistryFactory.class,
-	    org.hibernate.service.jdbc.connections.spi.ConnectionProvider.class
-    );
-    
-    ServiceRegistry pluginServiceRegistry = pluginServiceRegistryBuilder.buildServiceRegistry();
+//    copyServices(coreServiceRegistry, pluginServiceRegistryBuilder,
+//  	  org.hibernate.event.service.spi.EventListenerRegistry.class, 
+//  		org.hibernate.stat.spi.StatisticsImplementor.class, 
+//  		org.hibernate.service.jdbc.connections.spi.MultiTenantConnectionProvider.class, 
+//  		org.hibernate.service.config.spi.ConfigurationService.class, 
+//  		org.hibernate.service.jdbc.dialect.spi.DialectResolver.class, 
+//  		org.hibernate.service.instrumentation.spi.InstrumentationService.class, 
+//  		org.hibernate.engine.jdbc.spi.JdbcServices.class, 
+//  		org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor.class, 
+//  		org.hibernate.service.jdbc.dialect.spi.DialectFactory.class, 
+//  		org.hibernate.cache.spi.RegionFactory.class, 
+//  		org.hibernate.persister.spi.PersisterFactory.class, 
+//  		org.hibernate.id.factory.spi.MutableIdentifierGeneratorFactory.class, 
+//  		org.hibernate.engine.transaction.spi.TransactionFactory.class, 
+//  		org.hibernate.service.jmx.spi.JmxService.class, 
+//  		org.hibernate.engine.jdbc.batch.spi.BatchBuilder.class, 
+//  		org.hibernate.persister.spi.PersisterClassResolver.class,
+//  		org.hibernate.service.jndi.spi.JndiService.class,
+//		  org.hibernate.service.jta.platform.spi.JtaPlatform.class,
+//      org.hibernate.service.spi.SessionFactoryServiceRegistryFactory.class,
+//	    org.hibernate.service.jdbc.connections.spi.ConnectionProvider.class
+//    );
+//    
+//    ServiceRegistry pluginServiceRegistry = pluginServiceRegistryBuilder.buildServiceRegistry();
 		
 		try {
 			List<PluginLibraryDescriptor> pluginLibraries = SingletonPluginManager.getInstance().discoverPluginLibraries();
@@ -137,27 +139,27 @@ public class EntityManagerFactoryProducer {
 		
 		// TODO: only in development mode
 		if (true) {
-			ServiceRegistry updaterServiceRegistry = new ServiceRegistryBuilder()
-		  	.addService(ConnectionProvider.class, new UpdaterDatasourceConnectionProvider(pluginServiceRegistry.getService(ConnectionProvider.class)))
-				.buildServiceRegistry();
-			
-			SchemaUpdate schemaUpdate = new SchemaUpdate(updaterServiceRegistry, configuration);
-			schemaUpdate.execute(true, true);
+//			ServiceRegistry updaterServiceRegistry = new ServiceRegistryBuilder()
+//		  	.addService(ConnectionProvider.class, new UpdaterDatasourceConnectionProvider(pluginServiceRegistry.getService(ConnectionProvider.class)))
+//				.buildServiceRegistry();
+//			SchemaUpdate schemaUpdate = new SchemaUpdate(updaterServiceRegistry, configuration);
+//			schemaUpdate.execute(true, true);
 		}
 		
 		PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.JTA;
 		boolean discardOnClose = false;
 		Class<?> sessionInterceptorClass = null; 
 
-		EntityManagerFactoryImpl entityManagerFactoryImpl = new EntityManagerFactoryImpl(
-				transactionType, 
-				discardOnClose, 
-				sessionInterceptorClass, 
-				configuration, 
-				pluginServiceRegistry, 
-				"muikku-plugins");
+//		EntityManagerFactoryImpl entityManagerFactoryImpl = new EntityManagerFactoryImpl(
+//				transactionType, 
+//				discardOnClose, 
+//				sessionInterceptorClass, 
+//				configuration, 
+//				pluginServiceRegistry, 
+//				"muikku-plugins");
 
-		return entityManagerFactoryImpl;
+//		return entityManagerFactoryImpl;
+		return null;
 	}
 	
 	private void copyServices(ServiceRegistry coreServiceRegistry, ServiceRegistryBuilder pluginServiceRegistryBuilder, @SuppressWarnings("unchecked") Class<? extends Service>... serviceRoles) {

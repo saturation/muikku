@@ -11,7 +11,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jboss.resteasy.annotations.interception.ServerInterceptor;
-import org.jboss.resteasy.core.ResourceMethod;
+import org.jboss.resteasy.core.ResourceMethodInvoker;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.Failure;
 import org.jboss.resteasy.spi.HttpRequest;
@@ -25,10 +25,10 @@ public class ContextInterceptor implements PreProcessInterceptor {
   
   @Inject
   private SessionControllerDelegate sessionControllerDelegate;
-
+  
   @Override
-  public ServerResponse preProcess(HttpRequest request, ResourceMethod resourceMethod) throws Failure, WebApplicationException {
-    Method method = resourceMethod.getMethod();
+  public ServerResponse preProcess(HttpRequest request, ResourceMethodInvoker resourceMethodInvoker) throws Failure, WebApplicationException {
+    Method method = resourceMethodInvoker.getMethod();
     Annotation[][] methodParameterAnnotations = method.getParameterAnnotations();
     Class<?>[] methodParameterTypes = method.getParameterTypes();
     
