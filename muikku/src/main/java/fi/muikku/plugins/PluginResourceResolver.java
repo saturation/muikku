@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 
 import javax.faces.view.facelets.ResourceResolver;
 
-import com.sun.faces.facelets.impl.DefaultResourceResolver;
-
 import fi.muikku.plugin.manager.PluginManagerException;
 import fi.muikku.plugin.manager.SingletonPluginManager;
 
@@ -18,10 +16,10 @@ public class PluginResourceResolver extends ResourceResolver {
 
 	@Override
 	public URL resolveUrl(String path) {
-		URL defaultResource = defaultResourceResolver.resolveUrl(path);
-		if (defaultResource != null) {
-			return defaultResource;
-		}
+//		URL defaultResource = defaultResourceResolver.resolveUrl(path);
+//		if (defaultResource != null) {
+//			return defaultResource;
+//		}
 
 		URL resource;
 
@@ -44,5 +42,5 @@ public class PluginResourceResolver extends ResourceResolver {
 		return null;
 	}
 
-	private final DefaultResourceResolver defaultResourceResolver = new DefaultResourceResolver();
+//	private final DefaultResourceResolver defaultResourceResolver = new DefaultResourceResolver();
 }

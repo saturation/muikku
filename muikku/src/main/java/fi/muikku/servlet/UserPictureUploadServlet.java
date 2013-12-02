@@ -49,35 +49,35 @@ public class UserPictureUploadServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     // TODO: rights, transaction handling
     
-    try {
-      tx.begin();
-
-      try {
-        Long userId = Long.parseLong(req.getParameter("userId"));
-        Part filePart = req.getPart("pictureFile");
-        String contentType = filePart.getContentType();
-    
-        InputStream filecontent = filePart.getInputStream();
-        byte[] data = IOUtils.toByteArray(filecontent);
-        
-        UserEntity user = userEntityDAO.findById(userId);
-        
-        UserPicture userPicture = userPictureDAO.findByUser(user);
-        if (userPicture != null)
-          userPictureDAO.updateData(userPicture, contentType, data, new Date());
-        else
-          userPictureDAO.create(user, contentType, data, new Date());
-        
-        resp.setStatus(200);
-        
-        tx.commit();
-      } catch (Exception ex) {
-        tx.rollback();
-        resp.setStatus(500);
-      }
-    } catch (NotSupportedException | SystemException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+//    try {
+//      tx.begin();
+//
+//      try {
+//        Long userId = Long.parseLong(req.getParameter("userId"));
+//        Part filePart = req.getPart("pictureFile");
+//        String contentType = filePart.getContentType();
+//    
+//        InputStream filecontent = filePart.getInputStream();
+//        byte[] data = IOUtils.toByteArray(filecontent);
+//        
+//        UserEntity user = userEntityDAO.findById(userId);
+//        
+//        UserPicture userPicture = userPictureDAO.findByUser(user);
+//        if (userPicture != null)
+//          userPictureDAO.updateData(userPicture, contentType, data, new Date());
+//        else
+//          userPictureDAO.create(user, contentType, data, new Date());
+//        
+//        resp.setStatus(200);
+//        
+//        tx.commit();
+//      } catch (Exception ex) {
+//        tx.rollback();
+//        resp.setStatus(500);
+//      }
+//    } catch (NotSupportedException | SystemException e) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
   }
 }
