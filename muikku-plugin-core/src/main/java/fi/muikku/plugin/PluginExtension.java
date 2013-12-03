@@ -184,8 +184,8 @@ public class PluginExtension implements Extension {
 
         List<Class<?>> interceptors = new ArrayList<Class<?>>();
 
-        interceptors.add(TransactionalInterceptor.class);
-        interceptors.add(PluginContextClassLoaderInterceptor.class);
+//        interceptors.add(TransactionalInterceptor.class);
+//        interceptors.add(PluginContextClassLoaderInterceptor.class);
 
         if (method.getAnnotation(Permit.class) != null) {
           interceptors.add(PermitInterceptor.class);

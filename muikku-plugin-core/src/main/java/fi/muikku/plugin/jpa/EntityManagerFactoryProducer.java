@@ -19,6 +19,7 @@ import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Struct;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -80,17 +81,17 @@ public class EntityManagerFactoryProducer {
 		
 		Configuration configuration = new Configuration()
 		  .configure(readConfiguration());
-/**
+
 		Properties configProperties = configuration.getProperties();
 		Map<String, String> configurationValues = new HashMap<>();
 		for (Object propertyObject : configProperties.keySet()) {
 			String property = (String) propertyObject; 
 			configurationValues.put(property, configProperties.getProperty(property));
 		}
-**/		
+
 		ServiceRegistry coreServiceRegistry = coreSessionFactory.getServiceRegistry();
-	  ServiceRegistryBuilder pluginServiceRegistryBuilder = new ServiceRegistryBuilder();
-	
+//	  ServiceRegistryBuilder pluginServiceRegistryBuilder = new ServiceRegistryBuilder();
+//	
 //    copyServices(coreServiceRegistry, pluginServiceRegistryBuilder,
 //  	  org.hibernate.event.service.spi.EventListenerRegistry.class, 
 //  		org.hibernate.stat.spi.StatisticsImplementor.class, 
@@ -114,7 +115,9 @@ public class EntityManagerFactoryProducer {
 //	    org.hibernate.service.jdbc.connections.spi.ConnectionProvider.class
 //    );
 //    
-//    ServiceRegistry pluginServiceRegistry = pluginServiceRegistryBuilder.buildServiceRegistry();
+//    ServiceRegistry pluginServiceRegistry = pluginServiceRegistryBuilder.build();
+		
+		ServiceRegistry pluginServiceRegistry = coreServiceRegistry;
 		
 		try {
 			List<PluginLibraryDescriptor> pluginLibraries = SingletonPluginManager.getInstance().discoverPluginLibraries();
@@ -150,16 +153,15 @@ public class EntityManagerFactoryProducer {
 		boolean discardOnClose = false;
 		Class<?> sessionInterceptorClass = null; 
 
-//		EntityManagerFactoryImpl entityManagerFactoryImpl = new EntityManagerFactoryImpl(
-//				transactionType, 
-//				discardOnClose, 
-//				sessionInterceptorClass, 
-//				configuration, 
-//				pluginServiceRegistry, 
-//				"muikku-plugins");
-
-//		return entityManagerFactoryImpl;
-		return null;
+		EntityManagerFactoryImpl entityManagerFactoryImpl = new EntityManagerFactoryImpl(
+				transactionType, 
+				discardOnClose, 
+				sessionInterceptorClass, 
+				configuration, 
+				pluginServiceRegistry, 
+				"muikku-plugins");
+		
+		return entityManagerFactoryImpl;
 	}
 	
 	private void copyServices(ServiceRegistry coreServiceRegistry, ServiceRegistryBuilder pluginServiceRegistryBuilder, @SuppressWarnings("unchecked") Class<? extends Service>... serviceRoles) {
