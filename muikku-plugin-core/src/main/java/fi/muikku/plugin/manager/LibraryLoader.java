@@ -34,8 +34,8 @@ public class LibraryLoader {
     return classLoader;
   }
   
-  public void loadClassPath(URL classPath) {
-  	classLoader.addPath(classPath);
+  public void loadClassPath(File artifactFile) {
+  	classLoader.addFile(artifactFile, artifactFile);
   }
 
   /** 
@@ -91,6 +91,10 @@ public class LibraryLoader {
     }
     
     return false;
+  }
+
+  public void injectClasses() {
+    classLoader.injectClasses();
   }
 
   private PluginClassLoader classLoader = null;

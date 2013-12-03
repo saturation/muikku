@@ -159,7 +159,7 @@ public class SingletonPluginManager {
 					if (artifactFile.isDirectory()) {
 	          logger.info("Loading " + ArtifacIdUtils.toId(resolvedDependency.getArtifact()) + " plugin folder: " + artifactFile);
 	    			try {
-	    			  libraryLoader.loadClassPath(artifactFile.toURI().toURL());        	
+	    			  libraryLoader.loadClassPath(artifactFile);        	
 	    		  } catch (Exception e) {
 	    		  	logger.log(Level.WARNING, "Error occurred while loading plugin folder " + artifactFile, e);
 	    			}
@@ -177,6 +177,8 @@ public class SingletonPluginManager {
   }
 
 	public List<PluginLibraryDescriptor> discoverPluginLibraries() {
+	  libraryLoader.injectClasses();
+	  
   	List<PluginLibraryDescriptor> result = new ArrayList<>();
   	ServiceLoader<PluginLibraryDescriptor> pluginLibraryLoader = ServiceLoader.load(PluginLibraryDescriptor.class, libraryLoader.getPluginsClassLoader());
   	for (PluginLibraryDescriptor pluginLibraryDescriptor : pluginLibraryLoader) {
