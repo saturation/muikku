@@ -155,22 +155,22 @@ public class CalendarPluginDescriptor implements PluginDescriptor, LocalizedPlug
 	  );
 	}
 	
-	public void onAfterPluginsInit(@Observes AfterPluginsInitEvent event) {
-		// Make sure every user has a default calendar
-
-		PluginUserSettingKey defaultCalendarIdSetting = pluginSettingsController.getPluginUserSettingKey(getName(), DEFAULT_CALENDAR_ID_SETTING);
-
-		List<UserEntity> usersWithoutDefaultCalendar = pluginSettingsController.listUsersWithoutSetting(defaultCalendarIdSetting);
-		for (UserEntity userWithoutDefaultCalendar : usersWithoutDefaultCalendar) {
-			User user = userController.findUser(userWithoutDefaultCalendar);
-			String name = user.getFirstName() + ' ' + user.getLastName();
-			UserCalendar calendar = calendarController.createLocalUserCalendar(userWithoutDefaultCalendar, name, DEFAULT_COLOR, Boolean.TRUE);
-			pluginSettingsController.setPluginUserSetting(getName(), DEFAULT_CALENDAR_ID_SETTING, calendar.getCalendar().getId().toString(), userWithoutDefaultCalendar);
-		}
-		
-		String defaultFirstDay = pluginSettingsController.getPluginSetting(getName(), DEFAULT_FIRSTDAY_SETTING);
-		if (!DEFAULT_FIRSTDAY.equals(defaultFirstDay)) {
-			pluginSettingsController.setPluginSetting(getName(), DEFAULT_FIRSTDAY_SETTING, DEFAULT_FIRSTDAY);
-		}
-	}
+//	public void onAfterPluginsInit(@Observes AfterPluginsInitEvent event) {
+//		// Make sure every user has a default calendar
+//
+//		PluginUserSettingKey defaultCalendarIdSetting = pluginSettingsController.getPluginUserSettingKey(getName(), DEFAULT_CALENDAR_ID_SETTING);
+//
+//		List<UserEntity> usersWithoutDefaultCalendar = pluginSettingsController.listUsersWithoutSetting(defaultCalendarIdSetting);
+//		for (UserEntity userWithoutDefaultCalendar : usersWithoutDefaultCalendar) {
+//			User user = userController.findUser(userWithoutDefaultCalendar);
+//			String name = user.getFirstName() + ' ' + user.getLastName();
+//			UserCalendar calendar = calendarController.createLocalUserCalendar(userWithoutDefaultCalendar, name, DEFAULT_COLOR, Boolean.TRUE);
+//			pluginSettingsController.setPluginUserSetting(getName(), DEFAULT_CALENDAR_ID_SETTING, calendar.getCalendar().getId().toString(), userWithoutDefaultCalendar);
+//		}
+//		
+//		String defaultFirstDay = pluginSettingsController.getPluginSetting(getName(), DEFAULT_FIRSTDAY_SETTING);
+//		if (!DEFAULT_FIRSTDAY.equals(defaultFirstDay)) {
+//			pluginSettingsController.setPluginSetting(getName(), DEFAULT_FIRSTDAY_SETTING, DEFAULT_FIRSTDAY);
+//		}
+//	}
 }

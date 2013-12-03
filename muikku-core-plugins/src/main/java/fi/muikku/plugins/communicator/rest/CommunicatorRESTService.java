@@ -54,7 +54,7 @@ import fi.tranquil.instructions.SuperClassInstructionSelector;
 @Produces ("application/json")
 public class CommunicatorRESTService extends PluginRESTService {
 
-  @Inject 
+//  @Inject 
   private TranquilityBuilderFactory tranquilityBuilderFactory;
 
   @Inject

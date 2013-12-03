@@ -27,7 +27,7 @@ import fi.tranquil.TranquilityBuilderFactory;
 @Produces ("application/json")
 public class SeekerRESTService extends PluginRESTService {
 
-  @Inject 
+//  @Inject 
   private TranquilityBuilderFactory tranquilityBuilderFactory;
 
   @Inject

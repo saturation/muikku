@@ -43,8 +43,8 @@ import fi.tranquil.instructions.SuperClassInstructionSelector;
 @Stateless
 @Produces ("application/json")
 public class WallRESTService extends PluginRESTService {
-
-  @Inject 
+//
+//  @Inject 
   private TranquilityBuilderFactory tranquilityBuilderFactory;
 
   @Inject
