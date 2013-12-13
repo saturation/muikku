@@ -37,20 +37,6 @@ public class RestFishPluginDescriptor implements PluginDescriptor, RESTPluginDes
 
   @Override
   public void init() {
-    Widget widget = widgetController.findWidget(FISH_WIDGET_NAME);
-    if (widget == null) {
-      widget = widgetController.createWidget(FISH_WIDGET_NAME, FISH_WIDGET_MINIMUM_SIZE, WidgetVisibility.EVERYONE);
-    }
-
-    WidgetSpace widgetSpace = widgetController.findWidgetSpace(FISH_WIDGET_LOCATION);
-    if (widgetSpace == null) { // TODO: In a perfect world, there would be no null checks
-      widgetSpace = widgetController.createWidgetSpace(FISH_WIDGET_LOCATION);
-    }
-
-    DefaultWidget defaultWidget = widgetController.findDefaultWidget(widget, widgetSpace);
-    if (defaultWidget == null) {
-      defaultWidget = widgetController.createDefaultWidget(widget, widgetSpace);
-    }
   }
 
   @Override
