@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/default.xhtml">
+    
+  <ui:define name="content.center.widget">
+
+    <h1>Course meta</h1>
+
+    <h3>getSchoolDataSource()</h3>
+    <p>
+    </p>
+  
+    <h2>Subjects</h2>
+  
+    <h3>findSubject(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{courseMetaBridgeTestController.subjectIdentifier}"></h:inputText>
+        <h:commandButton value="findSubject()" />
+
+        <h:panelGroup layout="block" rendered="#{courseMetaBridgeTestController.subjectValue != null}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>name</td>
+            </tr>
+            <tr>
+              <td>#{courseMetaBridgeTestController.subjectValue.schoolDataSource}</td>
+              <td>#{courseMetaBridgeTestController.subjectValue.identifier}</td>
+              <td>#{courseMetaBridgeTestController.subjectValue.name}</td>
+            </tr>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+  
+    <h3>listSubjects()</h3>
+    <p>
+      <h:form>
+        <h:commandButton value="listSubjects()" action="#{courseMetaBridgeTestController.toggleListSubjects()}" />
+      
+        <h:panelGroup layout="block" rendered="#{courseMetaBridgeTestController.listSubjectsValue}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>name</td>
+            </tr>
+            <ui:repeat var="subject" value="#{courseMetaBridgeTestController.listSubjects()}">
+              <tr>
+                <td>${subject.schoolDataSource}</td>
+                <td>${subject.identifier}</td>
+                <td>${subject.name}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>
+      </h:form>
+    </p>
+
+  
+    <h2>CourseIdentifier</h2>
+
+    <h3>findCourseIdentifier(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{courseMetaBridgeTestController.courseIdentifier}"></h:inputText>
+        <h:commandButton value="findCourseIdentifier()" />
+
+        <h:panelGroup layout="block" rendered="#{courseMetaBridgeTestController.courseIdentifierValue != null}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>code</td>
+              <td>subjectSchoolDataSource</td>
+              <td>subjectIdentifier</td>
+            </tr>
+    
+            <tr>
+              <td>#{courseMetaBridgeTestController.courseIdentifierValue.schoolDataSource}</td>
+              <td>#{courseMetaBridgeTestController.courseIdentifierValue.identifier}</td>
+              <td>#{courseMetaBridgeTestController.courseIdentifierValue.code}</td>
+              <td>#{courseMetaBridgeTestController.courseIdentifierValue.subjectSchoolDataSource}</td>
+              <td>#{courseMetaBridgeTestController.courseIdentifierValue.subjectIdentifier}</td>
+            </tr>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+    <h3>listCourseIdentifiers()</h3>
+    <p>
+      <h:form>
+        <h:commandButton value="listCourseIdentifiers()" action="#{courseMetaBridgeTestController.toggleListCourseIdentifiers()}" />
+
+        <h:panelGroup layout="block" rendered="#{courseMetaBridgeTestController.listCourseIdentifiersValue}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>code</td>
+              <td>subjectSchoolDataSource</td>
+              <td>subjectIdentifier</td>
+            </tr>
+    
+            <ui:repeat var="identifier" value="#{courseMetaBridgeTestController.listCourseIdentifiers()}">
+              <tr>
+                <td>${identifier.schoolDataSource}</td>
+                <td>${identifier.identifier}</td>
+                <td>${identifier.code}</td>
+                <td>${identifier.subjectSchoolDataSource}</td>
+                <td>${identifier.subjectIdentifier}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>
+      </h:form>
+    </p>
+
+    <h3>listCourseIdentifiersBySubject(String subjectIdentifier)</h3>
+
+  </ui:define>
+
+</ui:composition>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/default.xhtml">
+    
+  <ui:define name="content.center.widget">
+
+    <h1>Workspace</h1>
+
+    <h2>Workspaces</h2>
+
+    <h3>createWorkspace(String name, String description, WorkspaceType type, String courseIdentifierIdentifier)</h3>
+    <h:form>
+      <h:inputText value="#{workspaceBridgeTestController.createWorkspaceValue.name}"></h:inputText>
+      <h:inputText value="#{workspaceBridgeTestController.createWorkspaceValue.description}"></h:inputText>
+      <h:inputText value="#{workspaceBridgeTestController.createWorkspaceValue.type}"></h:inputText>
+      <h:inputText value="#{workspaceBridgeTestController.createWorkspaceValue.courseIdentifierIdentifier}"></h:inputText>
+      <h:commandButton value="createWorkspace()" action="#{workspaceBridgeTestController.createWorkspace()}" />
+    </h:form>
+      	
+    <h3>findWorkspace(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.findWorkspaceValue}"></h:inputText>
+        <h:commandButton value="findWorkspace()" />
+
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.findWorkspace != null}">
+          <table>
+            <tr>
+              <td>courseIdentifierIdentifier</td>
+              <td>identifier</td>
+              <td>name</td>
+              <td>schoolDataSource</td>
+              <td>workspaceTypeId</td>
+              <td>description</td>
+            </tr>
+    
+            <tr>
+              <td>#{workspaceBridgeTestController.findWorkspace.courseIdentifierIdentifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspace.identifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspace.name}</td>
+              <td>#{workspaceBridgeTestController.findWorkspace.schoolDataSource}</td>
+              <td>#{workspaceBridgeTestController.findWorkspace.workspaceTypeId}</td>
+              <td>#{workspaceBridgeTestController.findWorkspace.description}</td>
+            </tr>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+
+
+    <h3>listWorkspaces()</h3>
+    <p>
+      <h:form>
+        <h:commandButton value="listWorkspaces()" action="#{workspaceBridgeTestController.toggleListWorkspaces()}" />
+      
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.listWorkspacesValue}">
+          <table>
+            <tr>
+              <td>courseIdentifierIdentifier</td>
+              <td>identifier</td>
+              <td>name</td>
+              <td>schoolDataSource</td>
+              <td>workspaceTypeId</td>
+              <td>description</td>
+            </tr>
+            <ui:repeat var="workspace" value="#{workspaceBridgeTestController.listWorkspaces()}">
+              <tr>
+                <td>${workspace.courseIdentifierIdentifier}</td>
+                <td>${workspace.identifier}</td>
+                <td>${workspace.name}</td>
+                <td>${workspace.schoolDataSource}</td>
+                <td>${workspace.workspaceTypeId}</td>
+                <td>${workspace.description}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>
+      </h:form>
+    </p>
+
+    <h3>listWorkspacesByCourseIdentifier(String courseIdentifierIdentifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.listWorkspacesByCourseIdentifierValue}"></h:inputText>
+        <h:commandButton value="listWorkspacesByCourseIdentifier()" />
+
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.listWorkspacesByCourseIdentifier != null}">
+          <table>
+            <tr>
+              <td>courseIdentifierIdentifier</td>
+              <td>identifier</td>
+              <td>name</td>
+              <td>schoolDataSource</td>
+              <td>workspaceTypeId</td>
+              <td>description</td>
+            </tr>
+    
+            <ui:repeat var="workspace" value="#{workspaceBridgeTestController.listWorkspacesByCourseIdentifier}">
+              <tr>
+                <td>${workspace.courseIdentifierIdentifier}</td>
+                <td>${workspace.identifier}</td>
+                <td>${workspace.name}</td>
+                <td>${workspace.schoolDataSource}</td>
+                <td>${workspace.workspaceTypeId}</td>
+                <td>${workspace.description}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+
+    <h3>updateWorkspace(Workspace workspace)</h3>
+	
+    <h3>removeWorkspace(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.removeWorkspaceValue}"></h:inputText>
+        <h:commandButton value="removeWorkspace()" action="#{workspaceBridgeTestController.removeWorkspace()}"/>
+      </h:form>
+    </p>
+	
+    <h2>Workspace Types</h2>
+	
+    <h3>findWorkspaceType(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.findWorkspaceTypeValue}"></h:inputText>
+        <h:commandButton value="findWorkspaceType()" />
+
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.findWorkspaceType != null}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>name</td>
+            </tr>
+    
+            <tr>
+              <td>${workspaceBridgeTestController.findWorkspaceType.schoolDataSource}</td>
+              <td>${workspaceBridgeTestController.findWorkspaceType.name}</td>
+              <td>${workspaceBridgeTestController.findWorkspaceType.identifier}</td>
+            </tr>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+	
+    <h3>listWorkspaceTypes()</h3>
+    <p>
+      <h:form>
+        <h:commandButton value="listWorkspaceTypes()" action="#{workspaceBridgeTestController.toggleListWorkspaceTypes()}" />
+      
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.listWorkspaceTypesValue}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>name</td>
+            </tr>
+            <ui:repeat var="type" value="#{workspaceBridgeTestController.listWorkspaceTypes()}">
+              <tr>
+                <td>${type.schoolDataSource}</td>
+                <td>${type.name}</td>
+                <td>${type.identifier}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>
+      </h:form>
+    </p>
+	
+  
+    <h2>Workspace Users</h2>
+	
+    <h3>createWorkspaceUser(Workspace workspace, User user, String roleSchoolDataSource, String roleIdentifier)</h3>
+    
+    <h3>findWorkspaceUser(String identifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.findWorkspaceUserValue}"></h:inputText>
+        <h:commandButton value="findWorkspaceUser()" />
+
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.findWorkspaceUser != null}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>roleIdentifier</td>
+              <td>roleSchoolDataSource</td>
+              <td>userIdentifier</td>
+              <td>userSchoolDataSource</td>
+              <td>workspaceIdentifier</td>
+              <td>workspaceSchoolDataSource</td>
+            </tr>
+    
+            <tr>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.schoolDataSource}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.identifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.roleIdentifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.roleSchoolDataSource}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.userIdentifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.userSchoolDataSource}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.workspaceIdentifier}</td>
+              <td>#{workspaceBridgeTestController.findWorkspaceUser.workspaceSchoolDataSource}</td>
+            </tr>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+	
+    <h3>listWorkspaceUsers(String workspaceIdentifier)</h3>
+    <p>
+      <h:form>
+        <h:inputText value="#{workspaceBridgeTestController.listWorkspaceUsersValue}"></h:inputText>
+        <h:commandButton value="listWorkspaceUsers()" />
+
+        <h:panelGroup layout="block" rendered="#{workspaceBridgeTestController.listWorkspaceUsers != null}">
+          <table>
+            <tr>
+              <td>schoolDataSource</td>
+              <td>identifier</td>
+              <td>roleIdentifier</td>
+              <td>roleSchoolDataSource</td>
+              <td>userIdentifier</td>
+              <td>userSchoolDataSource</td>
+              <td>workspaceIdentifier</td>
+              <td>workspaceSchoolDataSource</td>
+            </tr>
+
+            <ui:repeat var="user" value="#{workspaceBridgeTestController.listWorkspaceUsers}">
+              <tr>
+                <td>#{user.schoolDataSource}</td>
+                <td>#{user.identifier}</td>
+                <td>#{user.roleIdentifier}</td>
+                <td>#{user.roleSchoolDataSource}</td>
+                <td>#{user.userIdentifier}</td>
+                <td>#{user.userSchoolDataSource}</td>
+                <td>#{user.workspaceIdentifier}</td>
+                <td>#{user.workspaceSchoolDataSource}</td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:panelGroup>        
+      </h:form>
+    </p>
+
+	
+  </ui:define>
+
+</ui:composition>
