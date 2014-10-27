@@ -7,7 +7,7 @@
       var _this = this;
       widgetElement = $(widgetElement);
       this._widgetElement = widgetElement;
-      this._userId = widgetElement.find("input[name='userId']").val();
+      this._workspaceStudentRoleId = widgetElement.find("input[name='workspaceStudentRoleId']").val();
       this._coursesContainer = $('#coursesList');
 
       this._searchInput = widgetElement.find("input[name='coursePickerSearch']");
@@ -39,21 +39,36 @@
         dDiv.show( function(){        	
         	var odDiv = $(this) ;
         	var title = $(par).find($('.cp-course-long'));
-        	var descr = $(par).find($('.cp-course-description-text'));
+        	var desc = $(par).find($('.cp-course-description-text'));
         	par.prepend(closeDiv);
         	closeDiv.width(parW);
+        	
+        	
         	$(aBt).m3modal({
         		title : title.html(),
-        		description : descr.html(),
-        		content: $('<div><textarea name="signUpMessage"></textarea><input type="hidden" name="workspaceId" value="' + workspaceId + '"/><input type="hidden" name="workspaceUrl" value="' + workspaceUrl + '"/></div>'),
-        		buttons: [
+        		description : desc.html(),
+        		content: $('<div><div><textarea name="signUpMessage"></textarea></div></div>'),
+        		modalgrid : 24,
+        		contentgrid : 16,
+        		
+        		options: [
+            		  {
+            		    caption: "Haluan herätteitä",
+            		    name : "excitation",
+            		    type : "checkbox",
+            		    action: function (e) {
+            		      var opt = e.contentElement.find("checkbox[name='signUpOptionExcitation']").val();
+            		      
+            		      _this._joinCourse(msg);
+            		    }
+            		  }
+            		],
+        	    buttons: [
         		  {
         		    caption: "Ilmoittaudu",
+        		    name : "signup",
         		    action: function (e) {
         		      var msg = e.contentElement.find("textarea[name='signUpMessage']").val();
-        		      var workspaceId = e.contentElement.find("input[name='workspaceId']").val();
-                  var workspaceUrl = e.contentElement.find("input[name='workspaceUrl']").val();
-        		      
         		      _this._joinCourse(workspaceId, workspaceUrl, msg);
         		    }
         		  }
@@ -149,7 +164,7 @@
       if (((term != undefined) && (term != "")) || (subjects.length > 0)) {
         if (hash == "my") {
           this._loadCourses({
-            userId: this._userId,
+            userId: MUIKKU_LOGGED_USER_ID,
             subjects: subjects,
             search: term
           });
@@ -162,7 +177,7 @@
       } else {
         if (hash == "my") {
           this._loadCourses({
-            userId: this._userId
+            userId: MUIKKU_LOGGED_USER_ID
           });
         }
         else {
@@ -241,6 +256,7 @@
       event.stopPropagation();
       var element = $(event.target);
       var coursePickerCourse = element.parents(".cp-course");
+      var workspaceRoleId = coursePickerCourse.find("input[name='workspaceRoleId']").val();
       var workspaceId = coursePickerCourse.find("input[name='workspaceId']").val();
       var workspaceUrl = coursePickerCourse.find("input[name='workspaceUrl']").val();
       
@@ -250,18 +266,12 @@
       var userId = MUIKKU_LOGGED_USER_ID;
       
       mApi().workspace.workspaces.users.create(workspaceId, {
-        workspaceId: undefined,
-        archived: undefined,
-        role: undefined, 
-        id: undefined,
+        roleId: this._workspaceStudentRoleId,
         userId: userId
       })
       .callback(function (workspaceUsersErr, workspaceUsers) {
         mApi().workspace.workspaces.signups.create(workspaceId, {
-          workspaceId: undefined,
-          date: undefined,
           message: joinMessage,
-          id: undefined,
           userId: userId
         })
         .callback(function (workspaceUsersErr, workspaceUsers) {
