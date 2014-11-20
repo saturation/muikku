@@ -36,6 +36,10 @@
 
     <nekohtml.version>1.9.6.2</nekohtml.version>
 
+    <!-- Oltu -->
+
+    <oltu.version>1.0.0</oltu.version>
+
     <!-- Muikku -->
 
     <muikku.version>1.0.5-SNAPSHOT</muikku.version>
@@ -130,6 +134,14 @@
         <groupId>nekohtml</groupId>
         <artifactId>nekohtml</artifactId>
         <version>${nekohtml.version}</version>
+      </dependency>
+
+      <!-- Apache Oltu -->
+
+      <dependency>
+        <groupId>org.apache.oltu.oauth2</groupId>
+        <artifactId>org.apache.oltu.oauth2.client</artifactId>
+        <version>${oltu.version}</version>
       </dependency>
 
       <!-- Muikku -->
