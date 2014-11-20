@@ -109,7 +109,7 @@ public abstract class AbstractPyramusClient {
     }
   }
   
-  protected AccessToken createAccessToken(String code) {
+  public AccessToken createAccessToken(String code) {
     Client client = obtainClient();
     try {
       Form form = new Form()
