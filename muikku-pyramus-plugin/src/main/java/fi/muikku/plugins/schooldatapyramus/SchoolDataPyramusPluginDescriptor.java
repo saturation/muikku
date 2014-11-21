@@ -11,6 +11,7 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import fi.muikku.model.base.SchoolDataSource;
 import fi.muikku.plugin.PluginDescriptor;
 import fi.muikku.plugins.schooldatapyramus.model.SystemAccessToken;
+import fi.muikku.plugins.schooldatapyramus.rest.SystemPyramusClient;
 import fi.muikku.schooldata.SchoolDataController;
 
 public class SchoolDataPyramusPluginDescriptor implements PluginDescriptor {
@@ -20,9 +21,6 @@ public class SchoolDataPyramusPluginDescriptor implements PluginDescriptor {
 
   @Inject
   private SchoolDataController schoolDataController;
-
-  @Inject
-  private OauthClientController oauthClientController;
 
   @Inject
   private Logger logger;
