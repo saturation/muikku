@@ -1,31 +1,45 @@
 package fi.muikku.plugins.schooldatapyramus;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
+
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 
 import fi.muikku.model.base.SchoolDataSource;
 import fi.muikku.plugin.PluginDescriptor;
+import fi.muikku.plugins.schooldatapyramus.model.SystemAccessToken;
 import fi.muikku.schooldata.SchoolDataController;
 
 public class SchoolDataPyramusPluginDescriptor implements PluginDescriptor {
 
   public static final String SCHOOL_DATA_SOURCE = "PYRAMUS";
   public static final String PLUGIN_NAME = "school-data-pyramus";
-  
+
   @Inject
   private SchoolDataController schoolDataController;
 
+  @Inject
+  private OauthClientController oauthClientController;
+
+  @Inject
+  private Logger logger;
+  
   @Override
   public void init() {
     /**
      * Ensure that SchoolDataSource is defined
      */
-    
+
     SchoolDataSource schoolDataSource = schoolDataController.findSchoolDataSource(SCHOOL_DATA_SOURCE);
     if (schoolDataSource == null) {
       schoolDataController.createSchoolDataSource(SCHOOL_DATA_SOURCE);
     }
+
   }
-  
+
   @Override
   public String getName() {
     return PLUGIN_NAME;

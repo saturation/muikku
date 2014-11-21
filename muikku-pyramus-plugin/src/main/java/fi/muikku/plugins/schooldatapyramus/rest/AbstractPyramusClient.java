@@ -23,6 +23,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ContextResolver;
 
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.jboss.resteasy.client.jaxrs.cache.BrowserCacheFeature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,13 +35,13 @@ import fi.muikku.controller.PluginSettingsController;
 import fi.muikku.plugins.schooldatapyramus.SchoolDataPyramusPluginDescriptor;
 
 public abstract class AbstractPyramusClient {
-  
+
   @Inject
   private Logger logger;
 
   @Inject
   private PluginSettingsController pluginSettingsController;
-  
+
   @PostConstruct
   public void clientInit() {
     url = pluginSettingsController.getPluginSetting(SchoolDataPyramusPluginDescriptor.PLUGIN_NAME, "rest.url");
@@ -47,9 +49,11 @@ public abstract class AbstractPyramusClient {
     clientSecret = pluginSettingsController.getPluginSetting(SchoolDataPyramusPluginDescriptor.PLUGIN_NAME, "rest.clientSecret");
     redirectUrl = pluginSettingsController.getPluginSetting(SchoolDataPyramusPluginDescriptor.PLUGIN_NAME, "rest.redirectUrl");
   }
-  
+
   protected abstract Client obtainClient();
+
   protected abstract void releaseClient(Client client);
+
   protected abstract String getAccessToken();
 
   public <T> T post(String path, Entity<?> entity, Class<T> type) {
@@ -86,13 +90,13 @@ public abstract class AbstractPyramusClient {
       releaseClient(client);
     }
   }
-  
+
   public <T> T get(String path, Class<T> type) {
     Client client = obtainClient();
     try {
       WebTarget target = client.target(url + path);
       Builder request = target.request();
-      
+
       request.accept(MediaType.APPLICATION_JSON_TYPE);
       request.header("Authorization", "Bearer " + getAccessToken());
       Response response = request.get();
@@ -108,25 +112,41 @@ public abstract class AbstractPyramusClient {
       releaseClient(client);
     }
   }
-  
-  public AccessToken createAccessToken(String code) {
+
+  protected AccessToken createAccessToken(String code) {
     Client client = obtainClient();
     try {
-      Form form = new Form()
-        .param("grant_type", "authorization_code")
-        .param("code", code)
-        .param("redirect_uri", redirectUrl)
-        .param("client_id", clientId)
-        .param("client_secret", clientSecret);
-  
+      Form form = new Form().param("grant_type", "authorization_code").param("code", code).param("redirect_uri", redirectUrl).param("client_id", clientId)
+          .param("client_secret", clientSecret);
+
       WebTarget target = client.target(url + "/oauth/token");
-  
+
       Builder request = target.request();
-  
+
       return request.post(Entity.form(form), AccessToken.class);
     } finally {
       releaseClient(client);
     }
+  }
+  
+  protected void requestAuthCode(){
+    Client client = obtainClient();
+    try {
+      OAuthClientRequest request = OAuthClientRequest
+          .authorizationLocation("https://dev.pyramus.fi:8443/users/authorize.page")
+          .setClientId(clientId)
+          .setRedirectURI("https://dev.muikku.fi:8080/AuthCodeRedirect")
+          .buildQueryMessage();
+      
+      WebTarget target = client.target(request.getLocationUri());
+      Builder req = target.request();
+      req.get();
+    } catch (OAuthSystemException e) {
+       logger.log(Level.SEVERE, "Failed to request authCode");
+    } finally {
+      releaseClient(client);
+    }
+    
   }
 
   @SuppressWarnings("unchecked")
@@ -146,12 +166,12 @@ public abstract class AbstractPyramusClient {
         throw new RuntimeException("" + response.getStatus() + " - " + response.getEntity());
     }
   }
-  
+
   protected Client buildClient() {
     // TODO: trust all only on development environment
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-    
+
     TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
       public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return null;
@@ -178,16 +198,12 @@ public abstract class AbstractPyramusClient {
         return true;
       }
     };
-    
-    ClientBuilder builder = clientBuilder
-        .sslContext(sslContext)
-        .hostnameVerifier(fakeHostnameVerifier)
-        .register(new JacksonConfigurator())
+
+    ClientBuilder builder = clientBuilder.sslContext(sslContext).hostnameVerifier(fakeHostnameVerifier).register(new JacksonConfigurator())
         .register(new BrowserCacheFeature());
-    
+
     return builder.build();
   }
-
 
   private class JacksonConfigurator implements ContextResolver<ObjectMapper> {
 
@@ -196,12 +212,36 @@ public abstract class AbstractPyramusClient {
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.registerModule(new JodaModule());
       objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-      
+
       return objectMapper;
     }
 
   }
-  
+
+  public String getClientId() {
+    return clientId;
+  }
+
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
+  }
+
+  public String getClientSecret() {
+    return clientSecret;
+  }
+
+  public void setClientSecret(String clientSecret) {
+    this.clientSecret = clientSecret;
+  }
+
+  public String getRedirectUrl() {
+    return redirectUrl;
+  }
+
+  public void setRedirectUrl(String redirectUrl) {
+    this.redirectUrl = redirectUrl;
+  }
+
   private String url;
   private String clientId;
   private String clientSecret;

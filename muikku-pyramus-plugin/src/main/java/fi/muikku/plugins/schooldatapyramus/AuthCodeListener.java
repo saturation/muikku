@@ -1,9 +1,13 @@
 package fi.muikku.plugins.schooldatapyramus;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import fi.muikku.events.AuthCodeReceivedEvent;
+import fi.muikku.plugins.schooldatapyramus.rest.SystemPyramusClient;
 import fi.muikku.session.SessionController;
 
 public class AuthCodeListener {
@@ -12,13 +16,17 @@ public class AuthCodeListener {
   private SessionController sessionController;
 
   @Inject
-  private OauthClientController oauthClientController;
+  private SystemPyramusClient systemPyramusClient;
 
+  @Inject
+  private Logger logger;
+  
   public void authCodeReceived(@Observes AuthCodeReceivedEvent event) {
+    logger.log(Level.INFO, "Received authCode response");
     if (event.getUserEntityId() == sessionController.getLoggedUserEntity().getId()) {
-      oauthClientController.createUserAccessToken(event.getAuthCode());
+      //TODO: implement
     } else if (event.getUserEntityId() == -1) {
-      oauthClientController.createSystemAccessToken(event.getAuthCode());
+      systemPyramusClient.setAuthCode(event.getAuthCode());
     }
 
   }

@@ -13,6 +13,6 @@ public abstract class SchoolDataPyramusDAO<T> extends PluginDAO<T> {
     return entityManager;
   }
 
-  @PersistenceContext(unitName = "muikku-school-data-pyramus")
+  @PersistenceContext(unitName = "muikku-core-plugins")
   private EntityManager entityManager;
 }

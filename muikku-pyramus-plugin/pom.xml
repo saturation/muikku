@@ -79,6 +79,13 @@
       <scope>provided</scope>
     </dependency>
     
+        <!-- Oltu -->
+
+    <dependency>
+      <groupId>org.apache.oltu.oauth2</groupId>
+      <artifactId>org.apache.oltu.oauth2.client</artifactId>
+    </dependency>
+    
     <!-- RestEasy -->
     
     <dependency>
