@@ -9,13 +9,13 @@ div[data-name="calendar.contentToolsTopRight"] {
 /* FullCalendar Month Calendar Overrides  */
 
 .monthCalendar {
-	background-color:$bgr;
+	background-color:fff;
 }
 
-.fc-widget-header {
-color: #545454;
-background-color: #ededed;	
-
+.fc-widget-title {
+  background-color: #AED4E3;
+  color:#fff;
+  text-align:center;
 }
 
 .fc-state-highlight {

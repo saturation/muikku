@@ -36,5 +36,26 @@ $(document).ready(function(){
 	        		  }
 	        		]
 	        	});
+	
+	var td = new Date();
+	var tdD = td.getDate();
+	var tdH = td.getHours();
+	var tdM = td.getMinutes();
+	
+	var tdDDiv = $(".ca-date-primary span");
+    var tdTDiv = $(".ca-date-day-time span");
+	
+    
+    
+	
+	$('#smallMonthCalendar').fullCalendar({
+		
+		
+	});
+	
+	tdDDiv.append(tdD);
+	tdTDiv.append(tdh + ":" + tdM);
+    
+    
 	});
 
