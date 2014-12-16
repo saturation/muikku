@@ -1,109 +1,282 @@
 @import "_base.scss";
 
-/* Widget spaces */
-
-div[data-name="calendar.contentToolsTopRight"] {
-  text-align: right;
-}
-
-/* FullCalendar Month Calendar Overrides  */
-
-.monthCalendar {
-	background-color:fff;
-}
-
-.fc-widget-title {
-  background-color: #AED4E3;
-  color:#fff;
-  text-align:center;
-}
-
-.fc-state-highlight {
-  color: #000;
-  font-size:20px;
-  z-index:30;
-  font-weight:bold;
-  background: #fefcea;
-  background: -moz-linear-gradient(top, #fefcea 0%, #fff6b2 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefcea), color-stop(100%,#fff6b2));
-  background: -webkit-linear-gradient(top, #fefcea 0%,#fff6b2 100%);
-  background: -o-linear-gradient(top, #fefcea 0%,#fff6b2 100%);
-  background: -ms-linear-gradient(top, #fefcea 0%,#fff6b2 100%);
-  background: linear-gradient(to bottom, #fefcea 0%,#fff6b2 100%);
-  text-shadow: 2px 2px 1px rgba(150, 150, 150, 1);
-}
-
-.fc-other-month {
-  background-color: #eaf3f7;
-  text-shadow: 2px 2px 1px rgba(150, 150, 150, 1);
-}
-
-.fc-view-month .moreInfo {
-  background: transparent !important;
-  border: 0px !important;
-  margin: 1px;
-}
-
-.fc-view-month .moreInfo .fc-event-inner .fc-event-time { 
-  display: none;
-}
-
-.fc-view-month .moreInfo .fc-event-inner .fc-event-title {
-  color: #000;
-  font-weight: normal;
-  text-shadow: none;
-  font-size: 12px;
-}
-
-/* Widget */
-.calendarSettingsButton {
-  background-color:$bgr;
-}
-
-.fullCalendarWidget {
-}
-
-.fullCalendarWidgetSettings {
-  margin-bottom: 8px;
-  height: 20px;  
-}
-
-.fullCalendarWidgetNavigationContainer {
-  float: left;
-}
-
-.fullCalendarWidgetViewSelectionContainer {
-  float: right;
-}
-
-.fullCalendarWidgetNavigationLeft, .fullCalendarWidgetNavigationRight {
-  font-family: courier;
-  font-size: 12px;
-  font-weight: bold;
+.fc th {
   text-align: center;
 }
 
-/* Event Editor */
-
-.fullCalendarWidgetEventEditorField {
-  margin-bottom: 8px;
+.fc th,
+.fc td {
+  padding: 0;
+  vertical-align: top;
 }
 
-.fullCalendarWidgetEventEditorField label {
-  display: block;
+  .fc td.fc-today {
+   background-color:#f0f5f8;  
+  }  
+
+
+
+  .fc-agenda-axis{
+    width:70px !important;
+  }
+
+.fc-agenda-days{
+  background-color:#fff;
+  
+}
+/* Small month calendar */
+
+#smallMonthCalendar{
+
+  div[data-name="calendar.contentToolsTopRight"] {
+    text-align: right;
+  }
+  
+  /* FullCalendar Month Calendar Overrides  */
+  
+  .monthCalendar {
+  	background-color:fff;
+  }
+  
+  .fc-header{
+    background-color: #AED4E3;
+    height:27px;
+    h2{
+      color:#fff;
+      font-size:1em;
+      margin:0;
+    }
+    .fc-header-center{
+      text-align:center;
+    
+    }
+    .fc-header-left, .fc-header-right{
+      text-align:center;
+      color:#fff;
+      span{
+       height:27px;
+      }
+    }
+  
+  
+  }
+  
+  .fc-content{
+    background-color:#fff;
+    border-bottom:1px solid #ededed;
+  }
+  
+  .fc-widget-title {
+    color:#fff;
+    text-align:center;
+  }
+  
+  .fc-day-header{
+    text-align:center;  
+  }
+  
+  .fc-day{
+    text-align:center;  
+  }
+  
+  .fc-state-highlight {
+    color: #000;
+    z-index:30;
+    border:2px solid #AED4E3;
+    border-collapse: collapse;
+  }
+  
+  
+  .fc-other-month {
+    background-color: #F0F5F8;
+    color:#DDDADA;
+  }
+  
+  .fc-view-month .moreInfo {
+    background: transparent !important;
+    border: 0px !important;
+    margin: 1px;
+  }
+  
+  .fc-view-month .moreInfo .fc-event-inner .fc-event-time { 
+    display: none;
+  }
+  
+  .fc-view-month .moreInfo .fc-event-inner .fc-event-title {
+    color: #000;
+    font-weight: normal;
+    text-shadow: none;
+    font-size: 12px;
+  }
+  
+
+  .calendarSettingsButton {
+    background-color:$bgr;
+  }
+  
+  .fullCalendarWidget {
+  }
+  
+  .fullCalendarWidgetSettings {
+    margin-bottom: 8px;
+    height: 20px;  
+  }
+  
+  .fullCalendarWidgetNavigationContainer {
+    float: left;
+  }
+  
+  .fullCalendarWidgetViewSelectionContainer {
+    float: right;
+  }
+  
+  .fullCalendarWidgetNavigationLeft, .fullCalendarWidgetNavigationRight {
+    font-family: courier;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Event Editor */
+  
+  .fullCalendarWidgetEventEditorField {
+    margin-bottom: 8px;
+  }
+  
+  .fullCalendarWidgetEventEditorField label {
+    display: block;
+  }
+  
+  .fullCalendarWidgetEventEditorFieldAllDay label {
+    display: inline-block;
+  }
+  
+  .fullCalendarWidgetEventEditorFieldAllDay input {
+    margin-left: 8px;
+  }
+  
+  .fullCalendarWidgetEventEditorField textarea {
+  }
+  
+  .fullCalendarWidgetEventEditorField input.ui-timepicker-input {
+    margin-left: 8px;
+  }
+
 }
 
-.fullCalendarWidgetEventEditorFieldAllDay label {
-  display: inline-block;
+#fpDayEvents{
+  .fc-event{
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    font-weight: 300;
+    font-size: 2em;
+    background-color: #AED4E3;    
+  }
+ 
+  .fc-today {
+   background-color:#fff;  
+  }   
+  
+  
 }
 
-.fullCalendarWidgetEventEditorFieldAllDay input {
-  margin-left: 8px;
+#dayView{
+  .fc-today {
+   background-color:#fff;  
+  }     
+
+  thead{
+    background-color: #AED4E3;  
+    height:27px;
+    color:#fff;
+  }
+  .fc-widget-content{
+    border-right:1px solid #F0F3F4; 
+  }  
 }
 
-.fullCalendarWidgetEventEditorField textarea {
+#monthView{
+  .fc-day{
+     text-align:center;
+     font-size:3em;
+     line-height:2em;
+     color:#c4c4c4;
+     border-bottom:1px solid #f1f1f1;
+     border-right:1px solid #f1f1f1;
+     
+    &:hover{
+     background-color:#cce4ed;
+     color:#fff !important;
+    }  
+      
+  }
+
+  .fc-today{
+    color:#aed4e3;
+    border:5px solid #aed4e3;
+   }
+
+  .fc-other-month {
+    background-color: #F0F5F8;
+    color:#DDDADA;
+  }
+
+  thead{
+    background-color: #AED4E3;  
+    height:27px;
+    color:#fff;
+  }
+
 }
 
-.fullCalendarWidgetEventEditorField input.ui-timepicker-input {
-  margin-left: 8px;
+#agendaView{
+  .fc-today {
+   background-color:#fff;  
+  }     
+
+  thead{
+    background-color: #AED4E3;  
+    height:27px;
+    color:#fff;
+  }
+  .fc-widget-content{
+    border-right:1px solid #F0F3F4; 
+  }  
+}
+
+
+#fpWeekView{
+
+
+  .fc-agenda-axis{
+         border-right:1px solid #F0F3F4;     
+   } 
+
+  thead{
+    background-color: #AED4E3;  
+    height:27px;
+    color:#fff;
+  }
+  
+  tbody{
+
+  }
+  
+  .fc-event{
+   overflow:hidden;
+   font-size:7 px;
+  }
+
+  
+  .fc-widget-header{
+    text-align:center;
+  }
+
+  .fc-content{
+    border-left:1px solid #F0F3F4;  
+  }
+  .fc-widget-content{
+    border-right:1px solid #F0F3F4; 
+  }
 }
