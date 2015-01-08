@@ -7,8 +7,10 @@
 .fc th,
 .fc td {
   padding: 0;
-  vertical-align: top;
+  vertical-align: center;
 }
+
+
 
   .fc td.fc-today {
    background-color:#f0f5f8;  
@@ -19,6 +21,12 @@
   .fc-agenda-axis{
     width:70px !important;
   }
+
+.fc-header-title{
+  h2{
+  margin-top:20px;
+}
+}
 
 .fc-agenda-days{
   background-color:#fff;
@@ -37,7 +45,15 @@
   .monthCalendar {
   	background-color:fff;
   }
-  
+  .fc-button{
+    width:30px;
+    display:inline-block;
+    font-size:2em;
+    color:#c4c4c4;
+    background:#fff;
+    cursor:pointer;
+    
+  }
   .fc-header{
     background-color: #AED4E3;
     height:27px;
@@ -60,6 +76,8 @@
   
   
   }
+
+
   
   .fc-content{
     background-color:#fff;
@@ -166,12 +184,15 @@
 
 #fpDayEvents{
   .fc-event{
-    padding: 15px;
+    padding-left:15px;
     margin-bottom: 10px;
     border-radius: 25px;
     font-weight: 300;
     font-size: 2em;
+    border:none !important;  
+    line-height:normal;
     background-color: #AED4E3;    
+    position:static !important;
   }
  
   .fc-today {
@@ -194,13 +215,31 @@
   .fc-widget-content{
     border-right:1px solid #F0F3F4; 
   }  
+  
+  .fc-agenda-slots{
+    tr:hover{
+      background-color:#f0f5f8;
+    } 
+  }
+
 }
 
-#monthView{
+#weekView{
+   thead{
+    background-color: #AED4E3;  
+    height:27px;
+    color:#fff;
+  } 
+  .fc-day{
+    border-right:1px solid #F0F3F4; 
+  }
+}
+
+#monthView{ 
   .fc-day{
      text-align:center;
-     font-size:3em;
-     line-height:2em;
+     font-size:2em;
+     line-height:2.5em;
      color:#c4c4c4;
      border-bottom:1px solid #f1f1f1;
      border-right:1px solid #f1f1f1;
@@ -231,18 +270,50 @@
 }
 
 #agendaView{
+  margin:5px;
+  
+  .fc-day{
+   div{
+    min-height:auto !important;
+   }
+  }
   .fc-today {
    background-color:#fff;  
   }     
 
   thead{
-    background-color: #AED4E3;  
-    height:27px;
-    color:#fff;
+     background-color: #d5e1e6;  
+     text-align:center;
+     color:#fff;
+     font-weight:700;
+    
+     th{
+      padding:5px; 
+     }
+  
   }
   .fc-widget-content{
     border-right:1px solid #F0F3F4; 
   }  
+
+  .fc-event{
+    padding-left:10px;
+    background-color:#fff;
+    height:30px;
+    font-size:1em;
+    line-height:30px;
+    color:#000;
+    border:none;
+ 
+  }
+  
+  .fc-view-basicDay div{
+     div:nth-child(even){
+     background-color:#f7f9fa;
+    }  
+  }  
+
+
 }
 
 
