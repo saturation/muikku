@@ -18,7 +18,8 @@ public class SchoolDataPyramusPluginDescriptor implements PluginDescriptor {
 
   public static final String SCHOOL_DATA_SOURCE = "PYRAMUS";
   public static final String PLUGIN_NAME = "school-data-pyramus";
-
+  public static final boolean SCHEDULERS_ACTIVE = true;
+  
   @Inject
   private SchoolDataController schoolDataController;
 

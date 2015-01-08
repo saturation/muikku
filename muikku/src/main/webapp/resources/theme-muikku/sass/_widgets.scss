@@ -6,7 +6,7 @@
 /* Main navigation */
 div[class*='dock-static-navi-button'] > a, 
 div[class*='dock-dynamic-navi-button'] > a {
-  font-size:30pt;
+  font-size:40px;
   color:#fff;
   text-decoration:none;
   @include iconShadow;
@@ -18,11 +18,11 @@ div[class*='dock-dynamic-navi-button'] > a {
   display:inline-block;
 }
 
-/* Workspace material's reading view's navigation */
-div[class*='workspace-materials-reading-navi-button'] > a,
-div[class*='workspace-materials-reading-navi-button'] > span {
+/* Workspace material's reading/management view's navigation */
+div[class*='workspace-materials-full-screen-navi-button'] > a,
+div[class*='workspace-materials-full-screen-navi-button'] > span {
   cursor:pointer;
-  font-size:24pt;
+  font-size:30px;
   color:#fff;
   text-decoration:none;
   @include iconShadow;
@@ -34,7 +34,7 @@ div[class*='workspace-materials-reading-navi-button'] > span {
   width:34px;
   text-align:center;
 
-  span[class*='workspace-materials-reading-tt-container-'] {
+  span[class*='workspace-materials-full-screen-tt-container-'] {
     opacity:0;
     font-family:"Open Sans";
     font-size:16px;
@@ -62,7 +62,7 @@ div[class*='workspace-materials-reading-navi-button'] > span {
 div[class*='workspace-dock-navi-button'] > a,
 div[class*='workspace-dock-navi-button'] > span {
   cursor:pointer;
-  font-size:24pt;
+  font-size:32px;
   color:#fff;
   text-decoration:none;
   @include iconShadow;
@@ -90,18 +90,20 @@ div[class*='workspace-dock-navi-button'] > span {
     @include rounded-top-right(3px);
     @include rounded-bottom-right(3px);
     @include workspaceTooltipTransition(opacity,0.15s,ease-in-out);
+    z-index:99;
+    white-space:nowrap;
   }
+  
     
   &:hover {
     background:#465b6c;
-    @include iconShadow(rgba(255,255,190,0.5));
-
     span[class*='workspace-navi-tt-container-'] {
       display:block;
       background:#465b6c;
       opacity:1;
       width:auto;
       left:45px;
+      
     }
   }
 }
@@ -110,7 +112,6 @@ div[class*='workspace-dock-navi-button'] > span {
 div[class*='workspace-dock-navi-button-selected'] > span {
   background:#465b6c;
   cursor:pointer;
-  font-size:24pt;
   color:#fff;
   text-decoration:none;
   @include iconShadow;
@@ -195,15 +196,9 @@ div[class*="wi-dock-static-navi"] {
   display: inline-block;
 }
 
-.newEventButton {
-  @include naviIcon();
-  @include background-image('gfx/icons/32x32/actions/calendar-settings.png');
-}
 
-.newEventButton:hover {
-  @include naviIcon();
-  @include background-image('gfx/icons/32x32/actions/calendar-settings.png');
-}
+
+
 
 .calendarSettingsButton {
   @include naviIcon();
@@ -330,7 +325,7 @@ div[class*="wi-dock-static-navi"] {
     
     .wi-generic-widget-title {
       text-transform:uppercase;
-      font-size:1.3em;
+      font-size:18px;
       font-weight:300;
       color:#fff;
       background:$w-tbgr;
@@ -458,7 +453,7 @@ div[class*="wi-dock-static-navi"] {
   position:absolute;
   right:8px;
   top:8px;
-  font-size:1.4em;
+  font-size:25px;
   cursor:pointer;
   
   &:hover { /* Need to increase action menu icons container for easier use */
@@ -495,7 +490,7 @@ div[class*="wi-dock-static-navi"] {
     
       .wi-generic-widget-action-item {
         padding:10px 15px;
-        font-size:12pt;
+        font-size:16px;
         position:relative;
         margin:0;
         display:block;
@@ -506,7 +501,7 @@ div[class*="wi-dock-static-navi"] {
           padding:0 0 0 10px;
           display:inline-block;
           font-family:"Open Sans";
-          font-size:10pt;
+          font-size:13px;
           position:relative;
           top:-2px; /* Adjusting text in relation to icon as they are different sizes */
         }
@@ -770,17 +765,19 @@ div[class*="wi-dock-static-navi"] {
           
         
           li {
-          @include padding(5px);
+            @include padding(5px);
 
-             a{
-               &.icon-user:before{
+            a {
+              text-decoration: none; 
+              font-size:15px;
+              white-space: nowrap;
+              color:#000;
+              text-transform:uppercase;
+           
+              &.icon-user:before{
                 margin-right:6px;
-               }
-             text-decoration: none; 
-             font-size:0.9em;
-             white-space: nowrap;
-             color:#000;
-             text-transform:uppercase;
+              }
+
             }
 
             &:hover{
@@ -798,7 +795,7 @@ div[class*="wi-dock-static-navi"] {
 
       a[class*="lu-action"] {
        color:#3C77A0;
-       font-size:1.5em;
+       font-size:21px;
 
       }
   

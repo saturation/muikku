@@ -22,7 +22,7 @@
       })
       .on('fileUploaded', function (event, data) {
         var newPage = $('<section>')
-          .addClass('workspace-materials-management-view-page')
+          .addClass('workspace-materials-view-page material-management-view')
           .attr({
             'id': 'page-' + data.workspaceMaterialId,
             'data-material-title': data.title,
@@ -34,9 +34,9 @@
         $(element).after(newPage);
         $(element).workspaceMaterialUpload('reset');
         
-        loadPageNode(newPage);
+        $(document).muikkuMaterialLoader('loadMaterial', newPage, true);
         
-        var nextPage = $(newPage).next('.workspace-materials-management-view-page');
+        var nextPage = $(newPage).next('.workspace-materials-view-page');
         
         var uploader = createFileUploader();
         nextPage.before(createAddPageLink());
@@ -45,54 +45,14 @@
       });
   }
   
-  function loadPageNode(node, callback) {
-    if (typeof callback === 'undefined' || callback === null) {
-      callback = function() {};
-    }
-    
-    var workspaceMaterialId = $(node).data('workspace-material-id');
-    var materialId = $(node).data('material-id');
-    var materialType = $(node).data('material-type');
-    
-    if (materialType !== 'folder') {
-      var typeEndpoint = mApi().materials[materialType];
-      if (typeEndpoint != null) {
-        typeEndpoint.read(materialId).callback($.proxy(function (err, result) {
-          renderDustTemplate('workspace/materials-management-page.dust',
-              { workspaceMaterialId: workspaceMaterialId,
-                materialId: materialId,
-                id: materialId,
-                type: materialType,
-                data: result 
-              },
-                $.proxy(function (text) {
-            $(this).html(text);
-            
-            callback();
-          }, node));
-        }, node));
-      } else {
-        $('.notification-queue').notificationQueue('notification', 'error', "Could not find rest service for " + materialType);
-        
-        callback();
-      }
-    } else {
-      renderDustTemplate('workspace/materials-management-page.dust', { id: materialId, type: materialType }, $.proxy(function (text) {
-        $(this).html(text);
-        
-        callback();
-      }, node));
-    }
-  }
-  
   function editPage(node) {
-    var materialType = node.data('material-type');
-    var materialId = node.data('material-id');
-    var materialTitle = node.data('material-title');
-    var workspaceMaterialId = node.data('workspace-material-id');
+    var materialType = $(node).data('material-type');
+    var materialId = $(node).data('material-id');
+    var materialTitle = $(node).data('material-title');
+    var workspaceMaterialId = $(node).data('workspace-material-id');
     var editorName = 'workspaceMaterialEditor' + (materialType.substring(0, 1).toUpperCase() + materialType.substring(1));
     var pageElement = $('#page-' + workspaceMaterialId);
-    var pageSection = $(pageElement).closest(".workspace-materials-management-view-page");
+    var pageSection = $(pageElement).closest(".workspace-materials-view-page");
     
     pageSection.addClass("page-edit-mode");
     
@@ -105,14 +65,15 @@
         materialTitle: materialTitle
       });
       
-      $(document).on("click",$.proxy(function (event) {
-        var target = $(event.target);
-        if (target.closest('.workspace-materials-management-view-page').length == 0) {
-          $(this).data('material-title', editor.call(pageElement, 'title'));
-          editor.call(pageElement, 'destroy');
-          loadPageNode(node);
-        }
-      }, node));
+//      $(document).on("click",$.proxy(function (event) {
+//        var target = $(event.target);
+//        if (target.closest('.workspace-materials-view-page').length == 0) {
+//          $(this).data('material-title', editor.call(pageElement, 'title'));
+//          editor.call(pageElement, 'destroy');
+//          $(document).muikkuMaterialLoader('loadMaterial', node, true);
+//          pageSection.removeClass("page-edit-mode");
+//        }
+//      }, node));
     } else {
       $('.notification-queue').notificationQueue('notification', 'error', "Could not find editor for " + materialType);
     }
@@ -169,7 +130,7 @@
     var _node = node;
     var _hidden = hidden;
     var workspaceId = $('.workspaceEntityId').val();
-    var nextSibling = node.nextAll('.workspace-materials-management-view-page').first();
+    var nextSibling = node.nextAll('.workspace-materials-view-page').first();
     var nextSiblingId = nextSibling.length > 0 ? nextSibling.data('workspace-material-id') : null;
     mApi().workspace.workspaces.materials.update(workspaceId, node.data('workspace-material-id'), {
       id: node.data('workspace-material-id'),
@@ -194,21 +155,17 @@
   }
   
   $(document).ready(function() {
-    // Workspace Material's page loading
-    
-    function loadPageNodes(selector, node) {
-      loadPageNode(node, function() {
-        var next = $(node).nextAll(selector).first();
-        if (next.length > 0) {
-          loadPageNodes(selector, next);
-        }
-      });
-    }
-    
-    loadPageNodes('.workspace-materials-management-view-page', $('.workspace-materials-management-view-page').first());
 
-    /* Smooth scrolling in workspace Material's Management View */
-    var $sections = $('.workspace-materials-management-view-page');
+    $(document).muikkuMaterialLoader({
+      'dustTemplate': 'workspace/materials-management-page.dust',
+      renderMode: {
+        "html": "dust"
+      }
+    })
+    .muikkuMaterialLoader('loadMaterials', $('.workspace-materials-view-page'));
+    
+    /* Smooth scrolling */
+    var $sections = $('.workspace-materials-view-page');
 
     $sections.each(function() {
       var $section = $(this);
@@ -216,7 +173,7 @@
 
       $('a[href="' + hash + '"]').click(function(event) {
         $('html, body').stop().animate({
-          scrollTop: $section.offset().top - 29
+          scrollTop: $section.offset().top - 25
         },{
           duration: 500,
           easing : "easeInOutQuad",
@@ -228,8 +185,8 @@
       });
     });
 
-    /* Highlighting toc item at appropriate time when we scroll to the corresponding section - Management View */
-    $('.workspace-materials-management-view-page')
+    /* Highlighting toc item at appropriate time when we scroll to the corresponding section */
+    $('.workspace-materials-view-page')
       .waypoint(function(direction) {
         var $links = $('a[href="#' + this.id + '"]');
         $links.toggleClass('active', direction === 'down');
@@ -247,147 +204,119 @@
     
     //
     
-   // Workspace's Materials's Management view
+    // Workspace's Materials's TOC
     if ($('#workspaceMaterialsManagementTOCWrapper').length > 0) {
       
       var height = $(window).height();
-      var thinTocWrapper = $('#workspaceMaterialsManagementTOCClosed');
-      var wideTocWrapper = $('#workspaceMaterialsManagementTOCOpen');
-      var tocOpeningButton = $('.workspace-materials-management-toc-opening-button');
-      var tocClosingButton = $('.workspace-materials-management-toc-closing-button');
+      var tocWrapper = $('#workspaceMaterialsManagementTOCContainer');
+      var navWrapper = $('#workspaceMaterialsManagementNav');
+      var tocOpenCloseButton = $('.wi-workspace-materials-full-screen-navi-button-toc > .icon-navicon');
       var contentPageContainer = $('#contentWorkspaceMaterialsManagement');
       
-      var contentMinOffset;
       var contentOffset;
       var windowMinWidth;
+      var tocWrapperWidth = tocWrapper.width();
+      var navWrapperWidth = navWrapper.width();
+      var tocWrapperLeftMargin = "-" + (tocWrapperWidth - navWrapperWidth) + "px";
+      var contentMinLeftOffset = tocWrapperWidth + navWrapperWidth + 20;
+      var contentPageContainerRightPadding = 20;
 
-      if (thinTocWrapper.length > 0) {
-        thinTocWrapper
-        .hide()
+      if (tocWrapper.length > 0) {
+        tocWrapper
         .css({
           height: height,
-          "margin-left" : "-55px"
-        });
-      }
-      
-      if (wideTocWrapper.length > 0) {
-        contentPageContainer.css({
-          paddingLeft: wideTocWrapper.width() + 10,
-          paddingRight: "60px"
+          "margin-left" : navWrapperWidth
         });
         
-        wideTocWrapper
-        .show()
-        .css({
-          height: height,
-          "margin-left" : "0px"
+        contentPageContainer.css({
+          paddingLeft: contentMinLeftOffset,
+          paddingRight: contentPageContainerRightPadding
         });
       }
       
       $(window).resize(function(){
         height = $(window).height();
-        wideTocWrapper.height(height);
-        thinTocWrapper.height(height);
-        
-        contentMinOffset = wideTocWrapper.width() + 10; 
+        tocWrapper.height(height);
         contentOffset = contentPageContainer.offset();
-        windowMinWidth = contentPageContainer.width() + contentMinOffset*2;
+        windowMinWidth = contentPageContainer.width() + contentMinLeftOffset*2;
         
         // Lets prevent page content to slide under TOC when browser window is been resized
-        if ($('#workspaceMaterialsManagementTOCOpen:visible').length !== 0) {
+        if ($('#workspaceMaterialsManagementTOCContainer:visible').length !== 0) {
           
-          if (contentOffset.left < contentMinOffset) {
+          if (contentOffset.left < contentMinLeftOffset) {
             contentPageContainer.css({
-              paddingLeft: contentMinOffset,
-              paddingRight: "60px"
+              paddingLeft: contentMinLeftOffset,
+              paddingRight: contentPageContainerRightPadding
             });
           } 
         } else {
           contentPageContainer.css({
-            paddingLeft: "60px",
-            paddingRight: "60px"
+            paddingLeft: navWrapperWidth + 20,
+            paddingRight: contentPageContainerRightPadding
           });
         }
         
       });
 
-      $(tocOpeningButton).click(function() {
-        thinTocWrapper
-        .clearQueue()
-        .stop()
-        .animate({
-          "margin-left" : "-55px"
-        }, {
-          duration : 200,
-          easing : "easeInOutQuint",
-          complete : function(){
-            $(this).hide();
-            
-            contentMinOffset = wideTocWrapper.width() + 10; 
-            
-            contentPageContainer
-            .animate({
-              paddingLeft: contentMinOffset,
-              paddingRight: "60px"
-            },{
-              duration:500,
-              easing: "easeInOutQuint"
-            });
-            
-            wideTocWrapper
-            .show()
-            .clearQueue()
-            .stop()
-            .animate({
-              opacity:0.97,
-              "margin-left" : "0"
-            }, {
-              duration:500,
-              easing: "easeInOutQuint"
-            });
-            
-          }
-        });
+   // Prevent icon-navicon link from working normally
+      $(tocOpenCloseButton).bind('click', function(e) {
+        e.stopPropagation();
       });
-      
-      $(tocClosingButton).click(function() {
-              
-        contentPageContainer
-        .animate({
-          paddingLeft: "60px",
-          paddingRight: "60px"
-        },{
-          duration:600,
-          easing: "easeInOutQuint"
-        });
+
+      $(tocOpenCloseButton).click(function() {
         
-        wideTocWrapper
-        .clearQueue()
-        .stop()
-        .animate({
-          "margin-left" : "-370px",
-          opacity: 1
-        }, {
-          duration : 600,
-          easing : "easeInOutQuint",
-          complete : function(){
-            $(this).hide();
-            
-            thinTocWrapper
-            .show()
-            .clearQueue()
-            .stop()
-            .animate({
-              "margin-left" : "0"
-            }, {
-              duration:500,
-              easing: "easeInOutQuint"
-            });
-            
-          }
-        });
+        // If tocWrapper is visible
+        if ($('#workspaceMaterialsManagementTOCContainer:visible').length !== 0) {
+          contentPageContainer
+          .animate({
+            paddingLeft: navWrapperWidth,
+            paddingRight: contentPageContainerRightPadding
+          },{
+            duration:500,
+            easing: "easeInOutQuint"
+          });
+          
+          tocWrapper
+          .clearQueue()
+          .stop()
+          .animate({
+            "margin-left" : tocWrapperLeftMargin,
+          }, {
+            duration:500,
+            easing: "easeInOutQuint",
+            complete: function () {
+              $(this).hide();
+            }
+          });
+        // If tocWrapper is not visible  
+        } else {
+          contentPageContainer
+          .animate({
+            paddingLeft: contentMinLeftOffset,
+            paddingRight: contentPageContainerRightPadding
+          },{
+            duration:500,
+            easing: "easeInOutQuint"
+          });
+          tocWrapper
+          .show()
+          .clearQueue()
+          .stop()
+          .animate({
+            "margin-left" : navWrapperWidth,
+          }, {
+            duration:500,
+            easing: "easeInOutQuint",
+            complete: function () {
+
+              
+            }
+          });
+        }
+        
       });
       
+      // Prevent page scroll happening if TOC scroll reaches bottom
       $('.workspace-materials-toc-content-inner').on('DOMMouseScroll mousewheel', function(ev) {
         var $this = $(this),
           scrollTop = this.scrollTop,
@@ -420,7 +349,7 @@
     }
     
     $('.workspaces-materials-management-insert-file').each(function(index, element) {
-      var nextMaterial = $(element).next('.workspace-materials-management-view-page');
+      var nextMaterial = $(element).next('.workspace-materials-view-page');
       var parentId = $(nextMaterial).data('parent-id');
       var nextSiblingId = $(nextMaterial).data('workspace-material-id');
       enableFileUploader(element, parentId, nextSiblingId);
@@ -429,7 +358,7 @@
   
   $(document).on('click', '.edit-page', function (event, data) {
     // TODO: Better way to toggle classes and observe hidden/visible states?
-    var page = $(this).closest('.workspace-materials-management-view-page');
+    var page = $(this).closest('.workspace-materials-view-page');
     if (page.hasClass('page-hidden')) {
       page.removeClass('page-hidden');
       page.find('.hide-page').removeClass('icon-show').addClass('icon-hide');
@@ -445,13 +374,13 @@
   
   $(document).on('click', '.hide-page', function (event, data) {
     // TODO: Better way to toggle classes and observe hidden/visible states?
-    var page = $(this).closest('.workspace-materials-management-view-page');
+    var page = $(this).closest('.workspace-materials-view-page');
     var hidden = page.hasClass('page-hidden');
     toggleVisibility(page, !hidden);
   });
   
   $(document).on('click', '.workspaces-materials-management-add-page', function (event, data) {
-    var nextMaterial = $(this).next('.workspace-materials-management-view-page');
+    var nextMaterial = $(this).next('.workspace-materials-view-page');
     
     renderDustTemplate('workspace/materials-management-new-page.dust', { }, $.proxy(function (text) {
       var newPage = $(text);
@@ -504,8 +433,7 @@
                   'data-material-type': materialType,
                   'data-workspace-material-id': workspaceMaterialResult.id
                 });
-
-                editPage(materialType, materialResult.id);
+                editPage(newPage);
               } 
             }, this));
           }, newPage));

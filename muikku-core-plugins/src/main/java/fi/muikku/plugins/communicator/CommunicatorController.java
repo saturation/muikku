@@ -63,6 +63,10 @@ public class CommunicatorController {
   public List<InboxCommunicatorMessage> listSentItems(UserEntity userEntity) {
     return communicatorMessageDAO.listFirstMessagesBySender(userEntity);
   }
+
+  public List<CommunicatorMessageRecipient> listReceivedItemsByUserAndRead(UserEntity userEntity, boolean read) {
+    return communicatorMessageRecipientDAO.listByUserAndRead(userEntity, read);
+  }
   
   public CommunicatorMessageCategory persistCategory(String category) {
     CommunicatorMessageCategory categoryEntity = communicatorMessageCategoryDAO.findByName(category);
@@ -99,8 +103,16 @@ public class CommunicatorController {
     return communicatorMessageDAO.findById(communicatorMessageId);
   }
   
+  public CommunicatorMessageRecipient findCommunicatorMessageRecipient(Long id) {
+    return communicatorMessageRecipientDAO.findById(id);
+  }
+
   public List<CommunicatorMessageRecipient> listCommunicatorMessageRecipients(CommunicatorMessage communicatorMessage) {
     return communicatorMessageRecipientDAO.listByMessage(communicatorMessage);
+  }
+
+  public List<CommunicatorMessageRecipient> listCommunicatorMessageRecipientsByUserAndMessage(UserEntity user, CommunicatorMessageId messageId) {
+    return communicatorMessageRecipientDAO.listByUserAndMessageId(user, messageId);
   }
 
   public Long countMessagesByRecipientAndMessageId(UserEntity recipient, CommunicatorMessageId communicatorMessageId) {
@@ -181,4 +193,9 @@ public class CommunicatorController {
   public List<InboxCommunicatorMessage> listMessagesByMessageId(UserEntity user, CommunicatorMessageId messageId) {
     return communicatorMessageDAO.listByMessageId(user, messageId);
   }
+
+  public CommunicatorMessageRecipient updateRead(CommunicatorMessageRecipient recipient, boolean value) {
+    return communicatorMessageRecipientDAO.updateRecipientRead(recipient, value);
+  }
+
 }

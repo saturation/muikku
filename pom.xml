@@ -4,7 +4,7 @@
 
   <groupId>fi.muikku</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.9-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Muikku Parent</name>
   
@@ -54,6 +54,7 @@
     <module>muikku-google-oauth</module>
     <module>muikku-google-calendar</module>
     <module>muikku-facebook-oauth</module>
+    <module>muikku-pyramus-oauth</module>
     <module>muikku-h2db-plugin</module>
     <module>muikku-mongo-log</module>
     <module>muikku-persistence</module>
@@ -79,7 +80,7 @@
       <dependency>
         <groupId>fi.muikku</groupId>
         <artifactId>bom</artifactId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.9-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
