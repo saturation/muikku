@@ -1,7 +1,5 @@
 package fi.muikku.plugins.schooldatapyramus;
 
-import java.util.logging.Logger;
-
 import javax.inject.Inject;
 
 import fi.muikku.model.base.SchoolDataSource;
@@ -17,22 +15,18 @@ public class SchoolDataPyramusPluginDescriptor implements PluginDescriptor {
   @Inject
   private SchoolDataController schoolDataController;
 
-  @Inject
-  private Logger logger;
-  
   @Override
   public void init() {
     /**
      * Ensure that SchoolDataSource is defined
      */
-
+    
     SchoolDataSource schoolDataSource = schoolDataController.findSchoolDataSource(SCHOOL_DATA_SOURCE);
     if (schoolDataSource == null) {
       schoolDataController.createSchoolDataSource(SCHOOL_DATA_SOURCE);
     }
-
   }
-
+  
   @Override
   public String getName() {
     return PLUGIN_NAME;
