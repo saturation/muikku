@@ -46,7 +46,7 @@
           color:red;
           &:before{
            color:#fff;
-           @extend .icon-delete;
+/*            @extend .icon-delete; */
           }
          }   
         &:before{
@@ -94,6 +94,7 @@
 
 .cm-message {
 
+
    
    .cm-message-header-content-primary{
       font-weight:700;  
@@ -103,6 +104,15 @@
    .cm-message-header-content-secondary{
 
    }
+
+    &.unread{
+     font-weight:700;
+     background-color:#fffbf0;
+     .mf-item-header-content-primary{
+      color:#ff5a00 e;
+     }
+     
+   }
   
   .cm-message-header-count{
    line-height:2.5em;
@@ -111,6 +121,7 @@
     float:right;
     margin-right:10px;
    }
+   
   }   
   
   .cm-user-picture{
@@ -182,6 +193,7 @@
    div{
     float:left;
    }
+   
   
   }
 
@@ -240,3 +252,5 @@
   }
 
 }
+
+

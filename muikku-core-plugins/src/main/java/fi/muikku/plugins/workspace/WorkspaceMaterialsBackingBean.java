@@ -1,6 +1,7 @@
 package fi.muikku.plugins.workspace;
 
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
@@ -12,72 +13,88 @@ import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 
+import fi.muikku.jsf.NavigationRules;
 import fi.muikku.model.workspace.WorkspaceEntity;
+import fi.muikku.plugins.workspace.model.WorkspaceNode;
 import fi.muikku.plugins.workspace.model.WorkspaceRootFolder;
 import fi.muikku.schooldata.WorkspaceController;
 import fi.muikku.schooldata.entity.Workspace;
+import fi.muikku.security.LoggedIn;
 
 @Named
 @Stateful
 @RequestScoped
-@Join (path = "/workspace/{workspaceUrlName}/materials", to = "/workspaces/materials.jsf")
+@Join(path = "/workspace/{workspaceUrlName}/materials", to = "/workspaces/materials.jsf")
+@LoggedIn
 public class WorkspaceMaterialsBackingBean {
 
   @Parameter
   private String workspaceUrlName;
-  
-	@Inject
-	private WorkspaceController workspaceController;
-	
-	@Inject
-	private WorkspaceMaterialController workspaceMaterialController;
 
-	@Inject
+  @Inject
+  private WorkspaceController workspaceController;
+
+  @Inject
+  private WorkspaceMaterialController workspaceMaterialController;
+
+  @Inject
   @Named
   private WorkspaceNavigationBackingBean workspaceNavigationBackingBean;
 
-	@RequestAction
-	public void init() throws FileNotFoundException {
-	  String urlName = getWorkspaceUrlName();
-	  
-		if (StringUtils.isBlank(urlName)) {
-			throw new FileNotFoundException();
-		}
-		
-		WorkspaceEntity workspaceEntity = workspaceController.findWorkspaceEntityByUrlName(urlName);
-		if (workspaceEntity == null) {
-			throw new FileNotFoundException();
-		}
-		
-		rootFolder = workspaceMaterialController.findWorkspaceRootFolderByWorkspaceEntity(workspaceEntity);
-    
+  @RequestAction
+  public String init() {
+    String urlName = getWorkspaceUrlName();
+
+    if (StringUtils.isBlank(urlName)) {
+      return NavigationRules.NOT_FOUND;
+    }
+
+    WorkspaceEntity workspaceEntity = workspaceController
+        .findWorkspaceEntityByUrlName(urlName);
+    if (workspaceEntity == null) {
+      return NavigationRules.NOT_FOUND;
+    }
+
+    rootFolder = workspaceMaterialController
+        .findWorkspaceRootFolderByWorkspaceEntity(workspaceEntity);
+
     workspaceNavigationBackingBean.setWorkspaceUrlName(urlName);
     Workspace workspace = workspaceController.findWorkspace(workspaceEntity);
     workspaceName = workspace.getName();
     workspaceEntityId = workspaceEntity.getId();
-	}
-	
-	public WorkspaceRootFolder getRootFolder() {
-		return rootFolder;
-	}
-	
-	public void setRootFolder(WorkspaceRootFolder rootFolder) {
-		this.rootFolder = rootFolder;
-	}
-	
-	public String getWorkspaceUrlName() {
-		return workspaceUrlName;
-	}
+    contentNodes = new ArrayList<>();
 
-	public void setWorkspaceUrlName(String workspaceUrlName) {
-		this.workspaceUrlName = workspaceUrlName;
-	}
+    List<WorkspaceNode> rootMaterialNodes = workspaceMaterialController
+        .listWorkspaceNodesByParentSortByOrderNumber(rootFolder);
+    for (WorkspaceNode rootMaterialNode : rootMaterialNodes) {
+      ContentNode node = workspaceMaterialController.createContentNode(rootMaterialNode);
+      contentNodes.add(node);
+    }
+
+    return null;
+  }
+
+  public WorkspaceRootFolder getRootFolder() {
+    return rootFolder;
+  }
+
+  public void setRootFolder(WorkspaceRootFolder rootFolder) {
+    this.rootFolder = rootFolder;
+  }
+
+  public String getWorkspaceUrlName() {
+    return workspaceUrlName;
+  }
+
+  public void setWorkspaceUrlName(String workspaceUrlName) {
+    this.workspaceUrlName = workspaceUrlName;
+  }
 
   public String getWorkspaceName() {
     return workspaceName;
   }
-  
-	public Long getWorkspaceEntityId() {
+
+  public Long getWorkspaceEntityId() {
     return workspaceEntityId;
   }
 
@@ -85,7 +102,12 @@ public class WorkspaceMaterialsBackingBean {
     this.workspaceEntityId = workspaceEntityId;
   }
 
+  public List<ContentNode> getContentNodes() {
+    return contentNodes;
+  }
+
   private WorkspaceRootFolder rootFolder;
+  private List<ContentNode> contentNodes;
   private String workspaceName;
   private Long workspaceEntityId;
 

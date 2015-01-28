@@ -58,11 +58,10 @@ import fi.muikku.plugins.workspace.WorkspaceMaterialController;
 import fi.muikku.plugins.workspace.WorkspaceMaterialUtils;
 import fi.muikku.plugins.workspace.model.WorkspaceFolder;
 import fi.muikku.plugins.workspace.model.WorkspaceMaterial;
+import fi.muikku.plugins.workspace.model.WorkspaceMaterialAssignmentType;
 import fi.muikku.plugins.workspace.model.WorkspaceNode;
 import fi.muikku.plugins.workspace.model.WorkspaceNodeType;
-import fi.muikku.plugins.workspace.model.WorkspaceRootFolder;
 import fi.muikku.schooldata.WorkspaceEntityController;
-import fi.muikku.servlet.ContextPath;
 
 @ApplicationScoped
 @Stateful
@@ -74,14 +73,10 @@ public class DeusNexMachinaController {
   @Inject
   private PluginSettingsController pluginSettingsController;
 
-  @Inject
-  @ContextPath
-  private String contextPath;
-
   private class EmbeddedItemHandler implements DeusNexEmbeddedItemElementHandler {
 
-    public EmbeddedItemHandler(DeusNexMachinaController deusNexMachinaController, WorkspaceRootFolder rootFolder, DeusNexDocument deusNexDocument) {
-      this.rootFolder = rootFolder;
+    public EmbeddedItemHandler(DeusNexMachinaController deusNexMachinaController, WorkspaceNode importRoot, DeusNexDocument deusNexDocument) {
+      this.importRoot = importRoot;
       this.deusNexDocument = deusNexDocument;
     }
 
@@ -97,7 +92,12 @@ public class DeusNexMachinaController {
         iframeElement.setAttribute("seamless", "seamless");
         iframeElement.setAttribute("border", "0");
         iframeElement.setAttribute("frameborder", "0");
-
+        if (queryType != null && queryType.intValue() == 1) {
+          iframeElement.setAttribute("data-assignment-type", "EXERCISE");
+        }
+        if (queryType != null && queryType.intValue() == 2) {
+          iframeElement.setAttribute("data-assignment-type", "EVALUATED");
+        }
         iframeElement.setAttribute("data-type", "embedded-document");
 
         iframeElement.setAttribute("width", "100%");
@@ -201,15 +201,24 @@ public class DeusNexMachinaController {
         // Resource has been imported before
         WorkspaceMaterial workspaceMaterial = workspaceMaterialController.findWorkspaceMaterialById(workspaceNodeId);
         if (workspaceMaterial != null) {
-          path = contextPath + "/" + WorkspaceMaterialUtils.getCompletePath(workspaceMaterial);
+          path = "/" + WorkspaceMaterialUtils.getCompletePath(workspaceMaterial);
           type = "POOL";
         }
       } else {
         Resource resource = deusNexDocument.getResourceByNo(resourceNo);
         if (resource != null) {
-          String rootPath = WorkspaceMaterialUtils.getCompletePath(rootFolder);
+          WorkspaceNode reference = importRoot.getParent();
+          if (reference == null) {
+            reference = importRoot;
+          }
+          
+          String rootPath = WorkspaceMaterialUtils.getCompletePath(reference);
+          if (!rootPath.endsWith("/")) {
+            rootPath += '/';
+          }
+          
           String resourcePath = getResourcePath(deusNexDocument, resource);
-          path = contextPath + "/" + rootPath + resourcePath;
+          path = "/" + rootPath + resourcePath;
           type = "DND";
         }
       }
@@ -257,10 +266,8 @@ public class DeusNexMachinaController {
 
       return null;
     }
-
-    private WorkspaceRootFolder rootFolder;
+    private WorkspaceNode importRoot;
     private DeusNexDocument deusNexDocument;
-
   }
 
   private final static String LOOKUP_SETTING_NAME = "[_DEUS_NEX_MACHINA_LOOKUP_]";
@@ -289,10 +296,10 @@ public class DeusNexMachinaController {
 
   public void importDeusNexDocument(WorkspaceNode parentNode, InputStream inputStream) throws DeusNexException {
     DeusNexDocument desNexDocument = parseDeusNexDocument(inputStream);
-    WorkspaceRootFolder rootFolder = workspaceMaterialController.findWorkspaceRootFolderByWorkspaceNode(parentNode);
+    // WorkspaceRootFolder rootFolder = workspaceMaterialController.findWorkspaceRootFolderByWorkspaceNode(parentNode);
     List<WorkspaceNode> createdNodes = new ArrayList<>();
     for (Resource resource : desNexDocument.getRootFolder().getResources()) {
-      importResource(rootFolder, parentNode, resource, desNexDocument, createdNodes);
+      importResource(parentNode, parentNode, resource, desNexDocument, createdNodes);
     }
     try {
       postProcessResources(createdNodes);
@@ -351,8 +358,43 @@ public class DeusNexMachinaController {
     }
 
   }
+  
+  private WorkspaceMaterialAssignmentType determineEmbeddedAssignmentType(HtmlMaterial material) throws DeusNexException {
+    try {
+      if (material.getHtml() == null) {
+        return null;
+      }
+      StringReader htmlReader = new StringReader(material.getHtml());
+      DOMParser parser = new DOMParser();
+      InputSource inputSource = new InputSource(htmlReader);
+      parser.parse(inputSource);
+      org.w3c.dom.Document domDocument = parser.getDocument();
+      List<Element> elements = DeusNexXmlUtils.getElementsByXPath(domDocument.getDocumentElement(), "//IFRAME[@data-type=\"embedded-document\"]");
+      List<WorkspaceMaterialAssignmentType> assignmentTypes = new ArrayList<>();
+      if (!elements.isEmpty()) {
+        for (Element element : elements) {
+          if ("EXERCISE".equals(element.getAttribute("data-assignment-type"))) {
+            assignmentTypes.add(WorkspaceMaterialAssignmentType.EXERCISE);
+          }
+          if ("EVALUATED".equals(element.getAttribute("data-assignment-type"))) {
+            assignmentTypes.add(WorkspaceMaterialAssignmentType.EVALUATED);
+          }
+        }
+      }
+      if ((assignmentTypes.contains(WorkspaceMaterialAssignmentType.EXERCISE)
+          && assignmentTypes.contains(WorkspaceMaterialAssignmentType.EVALUATED))) {
+        return WorkspaceMaterialAssignmentType.MIXED;
+      } else if (assignmentTypes.isEmpty()) {
+        return null;
+      } else {
+        return assignmentTypes.get(0);
+      }
+    } catch (SAXException | IOException | XPathExpressionException e) {
+      throw new DeusNexInternalException("Embedded assignment type handling failed. ", e);
+    }
+  }
 
-  private void importResource(WorkspaceRootFolder rootFolder, WorkspaceNode parent, Resource resource, DeusNexDocument deusNexDocument,
+  private void importResource(WorkspaceNode importRoot, WorkspaceNode parent, Resource resource, DeusNexDocument deusNexDocument,
       List<WorkspaceNode> createdNodes) throws DeusNexException {
     WorkspaceNode node = findNode(parent, resource);
 
@@ -374,19 +416,34 @@ public class DeusNexMachinaController {
       }
 
       for (Resource childResource : folderResource.getResources()) {
-        importResource(rootFolder, folder, childResource, deusNexDocument, createdNodes);
+        importResource(importRoot, folder, childResource, deusNexDocument, createdNodes);
       }
     } else {
       if (node == null) {
         logger.fine("importing " + resource.getPath());
 
-        Material material = createMaterial(rootFolder, resource, deusNexDocument);
+        Material material = createMaterial(importRoot, resource, deusNexDocument);
 
         if (material != null) {
-          WorkspaceNode workspaceNode = workspaceMaterialController.createWorkspaceMaterial(parent, material, resource.getName());
+          WorkspaceMaterialAssignmentType assignmentType = null;
 
+          if (resource instanceof Query) {
+            switch (((Query)resource).getQueryType()) {
+            case "1":
+              assignmentType = WorkspaceMaterialAssignmentType.EXERCISE;
+              break;
+            case "2":
+              assignmentType = WorkspaceMaterialAssignmentType.EVALUATED;
+              break;
+            }
+          } else if (material instanceof HtmlMaterial) {
+            assignmentType = determineEmbeddedAssignmentType((HtmlMaterial) material);
+          }
+          
+          WorkspaceMaterial workspaceMaterial = workspaceMaterialController.createWorkspaceMaterial(parent, material, resource.getName(), assignmentType);
+          
           try {
-            setResourceWorkspaceNodeId(resource.getNo(), workspaceNode.getId());
+            setResourceWorkspaceNodeId(resource.getNo(), workspaceMaterial.getId());
           } catch (IOException e) {
             throw new DeusNexInternalException("Failed to store resourceNo lookup file", e);
           }
@@ -395,11 +452,12 @@ public class DeusNexMachinaController {
             List<Resource> childResources = ((ResourceContainer) resource).getResources();
             if (childResources != null) {
               for (Resource childResource : childResources) {
-                importResource(rootFolder, workspaceNode, childResource, deusNexDocument, createdNodes);
+                importResource(importRoot, workspaceMaterial, childResource, deusNexDocument, createdNodes);
               }
             }
           }
-          createdNodes.add(workspaceNode);
+          
+          createdNodes.add(workspaceMaterial);
         }
       } else {
         logger.info(node.getPath() + " already exists, skipping");
@@ -407,14 +465,14 @@ public class DeusNexMachinaController {
     }
   }
 
-  private Material createMaterial(WorkspaceRootFolder rootFolder, Resource resource, DeusNexDocument deusNexDocument) throws DeusNexException {
+  private Material createMaterial(WorkspaceNode importRoot, Resource resource, DeusNexDocument deusNexDocument) throws DeusNexException {
     switch (resource.getType()) {
       case BINARY:
         return createBinaryMaterial((Binary) resource);
       case DOCUMENT:
-        return createDocumentMaterial(rootFolder, (Document) resource, deusNexDocument);
+        return createDocumentMaterial(importRoot, (Document) resource, deusNexDocument);
       case QUERY:
-        return createQueryMaterial(rootFolder, (Query) resource, deusNexDocument);
+        return createQueryMaterial(importRoot, (Query) resource, deusNexDocument);
       default:
       break;
     }
@@ -422,18 +480,18 @@ public class DeusNexMachinaController {
     return null;
   }
 
-  private Material createDocumentMaterial(WorkspaceRootFolder rootFolder, Document resource, DeusNexDocument deusNexDocument) throws DeusNexException {
+  private Material createDocumentMaterial(WorkspaceNode importRoot, Document resource, DeusNexDocument deusNexDocument) throws DeusNexException {
     String title = resource.getTitle();
-    String html = parseDocumentContent(rootFolder, resource.getDocument(), deusNexDocument);
+    String html = parseDocumentContent(importRoot, resource.getDocument(), deusNexDocument);
 
     return htmlMaterialController.createHtmlMaterial(title, html, "text/html;editor=CKEditor", 0l);
   }
 
-  private Material createQueryMaterial(WorkspaceRootFolder rootFolder, Query resource, DeusNexDocument deusNexDocument) throws DeusNexException {
+  private Material createQueryMaterial(WorkspaceNode importRoot, Query resource, DeusNexDocument deusNexDocument) throws DeusNexException {
     // TODO: Replace with query implementation when the implementation itself is ready for it
 
     String title = resource.getTitle();
-    String html = parseQueryContent(rootFolder, resource.getDocument(), deusNexDocument);
+    String html = parseQueryContent(importRoot, resource.getDocument(), deusNexDocument);
 
     return htmlMaterialController.createHtmlMaterial(title, html, "text/html;editor=CKEditor", 0l);
   }
@@ -446,15 +504,15 @@ public class DeusNexMachinaController {
     return binaryMaterialController.createBinaryMaterial(title, contentType, content);
   }
 
-  private String parseDocumentContent(WorkspaceRootFolder rootFolder, Element document, DeusNexDocument deusNexDocument) throws DeusNexException {
-    Map<String, String> localeContents = new DeusNexContentParser().setEmbeddedItemElementHandler(new EmbeddedItemHandler(this, rootFolder, deusNexDocument))
+  private String parseDocumentContent(WorkspaceNode importRoot, Element document, DeusNexDocument deusNexDocument) throws DeusNexException {
+    Map<String, String> localeContents = new DeusNexContentParser().setEmbeddedItemElementHandler(new EmbeddedItemHandler(this, importRoot, deusNexDocument))
         .parseContent(document);
     String contentFi = localeContents.get("fi");
     return contentFi;
   }
 
-  private String parseQueryContent(WorkspaceRootFolder rootFolder, Element document, DeusNexDocument deusNexDocument) throws DeusNexException {
-    Map<String, String> localeContents = new DeusNexContentParser().setEmbeddedItemElementHandler(new EmbeddedItemHandler(this, rootFolder, deusNexDocument))
+  private String parseQueryContent(WorkspaceNode importRoot, Element document, DeusNexDocument deusNexDocument) throws DeusNexException {
+    Map<String, String> localeContents = new DeusNexContentParser().setEmbeddedItemElementHandler(new EmbeddedItemHandler(this, importRoot, deusNexDocument))
         .setFieldElementHandler(new FieldElementsHandler(deusNexDocument)).parseContent(document);
     String contentFi = localeContents.get("fi");
     return contentFi;

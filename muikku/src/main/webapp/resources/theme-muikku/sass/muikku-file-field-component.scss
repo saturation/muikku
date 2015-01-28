@@ -5,18 +5,38 @@
 }
 
 .muikku-file-input-field-file-label {
-  font-weight: bold;
-  position: absolute;
-  margin-top: -20px;
-  margin-left: 10px;
+  font-weight:400 !important;
+  position:absolute;
+  margin-top:-30px;
+  margin-left:10px;
+  color:#fff;
+  font-size:14px;
 }
 
 .muikku-file-input-field-file-remove, .muikku-file-input-field-file-restore {
-  display: block;
-  text-decoration: none;
-  position: absolute; 
-  margin-top: -20px;
+  display:block;
+  text-decoration:none;
+  position:absolute; 
+  margin-top:-25px;
   right: 10px;
+  font-weight:400 !important;
+  position: absolute;
+  color:#fff !important;
+  font-size:14px;
+}
+
+.muikku-file-input-field-file-progress {
+  border:1px solid #f8f8f8;
+  box-shadow:0 0 5px rgba(0,0,0,0.05);
+  height:25px;
+  border-radius:0 !important;
+  
+  .ui-progressbar-value {
+    background:#34acfd;
+    height:25px;
+    border-radius:0 !important;
+  }
+
 }
 
 .muikku-file-input-field-file-remove {
@@ -28,9 +48,23 @@
 }
 
 .muikku-file-input-field-file-uploader-container {
-  border: 1px dotted #000;
   position: relative;
   padding: 20px;
+  margin: 0 10px;
+  background: #fff;
+  border: 1px solid #eee;
+  transition: border,box-shadow 0.1s,0.2s ease-in-out;
+  outline: none;
+  box-shadow: 0 0 0px 3px rgba(215,215,215,0.15);
+  border-radius: 3px;
+  text-transform: uppercase;
+  color: #186089;
+  
+  &:hover {
+    border:1px solid #97bfed;
+    box-shadow:0 0 0px 3px rgba(202,225,252,0.75);
+  }
+  
 }
 
 .muikku-file-input-field-file-uploader-container input[type="file"] {

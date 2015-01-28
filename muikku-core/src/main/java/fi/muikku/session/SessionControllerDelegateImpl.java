@@ -76,8 +76,8 @@ public class SessionControllerDelegateImpl implements SessionControllerDelegate 
   }
 
   @Override
-  public void addOAuthAccessToken(String strategy, Date expiresAt, String accessToken) {
-    implementation.addOAuthAccessToken(strategy, expiresAt, accessToken);
+  public void addOAuthAccessToken(String strategy, Date expiresAt, String accessToken, String refreshToken) {
+    implementation.addOAuthAccessToken(strategy, expiresAt, accessToken, refreshToken);
   }
 
   @Override
@@ -86,18 +86,18 @@ public class SessionControllerDelegateImpl implements SessionControllerDelegate 
   }
   
   @Override
-  public String getActiveUserIdentifier() {
-    return implementation.getActiveUserIdentifier();
+  public String getLoggedUserIdentifier() {
+    return implementation.getLoggedUserIdentifier();
   }
   
   @Override
-  public String getActiveUserSchoolDataSource() {
-    return implementation.getActiveUserSchoolDataSource();
+  public String getLoggedUserSchoolDataSource() {
+    return implementation.getLoggedUserSchoolDataSource();
   }
   
   @Override
-  public void setActiveUserIdentifier(String dataSource, String identifier) {
-    implementation.setActiveUserIdentifier(dataSource, identifier);
+  public void login(String dataSource, String identifier) {
+    implementation.login(dataSource, identifier);
   }
   
   private SessionController implementation;

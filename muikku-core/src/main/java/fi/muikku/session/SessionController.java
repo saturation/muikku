@@ -42,6 +42,14 @@ public interface SessionController {
    * Logs user out 
    */
   public void logout();
+
+  /**
+   * Logs user in
+   * 
+   * @param dataSource user data source
+   * @param identifier user identifier
+   */
+  public void login(String dataSource, String identifier);
   
   boolean hasPermission(String permission, ContextReference contextReference);
   
@@ -74,15 +82,13 @@ public interface SessionController {
    */
   public <T> List<T> filterResources(List<T> list, String permissions);
 
-  public void addOAuthAccessToken(String strategy, Date expiresAt, String accessToken);
+  public void addOAuthAccessToken(String strategy, Date expiresAt, String accessToken, String refreshToken);
   
   public AccessToken getOAuthAccessToken(String strategy);
   
-  public String getActiveUserIdentifier();
+  public String getLoggedUserIdentifier();
   
-  public String getActiveUserSchoolDataSource();
-
-  public void setActiveUserIdentifier(String dataSource, String identifier);
+  public String getLoggedUserSchoolDataSource();
   
   public UserEntity getLoggedUserEntity();
 }

@@ -18,8 +18,8 @@ import fi.muikku.plugins.dnm.parser.content.OptionListOption;
 import fi.muikku.plugins.dnm.parser.content.RightAnswer;
 import fi.muikku.plugins.dnm.parser.structure.DeusNexDocument;
 import fi.muikku.plugins.dnm.translator.FieldTranslator;
-import fi.muikku.plugins.material.fieldmeta.ChecklistFieldMeta;
-import fi.muikku.plugins.material.fieldmeta.ChecklistFieldOptionMeta;
+import fi.muikku.plugins.material.fieldmeta.MultiSelectFieldMeta;
+import fi.muikku.plugins.material.fieldmeta.MultiSelectFieldOptionMeta;
 import fi.muikku.plugins.material.fieldmeta.ConnectFieldMeta;
 import fi.muikku.plugins.material.fieldmeta.FieldMeta;
 import fi.muikku.plugins.material.fieldmeta.FileFieldMeta;
@@ -103,14 +103,14 @@ class FieldElementsHandler implements DeusNexFieldElementHandler {
 
   @Override
   public Node handleOptionList(org.w3c.dom.Document ownerDocument, String paramName, String type, List<OptionListOption> options, Integer size, String help, String hint) throws DeusNexException {
-    // TODO: This is just for show, real implementation depends on QueryMaterial implementation
+    // TODO size is ignored in Muikku 3
     
-    SelectFieldMeta selectFieldMeta = fieldTranslator.translateOptionList(paramName, type, size, options);
+    SelectFieldMeta selectFieldMeta = fieldTranslator.translateOptionList(paramName, type, options);
 
     switch (selectFieldMeta.getListType()) {
-      case "radio_horz":
+      case "radio-horizontal":
         return handleRadioHorzSelectField(ownerDocument, selectFieldMeta);
-      case "radio":
+      case "radio-vertical":
         return handleRadioSelectField(ownerDocument, selectFieldMeta);
       case "list":
         return handleListSelectField(ownerDocument, selectFieldMeta);
@@ -122,12 +122,12 @@ class FieldElementsHandler implements DeusNexFieldElementHandler {
   }
 
   @Override
-  public Node handleChecklistField(Document ownerDocument, String paramName, List<ChecklistFieldOptionMeta> options, String helpOf, String hintOf) {
-    ChecklistFieldMeta checklistFieldMeta = fieldTranslator.translateChecklistField(paramName, options);
+  public Node handleChecklistField(Document ownerDocument, String paramName, List<MultiSelectFieldOptionMeta> options, String helpOf, String hintOf) {
+    MultiSelectFieldMeta checklistFieldMeta = fieldTranslator.translateChecklistField(paramName, options);
     
     List<Element> elements = new ArrayList<>();
 
-    for (ChecklistFieldOptionMeta option : checklistFieldMeta.getOptions()) {
+    for (MultiSelectFieldOptionMeta option : checklistFieldMeta.getOptions()) {
       Element inputElement = ownerDocument.createElement("input");
       inputElement.setAttribute("type", "checkbox");
       inputElement.setAttribute("value", option.getName());
@@ -203,10 +203,6 @@ class FieldElementsHandler implements DeusNexFieldElementHandler {
     Element selectElement = ownerDocument.createElement("select");
     selectElement.setAttribute("name", selectFieldMeta.getName());
     
-    if (selectFieldMeta.getSize() != null) {
-      selectElement.setAttribute("size", String.valueOf(selectFieldMeta.getSize()));
-    }
-    
     for (SelectFieldOptionMeta option : selectFieldMeta.getOptions()) {
       Element optionElement = ownerDocument.createElement("option");
       optionElement.setAttribute("value", option.getName());
@@ -221,32 +217,34 @@ class FieldElementsHandler implements DeusNexFieldElementHandler {
   public Node handleConnectField(org.w3c.dom.Document ownerDocument, String paramName, List<ConnectFieldOption> options, String help, String hint) {
     ConnectFieldMeta connectFieldData = fieldTranslator.translateConnectField(paramName, options);
 
-    Element table = ownerDocument.createElement("table");
-    Element tbody = ownerDocument.createElement("tbody");
+    Element outerSpan = ownerDocument.createElement("span");
+    outerSpan.setAttribute("style", "display: table;");
     int fieldCount = 0;
     for (ConnectFieldOption connectFieldOption : options) {
-      Element tr = ownerDocument.createElement("tr");
-      Element tdLeft = ownerDocument.createElement("td");
-      Element tdCenter = ownerDocument.createElement("td");
-      Element tdRight = ownerDocument.createElement("td");
+      Element rowSpan = ownerDocument.createElement("span");
+      rowSpan.setAttribute("style", "display: table-row;");
+      Element leftSpan = ownerDocument.createElement("span");
+      leftSpan.setAttribute("style", "display: table-cell;");
+      Element centerSpan = ownerDocument.createElement("span");
+      centerSpan.setAttribute("style", "display: table-cell;");
+      Element rightSpan = ownerDocument.createElement("span");
+      rightSpan.setAttribute("style", "display: table-cell;");
       Element input = ownerDocument.createElement("input");
       input.setAttribute("type", "text");
       input.setAttribute("name", paramName);
       input.setAttribute("data-fieldcount", String.valueOf(fieldCount));
 
-      tdLeft.setTextContent(connectFieldOption.getTerm());
-      tdCenter.appendChild(input);
-      tdRight.setTextContent(connectFieldOption.getEquivalent());
-      tr.appendChild(tdLeft);
-      tr.appendChild(tdCenter);
-      tr.appendChild(tdRight);
-      tbody.appendChild(tr);
+      leftSpan.setTextContent(connectFieldOption.getTerm());
+      centerSpan.appendChild(input);
+      rightSpan.setTextContent(connectFieldOption.getEquivalent());
+      rowSpan.appendChild(leftSpan);
+      rowSpan.appendChild(centerSpan);
+      rowSpan.appendChild(rightSpan);
+      outerSpan.appendChild(rowSpan);
       fieldCount++;
     }
 
-    table.appendChild(tbody);
-
-    return wrapWithObjectElement(ownerDocument, table, connectFieldData);
+    return wrapWithObjectElement(ownerDocument, outerSpan, connectFieldData);
   }
   
   @Override

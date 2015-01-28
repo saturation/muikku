@@ -76,8 +76,8 @@ public class FacebookAuthenticationStrategy extends OAuthAuthenticationStrategy 
   } 
   
   @Override
-  protected Class<? extends Api> getApiClass() {
-    return FacebookApi.class;  
+  protected Api getApi() {
+    return new FacebookApi();  
   }
   
   @Override
@@ -107,7 +107,7 @@ public class FacebookAuthenticationStrategy extends OAuthAuthenticationStrategy 
       calendar.setTime(new Date());
       calendar.add(Calendar.SECOND, expiresIn);
       expires = calendar.getTime();
-      sessionController.addOAuthAccessToken("facebook", expires, accessToken.getToken());
+      sessionController.addOAuthAccessToken("facebook", expires, accessToken.getToken(), null);
     }    
     
     if (meObject != null)
