@@ -404,7 +404,7 @@
       var UMS = Math.floor($("#evaluation-views-wrapper").width() / 180); // Uusi Max Students
       var DOOM = 0; // Diassa Olevien Opiskelijoiden Määrä
       $.ajax({
-        url: 'https://dev.muikku.fi:8443/evaluation/'+ kurssiId +'/page/' + diaId + '?maxStudents=' + UMS,
+        url: CONTEXTPATH + '/evaluation/'+ kurssiId +'/page/' + diaId + '?maxStudents=' + UMS,
         success: $.proxy(function(data){
           DOOM = $(data).find('.evaluation-student-wrapper').length;
           if(DOOM > 0) {
