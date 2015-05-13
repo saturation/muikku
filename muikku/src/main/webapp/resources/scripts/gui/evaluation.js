@@ -1,5 +1,5 @@
 (function() {
-  
+    
   $.widget("custom.evaluationSlyder", {
     options : {
       workspaceEntityId: null
@@ -42,7 +42,7 @@
     _loadPage: function (pageId, callback) {
       console.log("look! im loading a page!");
       
-      if (pageId == 0) {
+      if (pageId === 0) {
         $('#contentEvaluation').append($('<div>').addClass('content-loading').append($('<div>').addClass('icon-spinner')));
       }
 
@@ -51,18 +51,60 @@
       $.ajax({
         url : CONTEXTPATH + '/evaluation/' + this.options.workspaceEntityId + '/page/' + pageId + '?maxStudents=' + this.options.maxStudents,
         success : $.proxy(function(data) {
-          this._pagesLoaded[pageId] = 'LOADED';
+          var soom = $(data).find('.evaluation-student-wrapper').length; // Sivulla Olevien Opiskelijoiden Määrä
           
-          this.element.find('.evaluation-views-slyder').append($(data).css('width', this.element.width()));
-          this.element.sly('reload');
+          if(soom > 0) {
+            this._pagesLoaded[pageId] = 'LOADED';
+          
+            this.element.find('.evaluation-views-slyder').append($(data).css('width', this.element.width()));
+            //this.element.sly('reload');
+            
+            var marginLeft = (($(".evaluation-view-wrapper").width()-(180*this.options.maxStudents))/2)-10;
+            this.element.find('.evaluation-student-listing-wrapper').css('margin-left', marginLeft);
+            this.element.find('.evaluation-student-assignment-listing-wrapper').css('margin-left', marginLeft);
+            this.element.find('.evaluation-student-assignment-listing-wrapper').css('max-height', window.innerHeight-260);
+            this.element.sly('reload');
               
-          if ($.isFunction(callback)) {
-            callback();
-          }
+            if ($.isFunction(callback)) {
+              callback();
+            }
+        /*
         } ,this),
         complete : $.proxy(function(data) {
+                 */
           
-          if (pageId == 0) {
+            if(pageId > 0) {
+              if(soom === this.options.maxStudents) {
+                this._loadPage(pageId+1);
+              } else {
+                $('.content-loading').animate({
+                  opacity: 0
+                },{
+                  duration:900,
+                  easing: "easeInOutQuint",
+                  complete: function () {
+                    $('.content-loading').remove();
+                  }
+                });
+              }
+            }
+            
+            this.element.sly('reload');
+          } else {
+            $('.content-loading').animate({
+              opacity: 0
+            },{
+              duration:900,
+              easing: "easeInOutQuint",
+              complete: function () {
+                $('.content-loading').remove();
+              }
+            });
+          }
+        } ,this)
+        
+            /*
+        complete : $.proxy(function(data) {
             $('.content-loading')
               .animate({
                 opacity: 0
@@ -76,17 +118,26 @@
           }
           
         } ,this)
+        */
       });
+      
+      if(this.options.maxStudents < 3) {
+        $('.evaluation-slyder-controls').hide();
+      } else {
+        $('.evaluation-slyder-controls').show();
+      }
     },
     
     _onSlyActive: function (eventName, index) {
+        /*
       if (!this._pagesLoaded[index + 1]) {
         this._loadPage(index + 1);
       } else {
         console.log("look! im NOT loading a page!");
       }
+        */
     },
-    
+   
     _destroy: function () {
       
     }
@@ -172,7 +223,7 @@
     $('#evaluation-views-wrapper')
       .evaluationSlyder({
         workspaceEntityId: $('#evaluation-views-wrapper').attr('data-workspace-entity-id'),
-        maxStudents: 6
+        maxStudents: Math.floor($("#evaluation-views-wrapper").width() / 180)
       });
     
     if ($('#evaluationModalWrapper').length > 0) {
@@ -207,7 +258,7 @@
         scrollTop = this.scrollTop,
         scrollHeight = this.scrollHeight,
         height = $this.height(),
-        delta = (ev.type == 'DOMMouseScroll' ?
+        delta = (ev.type === 'DOMMouseScroll' ?
           ev.originalEvent.detail * -40 :
           ev.originalEvent.wheelDelta),
         up = delta > 0;
@@ -217,7 +268,7 @@
         ev.preventDefault();
         ev.returnValue = false;
         return false;
-      }
+      };
 
       if (!up && -delta > scrollHeight - height - scrollTop) {
         // Scrolling down, but this will take us past the bottom.
@@ -326,9 +377,82 @@
         });
 
     });
+    
+    // on browser resize, start over
+    $(window).bind('resize', function() {
+      window.resizeEvt;
+      $(window).resize(function() {
+        clearTimeout(window.resizeEvt);
+        window.resizeEvt = setTimeout(function() {
+          aloitaUpdate();
+        }, 500);
+      });
+    });
+    
+    $(window).trigger('resize');
+    
+    function aloitaUpdate() {
+      $('.evaluation-views-slyder').html('');
+      $('#contentEvaluation').append($('<div>').addClass('content-loading').append($('<div>').addClass('icon-spinner')));
+      update(0);
+      
+      $('#evaluation-views-wrapper').sly('reload');
+    }
+    
+    function update(diaId) {
+      var kurssiId = $("#evaluation-views-wrapper").data("workspace-entity-id");
+      var UMS = Math.floor($("#evaluation-views-wrapper").width() / 180); // Uusi Max Students
+      var DOOM = 0; // Diassa Olevien Opiskelijoiden Määrä
+      $.ajax({
+        url: 'https://dev.muikku.fi:8443/evaluation/'+ kurssiId +'/page/' + diaId + '?maxStudents=' + UMS,
+        success: $.proxy(function(data){
+          DOOM = $(data).find('.evaluation-student-wrapper').length;
+          if(DOOM > 0) {
+            $('.evaluation-views-slyder').append($(data).css('width', $("#evaluation-views-wrapper").width()));
 
-  });
+            var marginLeft = (($(".evaluation-view-wrapper").width() - (180 * UMS)) / 2) - 10;
+            $('.evaluation-student-listing-wrapper').css('margin-left', marginLeft);
+            $('.evaluation-student-assignment-listing-wrapper').css('margin-left', marginLeft);
+            $('.evaluation-student-assignment-listing-wrapper').css('max-height', window.innerHeight-260);
+            $("#evaluation-views-wrapper").sly("reload");
+            
+            if(DOOM === UMS) {
+              update(diaId + 1);
+            } else {
+              $('.content-loading').animate({
+                opacity: 0
+              },{
+                duration:900,
+                easing: "easeInOutQuint",
+                complete: function () {
+                  $('.content-loading').remove();
+                }
+              });
+            }
+            
+            $("#evaluation-views-wrapper").sly("reload");
+          } else {
+            $('.content-loading').animate({
+              opacity: 0
+            },{
+              duration:900,
+              easing: "easeInOutQuint",
+              complete: function () {
+                $('.content-loading').remove();
+              }
+            });
+          }
+        })
+      });
+      
+      if(UMS < 3) {
+        $(".evaluation-slyder-controls").hide();
+      } else {
+        $(".evaluation-slyder-controls").show();
+      }
+    }
+
+});
   
-
   
 }).call(this);

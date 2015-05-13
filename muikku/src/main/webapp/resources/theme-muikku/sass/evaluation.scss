@@ -10,7 +10,7 @@ body.evaluation {
   font-weight:300;
   font-size:18px;
   overflow-x:hidden;
-  overflow-y:scroll;
+  // overflow-y:scroll;
   
   /* WORKSPACE NAVIGATION - FULLSCREEN */
   div[class*='wi-evaluation-workspacelist-navi-button'] > a,
@@ -92,7 +92,7 @@ body.evaluation {
     }
     
     .evaluation-slyder-wrapper {
-      width:1220px;
+      width:100%;
       margin:20px auto 0 auto;
 
       #evaluationSlyScrollbar {
@@ -131,7 +131,8 @@ body.evaluation {
         z-index:995;
         top:55px;
         bottom:5px;
-        width:1220px;
+        left: 45px;
+        width:calc(100% - 45px);
       
         button[class*='icon-arrow-']{
           color:#fff;
@@ -189,8 +190,8 @@ body.evaluation {
       height:100%;
       position:relative;
       z-index:996;
-      width:1080px;
-      margin:0 auto;
+      width:auto;
+      margin:0 70px;
       
       .evaluation-views-slyder { 
         margin:0; 
@@ -207,7 +208,8 @@ body.evaluation {
             margin:20px auto 10px auto;
             white-space:nowrap;
             height:150px;
-          
+            position: fixed;
+            
             .evaluation-student-wrapper {
               width:160px;
               height:130px;
@@ -247,7 +249,8 @@ body.evaluation {
           }
           
           .evaluation-student-assignment-listing-wrapper {
-            margin:10px auto 10px auto;
+            margin:180px 10px 10px 0px;
+            overflow:auto;
             
             .evaluation-student-assignment-listing-row {
               margin:10px 0;
