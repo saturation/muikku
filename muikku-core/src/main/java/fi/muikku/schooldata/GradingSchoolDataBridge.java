@@ -55,7 +55,7 @@ public interface GradingSchoolDataBridge {
    */
   public WorkspaceAssessment createWorkspaceAssessment(String workspaceUserIdentifier, String workspaceUserSchoolDataSource, String WorkspaceIdentifier,
       String studentIdentifier, String assessingUserIdentifier, String assessingUserSchoolDataSource, String gradeIdentifier, String gradeSchoolDataSource,
-      String verbalAssessment, Date date) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
+      String gradingScaleIdentifier, String gradingScaleSchoolDataSource, String verbalAssessment, Date date) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
 
   /**
    * Finds a workspace assessment
@@ -69,6 +69,17 @@ public interface GradingSchoolDataBridge {
   public WorkspaceAssessment findWorkspaceAssessment(String identifier, String WorkspaceIdentifier, String studentIdentifier)
       throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
 
+  /**
+   * Lists workspace assesments by workspace and student
+   * 
+   * @param workspaceIdentifier
+   *        identifier of the workspace
+   * @param studentIdentifier
+   *        identifier of student
+   * @return list of workspace assessments (empty if not found)
+   */
+  public List<WorkspaceAssessment> listWorkspaceAssessments(String workspaceIdentifier, String studentIdentifier) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
+  
   /**
    * Updates a workspace assessment
    * 
@@ -96,6 +107,6 @@ public interface GradingSchoolDataBridge {
    */
   public WorkspaceAssessment updateWorkspaceAssessment(String identifier, String workspaceUserIdentifier, String workspaceUserSchoolDataSource,
       String WorkspaceIdentifier, String studentIdentifier, String assessingUserIdentifier, String assessingUserSchoolDataSource, String gradeIdentifier,
-      String gradeSchoolDataSource, String verbalAssessment, Date date) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
+      String gradeSchoolDataSource, String gradingScaleIdentifier, String gradingScaleSchoolDataSource, String verbalAssessment, Date date) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
 
 }

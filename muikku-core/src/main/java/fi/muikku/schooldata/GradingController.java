@@ -89,7 +89,7 @@ public class GradingController {
 	
 	/* Workspace assessment */
 	
-	public WorkspaceAssessment createWorkspaceAssessment(SchoolDataSource schoolDataSource, WorkspaceUser workspaceUser, User assessingUser, GradingScaleItemEntity grade, String verbalAssessment, Date date) {
+	public WorkspaceAssessment createWorkspaceAssessment(String schoolDataSource, WorkspaceUser workspaceUser, User assessingUser, GradingScaleItem grade, String verbalAssessment, Date date) {
 	  return gradingSchoolDataController.createWorkspaceAssessment(schoolDataSource, 
 	      workspaceUser.getIdentifier(), 
 	      workspaceUser.getSchoolDataSource(),
@@ -98,9 +98,32 @@ public class GradingController {
 	      assessingUser.getIdentifier(), 
 	      assessingUser.getSchoolDataSource(), 
 	      grade.getIdentifier(), 
-	      grade.getDataSource().getIdentifier(), 
+	      grade.getSchoolDataSource(),
+	      grade.getGradingScaleIdentifier(),
+	      grade.getSchoolDataSource(),
 	      verbalAssessment,
 	      date);
 	}
+	
+ public List<WorkspaceAssessment> listWorkspaceAssessments(SchoolDataSource schoolDataSource, String workspaceIdentifier, String studentIdentifier){
+   return gradingSchoolDataController.listWorkspaceAssessments(schoolDataSource, workspaceIdentifier, studentIdentifier);
+ }
+ 
+ public WorkspaceAssessment updateWorkspaceAssessment(String schoolDataSource, String workspaceAssesmentIdentifier, WorkspaceUser workspaceUser, User assessingUser, GradingScaleItem grade, String verbalAssessment, Date date){
+   return gradingSchoolDataController.updateWorkspaceAssessment(schoolDataSource,
+       workspaceAssesmentIdentifier,
+       workspaceUser.getIdentifier(),
+       workspaceUser.getSchoolDataSource(),
+       workspaceUser.getWorkspaceIdentifier(),
+       workspaceUser.getUserIdentifier(),
+       assessingUser.getIdentifier(),
+       assessingUser.getSchoolDataSource(),
+       grade.getIdentifier(),
+       grade.getSchoolDataSource(),
+       grade.getGradingScaleIdentifier(),
+       grade.getSchoolDataSource(),
+       verbalAssessment,
+       date);
+ }
 	
 }

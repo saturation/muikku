@@ -70,6 +70,7 @@ public class PyramusSchoolDataEntityFactory {
                            null,
                            null,
                            null,
+                           null,
                            null);
   }
   
@@ -95,16 +96,17 @@ public class PyramusSchoolDataEntityFactory {
       .append(' ')
       .append(student.getLastName());
     
-    if (studyProgramme != null) {
-      displayName.append(" (")
-        .append(studyProgramme.getName())
-        .append(')');
+    String studyProgrammeName = studyProgramme != null ? studyProgramme.getName() : null;
+    
+    if (studyProgrammeName != null) {
+      displayName.append(String.format(" (%s)", studyProgrammeName));
     }
     
     return new PyramusUser(identifierMapper.getStudentIdentifier(student.getId()),
                            student.getFirstName(),
                            student.getLastName(),
                            displayName.toString(),
+                           studyProgrammeName,
                            nationality,
                            language,
                            municipality,
@@ -288,10 +290,19 @@ public class PyramusSchoolDataEntityFactory {
        courseAssessment.getId().toString(),
        identifierMapper.getWorkspaceStudentIdentifier(courseAssessment.getCourseStudentId()),
        identifierMapper.getStaffIdentifier(courseAssessment.getAssessorId()),
-       courseAssessment.getId().toString(),
+       courseAssessment.getGradeId().toString(),
+       courseAssessment.getGradingScaleId().toString(),
        courseAssessment.getVerbalAssessment(),
        courseAssessment.getDate().toDate()
      );
+  }
+  
+  public List<WorkspaceAssessment> createEntity(CourseAssessment... courseAssessments){
+    List<WorkspaceAssessment> result = new ArrayList<>();
+    for(CourseAssessment courseAssessment : courseAssessments){
+      result.add(createEntity(courseAssessment));
+    }
+    return result;
   }
   
   public List<WorkspaceType> createEntities(CourseType... courseTypes) {
