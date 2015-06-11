@@ -1,5 +1,51 @@
 (function() {
   'use strict';
+  
+  $(document).on('click', '.workspace-publish-button', function (event) {
+    var workspaceEntityId = $('.workspaceEntityId').val();
+
+    mApi().workspace.workspaces.read(workspaceEntityId).callback(function (err, workspace) {
+      if (err) {
+        $('.notification-queue').notificationQueue('notification', 'error', err);
+      } else {
+        workspace.published = true;        
+        mApi().workspace.workspaces.update(workspaceEntityId, workspace).callback(function (updErr) {
+          if (updErr) {
+            $('.notification-queue').notificationQueue('notification', 'error', updErr);
+          } else {
+            window.location.reload(true); 
+          }
+        });
+      }
+    });
+  });
+    
+  $(document).on('click', '.workspace-unpublish-button', function (event) {
+    var workspaceEntityId = $('.workspaceEntityId').val();
+
+    mApi().workspace.workspaces.read(workspaceEntityId).callback(function (err, workspace) {
+      if (err) {
+        $('.notification-queue').notificationQueue('notification', 'error', err);
+      } else {
+        workspace.published = false;        
+        mApi().workspace.workspaces.update(workspaceEntityId, workspace).callback(function (updErr) {
+          if (updErr) {
+            $('.notification-queue').notificationQueue('notification', 'error', updErr);
+          } else {
+            window.location.reload(true); 
+          }
+        });
+      }
+    });
+  });
+  
+  function refreshNavigationWrapperPosition() {
+    var contentContainer = ($('#contentWorkspaceMaterials').length > 0 ? contentContainer = $('#contentWorkspaceMaterials') : contentContainer = $('#content'));
+    var naviWrapper = $('#workspaceNavigationWrapper');
+    $(naviWrapper).css({
+      left:(Math.max(contentContainer.offset().left - naviWrapper.width() - 30, 10)) + 'px'
+    });
+  }
 
   $(document).ready(function() {
     
@@ -11,24 +57,9 @@
     
     // Workspace navigation
     if ($('#workspaceNavigationWrapper').length > 0) {
-  
-      var naviWrapper = $('#workspaceNavigationWrapper');
-      var cOffset = contentContainer.offset();
-      var naviLeftPos = cOffset.left - naviWrapper.width() - 30;
-      
-      $(naviWrapper).css({
-        left:naviLeftPos + 'px'
-      })
-      
+      refreshNavigationWrapperPosition();
       $(window).resize(function(){
-        cOffset = contentContainer.offset();
-        naviLeftPos = cOffset.left - naviWrapper.width() - 30;
-        naviLeftPos = naviLeftPos < 10 ? naviLeftPos = 10 : naviLeftPos = naviLeftPos;
-        
-        $(naviWrapper).css({
-          left:naviLeftPos + 'px'
-        })
-  
+        refreshNavigationWrapperPosition();
       });
       
       // Workspace's material's TOC

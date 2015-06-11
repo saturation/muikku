@@ -45,14 +45,26 @@ public class ElasticSearchProvider implements SearchProvider {
   }
   
   @Override
-  public SearchResult searchWorkspaces(String schoolDataSource, List<String> subjects, List<String> identifiers, String freeText, int start, int maxResults) {
+  public SearchResult searchWorkspaces(String schoolDataSource, List<String> subjects, List<String> identifiers, String freeText, boolean includeUnpublished, int start, int maxResults) {
+    if (identifiers != null && identifiers.isEmpty()) {
+      return new SearchResult(0, 0, 0, new ArrayList<Map<String,Object>>());
+    }
+    
     QueryBuilder query = null;
     
     try {
       if (StringUtils.isBlank(schoolDataSource) && (subjects == null || subjects.isEmpty()) && StringUtils.isBlank(freeText)) {
-        query = QueryBuilders.matchAllQuery();
+        if (includeUnpublished) {
+          query = QueryBuilders.matchAllQuery();
+        } else {
+          query = QueryBuilders.matchQuery("published", Boolean.TRUE);
+        }
       } else {
         query = QueryBuilders.boolQuery();
+        
+        if (!includeUnpublished) {
+          ((BoolQueryBuilder) query).must(QueryBuilders.matchQuery("published",Boolean.TRUE));
+        }
         
         if (StringUtils.isNotBlank(schoolDataSource)) {
           ((BoolQueryBuilder) query).must(QueryBuilders.matchQuery("schoolDataSource", schoolDataSource));
@@ -62,7 +74,7 @@ public class ElasticSearchProvider implements SearchProvider {
           ((BoolQueryBuilder) query).must(QueryBuilders.termsQuery("subjectIdentifier", subjects));
         }
         
-        if (identifiers != null && !identifiers.isEmpty()) {
+        if (identifiers != null) {
           ((BoolQueryBuilder) query).must(QueryBuilders.termsQuery("identifier", identifiers));
         }
     

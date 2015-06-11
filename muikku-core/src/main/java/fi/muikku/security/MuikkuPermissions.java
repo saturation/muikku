@@ -35,6 +35,10 @@ public class MuikkuPermissions extends AbstractMuikkuPermissionCollection implem
   @Scope (PermissionScope.ENVIRONMENT)
   @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER })
   public static final String MANAGE_USERS = "MANAGE_USERS";
+
+  @Scope (PermissionScope.ENVIRONMENT)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER })
+  public static final String MANAGE_MATERIAL_META = "MANAGE_MATERIAL_META";
   
   /* WORKSPACE */
   
@@ -53,16 +57,46 @@ public class MuikkuPermissions extends AbstractMuikkuPermissionCollection implem
   public static final String REPRESENT_WORKSPACEUSER = "REPRESENT_WORKSPACEUSER";
   
   @Scope (PermissionScope.WORKSPACE)
-  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER })
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER })
   @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
   public static final String EVALUATE_USER = "EVALUATE_USER";
+  
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String VIEW_USER_EVALUATION = "VIEW_USER_EVALUATION";
 
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String VIEW_MATERIAL_EVALUATION = "VIEW_MATERIAL_EVALUATION";
+  
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String EVALUATE_MATERIAL = "EVALUATE_MATERIAL";
+  
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.ADMINISTRATOR })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String ACCESS_UNPUBLISHED_WORKSPACE = "ACCESS_UNPUBLISHED_WORKSPACE";
+  
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.ADMINISTRATOR })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String PUBLISH_WORKSPACE = "PUBLISH_WORKSPACE";
+
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.ADMINISTRATOR })
+  @DefaultWorkspacePermissionRoles({ WorkspaceRoleArchetype.TEACHER })
+  public static final String MANAGE_WORKSPACE_MATERIALS = "MANAGE_WORKSPACE_MATERIALS";
+  
   /* RESOURCE */
   
   @Scope (PermissionScope.RESOURCE)
   @DefaultEnvironmentPermissionRoles ({ EnvironmentRoleArchetype.MANAGER })
   public static final String MANAGE_RESOURCERIGHTS = "MANAGE_RESOURCERIGHTS";
-  
+
   @Override
   public List<String> listPermissions() {
     return listPermissions(MuikkuPermissions.class);

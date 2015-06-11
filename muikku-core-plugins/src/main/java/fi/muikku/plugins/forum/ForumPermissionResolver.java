@@ -64,6 +64,10 @@ public class ForumPermissionResolver extends AbstractPermissionResolver implemen
     Permission perm = permissionDAO.findByName(permission);
     UserEntity userEntity = getUserEntity(user);
     
+    if (forumArea == null) {
+      return false;
+    }
+    
     RoleEntity userRole;
     
     // TODO: typecasts
@@ -74,18 +78,29 @@ public class ForumPermissionResolver extends AbstractPermissionResolver implemen
       
       List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByWorkspaceAndUser(workspaceEntity, userEntity);
       // TODO: This is definitely not the way to do this 
-      WorkspaceUserEntity workspaceUser = workspaceUsers.get(0);
       
-      userRole = workspaceUser.getWorkspaceUserRole();
-    } else {
-      EnvironmentUser environmentUser = environmentUserDAO.findByUserAndArchived(userEntity, Boolean.FALSE);
-      userRole = environmentUser.getRole();
-    }
+      if (workspaceUsers.size() > 0) {
+        WorkspaceUserEntity workspaceUser = workspaceUsers.get(0);
+        
+        userRole = workspaceUser.getWorkspaceUserRole();
+        
+        if (resourceUserRolePermissionDAO.hasResourcePermissionAccess(
+            resourceRightsController.findResourceRightsById(forumArea.getRights()), userRole, perm) ||
+            hasEveryonePermission(permission, forumArea) ||
+            userEntity.getId().equals(forumArea.getOwner()))
+          return true;
+      }
+    } 
+
+    EnvironmentUser environmentUser = environmentUserDAO.findByUserAndArchived(userEntity, Boolean.FALSE);
+    userRole = environmentUser.getRole();
+    
+    boolean isOwner = userEntity != null ? userEntity.getId().equals(forumArea.getOwner()) : false;
     
     return resourceUserRolePermissionDAO.hasResourcePermissionAccess(
         resourceRightsController.findResourceRightsById(forumArea.getRights()), userRole, perm) ||
         hasEveryonePermission(permission, forumArea) ||
-        userEntity.getId().equals(forumArea.getOwner());
+        isOwner;
   }
 
   @Override
@@ -93,6 +108,9 @@ public class ForumPermissionResolver extends AbstractPermissionResolver implemen
     ForumArea forumArea = getForumArea(contextReference);
     RoleEntity userRole = getEveryoneRole();
     Permission perm = permissionDAO.findByName(permission);
+    
+    if (forumArea == null)
+      return false;
     
     return resourceUserRolePermissionDAO.hasResourcePermissionAccess(
         resourceRightsController.findResourceRightsById(forumArea.getRights()), userRole, perm);

@@ -3,6 +3,7 @@ package fi.muikku.plugins.forum;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.Dependent;
@@ -49,6 +50,9 @@ import fi.otavanopisto.security.PermitContext;
 @Dependent
 @Stateful
 public class ForumController {
+  
+  @Inject
+  private Logger logger;
   
   @Inject
   private SessionController sessionController;
@@ -158,7 +162,7 @@ public class ForumController {
     }
   }
   
-  @Permit (ForumResourcePermissionCollection.FORUM_CREATEENVIRONMENTFORUM)
+//  @Permit (ForumResourcePermissionCollection.FORUM_CREATEENVIRONMENTFORUM)
   public EnvironmentForumArea createEnvironmentForumArea(String name, Long groupId) {
     UserEntity owner = sessionController.getLoggedUserEntity();
     ResourceRights rights = resourceRightsController.create();
@@ -168,27 +172,55 @@ public class ForumController {
     return forumArea;
   }
   
+  public WorkspaceForumArea createWorkspaceForumArea(WorkspaceEntity workspace, String name, Long groupId) {
+    UserEntity owner = sessionController.getLoggedUserEntity();
+    ResourceRights rights = resourceRightsController.create();
+    ForumAreaGroup group = groupId != null ? findForumAreaGroup(groupId) : null;
+    WorkspaceForumArea forumArea = workspaceForumAreaDAO.create(workspace, name, group, false, owner, rights);
+    createDefaultForumPermissions(forumArea, rights);
+    return forumArea;
+  }
+
+  public void deleteArea(ForumArea forumArea) {
+    forumAreaDAO.delete(forumArea);
+  }
+
   public ForumAreaGroup findForumAreaGroup(Long groupId) {
     return forumAreaGroupDAO.findById(groupId);
   }
 
-  @Permit (ForumResourcePermissionCollection.FORUM_WRITEMESSAGES)
-  public ForumThread createForumThread(@PermitContext ForumArea forumArea, String title, String message, Boolean sticky, Boolean locked) {
+//  @Permit (ForumResourcePermissionCollection.FORUM_WRITEMESSAGES)
+  public ForumThread createForumThread(/** @PermitContext **/ ForumArea forumArea, String title, String message, Boolean sticky, Boolean locked) {
     return forumThreadDAO.create(forumArea, title, message, sessionController.getLoggedUserEntity(), sticky, locked);
   }
 
+  @Permit (ForumResourcePermissionCollection.FORUM_DELETEMESSAGES)
+  public void deleteThread(@PermitContext ForumThread thread) {
+    List<ForumThreadReply> replies = forumThreadReplyDAO.listByForumThread(thread);
+    for (ForumThreadReply reply : replies) {
+      forumThreadReplyDAO.delete(reply);
+    }
+    
+    forumThreadDAO.delete(thread);
+  }
+  
   @Permit (ForumResourcePermissionCollection.FORUM_WRITEMESSAGES)
   public ForumThreadReply createForumThreadReply(@PermitContext ForumThread thread, String message) {
-    if (thread.getLocked())
-      throw new RuntimeException("Thread is locked.");
-    
-    ForumThreadReply reply = forumThreadReplyDAO.create(thread.getForumArea(), thread, message, sessionController.getLoggedUserEntity());
-    
-    forumThreadDAO.updateThreadUpdated(thread, reply.getCreated());
-    
-    return reply;
+    if (thread.getLocked()) {
+      logger.severe("Tried to create a forum thread reply for locked thread");
+      return null;
+    } else {
+      ForumThreadReply reply = forumThreadReplyDAO.create(thread.getForumArea(), thread, message, sessionController.getLoggedUserEntity());
+      forumThreadDAO.updateThreadUpdated(thread, reply.getCreated());
+      return reply;
+    }
   }
 
+  @Permit (ForumResourcePermissionCollection.FORUM_DELETEMESSAGES)
+  public void deleteReply(@PermitContext ForumThreadReply reply) {
+    forumThreadReplyDAO.delete(reply);
+  }
+  
   public List<EnvironmentForumArea> listEnvironmentForums() {
     return sessionController.filterResources(
         environmentForumAreaDAO.listAll(), ForumResourcePermissionCollection.FORUM_LISTFORUM);
@@ -204,15 +236,14 @@ public class ForumController {
         workspaceForumAreaDAO.listByWorkspace(workspace), ForumResourcePermissionCollection.FORUM_LISTFORUM);
   }
 
-  @Permit (ForumResourcePermissionCollection.FORUM_READMESSAGES)
-  public List<ForumThread> listForumThreads(@PermitContext ForumArea forumArea, int firstResult, int maxResults) {
+//  @Permit (ForumResourcePermissionCollection.FORUM_READMESSAGES)
+  public List<ForumThread> listForumThreads(/**@PermitContext **/ForumArea forumArea, int firstResult, int maxResults) {
     List<ForumThread> threads = forumThreadDAO.listByForumAreaOrdered(forumArea, firstResult, maxResults);
     
     return threads;
   }
   
-  @Permit (ForumResourcePermissionCollection.FORUM_READMESSAGES)
-  public List<ForumThreadReply> listForumThreadReplies(@PermitContext ForumThread forumThread, Integer firstResult, Integer maxResults) {
+  public List<ForumThreadReply> listForumThreadReplies(ForumThread forumThread, Integer firstResult, Integer maxResults) {
     return forumThreadReplyDAO.listByForumThread(forumThread, firstResult, maxResults);
   }
   
@@ -241,6 +272,26 @@ public class ForumController {
     return threads;
   }
   
+  public List<ForumThread> listLatestForumThreadsFromWorkspace(WorkspaceEntity workspaceEntity, Integer firstResult,
+      Integer maxResults) {
+    List<WorkspaceForumArea> workspaceForums = listCourseForums(workspaceEntity);
+    List<ForumArea> forumAreas = new ArrayList<ForumArea>();
+
+    // TODO: This could use some optimization
+    for (WorkspaceForumArea wf : workspaceForums) {
+      forumAreas.add(wf);
+    }
+    
+    List<ForumThread> threads;
+
+    if (!forumAreas.isEmpty())
+      threads = forumThreadDAO.listLatestOrdered(forumAreas, firstResult, maxResults);
+    else
+      threads = new ArrayList<ForumThread>();
+
+    return threads;
+  }
+
   public UserEntity findUserEntity(Long userEntityId) {
     return userEntityController.findUserEntityById(userEntityId);
   }
@@ -306,6 +357,10 @@ public class ForumController {
     return forumAreaGroupDAO.create(name, Boolean.FALSE);
   }
 
+  public void deleteAreaGroup(ForumAreaGroup forumAreaGroup) {
+    forumAreaGroupDAO.delete(forumAreaGroup);
+  }
+  
   public List<ForumMessage> listMessagesByWorkspace(WorkspaceEntity workspace) {
     return forumMessageDAO.listByWorkspace(workspace);
   }

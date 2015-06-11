@@ -9,6 +9,7 @@ import fi.muikku.model.workspace.WorkspaceRoleArchetype;
 import fi.muikku.security.AbstractMuikkuPermissionCollection;
 import fi.muikku.security.DefaultEnvironmentPermissionRoles;
 import fi.muikku.security.DefaultPermissionRoles;
+import fi.muikku.security.DefaultWorkspacePermissionRoles;
 import fi.muikku.security.MuikkuPermissionCollection;
 import fi.muikku.security.PermissionScope;
 import fi.otavanopisto.security.Scope;
@@ -34,6 +35,10 @@ public class ForumResourcePermissionCollection extends AbstractMuikkuPermissionC
   @DefaultPermissionRoles ( EVERYONE )
   public static final String FORUM_LIST_FORUMAREAGROUPS = "FORUM_LIST_FORUMAREAGROUPS";
   
+  @Scope (PermissionScope.ENVIRONMENT)
+  @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR } )
+  public static final String FORUM_DELETE_FORUMAREAGROUP = "FORUM_DELETE_FORUMAREAGROUP";
+
   /**
    * Forum Area rights
    */
@@ -46,6 +51,19 @@ public class ForumResourcePermissionCollection extends AbstractMuikkuPermissionC
   @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER, EnvironmentRoleArchetype.STUDENT } )
   public static final String FORUM_LISTFORUM = "FORUM_LISTFORUM";
 
+  @Scope (PermissionScope.ENVIRONMENT)
+  @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR } )
+  public static final String FORUM_DELETEENVIRONMENTFORUM = "FORUM_DELETEENVIRONMENTFORUM";
+
+  /**
+   * Workspace forum Area rights
+   */
+  
+  @Scope (PermissionScope.WORKSPACE)
+  @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER } )
+  @DefaultWorkspacePermissionRoles ( { WorkspaceRoleArchetype.TEACHER })
+  public static final String FORUM_CREATEWORKSPACEFORUM = "FORUM_CREATEWORKSPACEFORUM";
+  
   /**
    * Forum Message related rights
    */
@@ -58,6 +76,10 @@ public class ForumResourcePermissionCollection extends AbstractMuikkuPermissionC
   @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER, EnvironmentRoleArchetype.TEACHER, EnvironmentRoleArchetype.STUDENT } )
   public static final String FORUM_WRITEMESSAGES = "FORUM_WRITEMESSAGES";
   
+  @Scope (PERMISSIONSCOPE_FORUM)
+  @DefaultEnvironmentPermissionRoles ( { EnvironmentRoleArchetype.ADMINISTRATOR, EnvironmentRoleArchetype.MANAGER } )
+  public static final String FORUM_DELETEMESSAGES = "FORUM_DELETEMESSAGES";
+
   @Override
   public List<String> listPermissions() {
     return listPermissions(ForumResourcePermissionCollection.class);

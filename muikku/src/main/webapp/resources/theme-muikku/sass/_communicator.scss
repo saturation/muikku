@@ -95,11 +95,10 @@
 }
 
 .cm-messages-toolbar{
-  border:1px solid $brd2;
-  background-color: #fff;
-  padding:5px;
-  margin-bottom:5px;
-  
+    border:1px solid $brd2;
+    background-color: #fff;
+    padding:5px;
+    margin-bottom:5px;
   
   .cm-messages-tool{
     padding:0 10px 0 10px;
@@ -147,8 +146,8 @@
   
   .cm-user-picture{
      float:left;
-     height:30px;
-     width:30px; 
+     height:27px;
+     width:27px; 
      &.default{
      @extend .co-user-picture;     
      }

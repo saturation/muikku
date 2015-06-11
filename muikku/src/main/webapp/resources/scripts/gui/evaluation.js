@@ -22,7 +22,7 @@
       .find('img')
       .trigger("appear");
     
-    /* If image is last element inside article node and is floating this prevents image from overlapping its parent container */
+    /* If last element inside article is floating this prevents mentioned element from overlapping its parent container */
     $(data.pageElement)
     .append($('<div>').addClass('clear'));
   });
@@ -192,7 +192,9 @@
           $(this).find('input[name="evaluationDate"]')
             .css({'z-index': 9999, 'position': 'relative'})
             .attr('type', 'text')
-            .datepicker();
+            .datepicker({
+              firstDay: 1
+            });
           
           if(!alreadyEvaluated){
             $(this).find('input[name="evaluationDate"]').datepicker('setDate', new Date()); 
@@ -306,7 +308,7 @@
     }, this));
   };
   
-  function openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, workspaceMaterialEvaluation) {
+  function openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, workspaceMaterialEvaluation, assigmentElement) {
     var assignmentData = getAssignmentData(workspaceMaterialId);
     
     renderDustTemplate('evaluation/evaluation_evaluate_assignment_modal_view.dust', {
@@ -404,7 +406,10 @@
               }).callback($.proxy(function (err, result) {
                 if (err) {
                   $('.notification-queue').notificationQueue('notification', 'error', err);
-                } else { 
+                } else {
+                  assigmentElement.removeClass('assignment-done assignment-evaluation-critical');
+                  assigmentElement.addClass('assignment-evaluated');
+                  assigmentElement.attr('data-workspace-material-evaluation-id', result.id);
                   $(this).dialog("destroy").remove();
                 }
               }, this));
@@ -422,7 +427,10 @@
               }).callback($.proxy(function (err, result) {
                 if (err) {
                   $('.notification-queue').notificationQueue('notification', 'error', err);
-                } else { 
+                } else {
+                  assigmentElement.removeClass('assignment-done assignment-evaluation-critical');
+                  assigmentElement.addClass('assignment-evaluated');
+                  assigmentElement.attr('data-workspace-material-evaluation-id', result.id);
                   $(this).dialog("destroy").remove();
                 }
               }, this));
@@ -537,7 +545,7 @@
       var studentDisplayName = studentElement.attr('data-display-name');
       var studentStudyProgrammeName = studentElement.attr('data-study-programme-name');
   
-      openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, null);
+      openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, null, $(this));
     });
     
     /* View evaluation when assigment's state is EVALUATED */
@@ -558,7 +566,7 @@
           if (err) {
             $('.notification-queue').notificationQueue('notification', 'error', err);
           } else { 
-            openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, result);
+            openMaterialEvaluationDialog(workspaceEntityId, workspaceMaterialId, studentEntityId, studentDisplayName, studentStudyProgrammeName, result, $(this));
           }
         });
     });

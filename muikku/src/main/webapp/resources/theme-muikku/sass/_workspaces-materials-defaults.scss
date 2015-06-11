@@ -185,10 +185,28 @@ body.workspace-materials-management #contentWorkspaceMaterialsManagement {
   }
 
   table {
-    border-collapse:separate;
-    border-spacing:initial;
     margin:initial;
     padding:initial;
+  }
+
+  table[cellspacing] {
+    border-collapse:separate;
+    border-spacing:50px;
+  }
+  
+  table[cellpadding] td{
+    border-collapse:separate;
+    padding:50px;
+  }
+  
+  @for $i from 0 through 49 {
+    table[cellspacing="#{$i}"] {
+      border-spacing:#{$i}px;
+    }
+    
+    table[cellpadding="#{$i}"] td {
+      padding:#{$i}px;
+    }
   }
   
   td {
@@ -303,6 +321,7 @@ body.workspace-materials-management #contentWorkspaceMaterialsManagement {
       background:#e2ffe2;
       font-style:italic;
       margin:1px 3px 1px -2px;
+      display:inline-block;
       
       span.muikku-field-examples-title {
         font-weight:600;
@@ -385,60 +404,4 @@ body.workspace-materials-reading #contentWorkspaceMaterialsReading {
     font-size: 16px;
   }
   
-}
-
-/* MATERIAL STYLESETS */
-
-.material-styles-block {
-  border-radius:5px;
-  padding:8px 14px;
-  margin:20px 0;
-}
-
-.material-thinkingbox {
-  background:#7fcaf7;
-  color:#fff;
-}
-
-.material-objectivebox {
-  background:#67d9bf;
-  color:#fff;
-}
-
-.material-infobox {
-  background:#ec97c6;
-  color:#fff;
-}
-
-.material-recapbox {
-  background:#6eb5cf;
-  color:#fff;
-}
-
-.material-chatbubble {
-  background:#7082b0;
-  color:#fff;
-}
-
-.material-basicbox {
-  background:#ffc369;
-  color:#fff;
-}
-
-.material-citation-highlight {
-  color:#913333;
-  font-size:18px;
-  font-weight:400;
-  border-left:3px solid #b24d4d;
-  border-radius:0px;
-  line-height:1.7em;
-}
-
-.material-citation-basic {
-  color:#7a8d94;
-  font-size:18px;
-  font-weight:400;
-  border-left:3px solid #7a8d94;
-  border-radius:0px;
-  line-height:1.7em;
 }
