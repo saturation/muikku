@@ -24,7 +24,7 @@
       }));
   };
   
-  function createModalContent() { 
+  function createModalContent() {
     var repeat = $('<div>')
       .append($('<input>').attr({"type": "checkbox", "name": "repeat"}))
       .append($('<span>').text('Repeat:'))
@@ -114,19 +114,23 @@
           .datepicker('setDate', start);
         $('#startTime')
           .timepicker()
-          .timepicker('setTime', start);
+          .timepicker({'setTime': start,
+                       'timeFormat' : 'H:i',
+                       'useSelect': true});
         
         $('#endDate')
           .datepicker()
           .datepicker('setDate', end);
         $('#endTime').timepicker()
           .timepicker()
-          .timepicker('setTime', end);
+          .timepicker({'setTime': end,
+                       'timeFormat' : 'H:i',
+                       'useSelect': true});
         
   	    $('.ca-event-new').on('focus', 'input', function(){
   		    var dval = this.defaultValue;
   		    var cval = $(this).val();
-  		    if (dval == cval){
+  		    if (dval === cval){
   		      $(this).val('');
   		    } 
   	    });
@@ -197,17 +201,17 @@
   //	      url: calendarEvent.url,
   	        status: 'CONFIRMED',
   	        start: startISO,
-  	        startTimeZone: 'GMT',
+  	        startTimeZone: 'GMT+0300',
   	        end: endISO ,
-  	        endTimeZone: 'GMT',
-  	        allDay: false,
+  	        endTimeZone: 'GMT+0300',
+  	        allDay: false
   //	      attendees: attendees,
   //	      reminders: calendarEvent.reminders
           }).callback(function (err, result) {
             if (err) {
               $('.notification-queue').notificationQueue('notification', 'error', err);
               $('#startDate,#endDate').datepicker('destroy');
-              $('#startTime,#endTime').datepicker('destroy');
+              $('#startTime,#endTime').timepicker('destroy');
               $('.md-background').fadeOut().remove();
             } else {
               window.location.reload(true);
@@ -217,22 +221,24 @@
   	  }]
     });
   
-  	// TODO: What is the purpose of this script?
-  	var td = new Date();
-  	var tdD = td.getDate();
-  	var tdDN = td.getDay();
-  
-  	var tdT = td.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-  	
-  	var tdDDiv = $(".ca-date-primary span");
-    var tdNDiv = $(".ca-date-day-name span");
-  	var tdTDiv = $(".ca-date-day-time span");
-  	
-  	tdDDiv.append(tdD);
-  	tdNDiv.append("Päivä " + tdDN);
-  	tdTDiv.append(tdT);
-        
+    function getThisMoment() {
+      var now = new Date();
+      var weekdays;
+      
+      // TODO: IF-rakenne kullekin kielivaihtoehdolle
+      weekdays = ["Sunnuntai", "Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai"];
+      // weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      $(".ca-date-primary span").text(now.getDate() + "." + (now.getMonth()+1) + ".");
+      $(".ca-date-secondary span").text(weekdays[now.getDay()]);
+      // $(".ca-date-primary span").text(formatDate(now));
+      
+      $(".ca-date-day-time span").text(formatTime(now));
+      setTimeout(getThisMoment, 1000);
+    }
+    
     $('#smallMonthCalendar').fullCalendar({
+      firstDay: 1,
       header:{
         left: 'prev',
         center: 'title',
@@ -240,9 +246,14 @@
       },  
       titleFormat:{
         month: 'MMMM'
+      },
+      dayClick: function(date, turha1, turha2) {
+        $("#smallMonthCalendar").fullCalendar("gotoDate", date);
+        $("#fpWeekView").fullCalendar("gotoDate", date);
       }
     });    
     
+      getThisMoment();
 	});
   
   window.loadFullCalendarEvents = function (element) {
@@ -272,16 +283,17 @@
                 var rule = new RRule($.extend(RRule.fromString(event.recurrence).origOptions, { dtstart: new Date(event.start) }));
                 return $.map(rule.between(viewStart, viewEnd), function (date) {
                   return {
+                    id: event.calendarId + ":" + event.id,
                     title: event.summary,
                     start: date,
                     end: new Date(date.getTime() + (event.end - event.start)),
-                    allDay: true,
                     allDay: event.allDay,
                     editable: false
                   };
                 });
               } else {
                 return {
+                  id: event.calendarId + ":" + event.id,
                   title: event.summary,
                   start: new Date(event.start),
                   end: new Date(event.end),

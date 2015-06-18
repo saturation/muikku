@@ -2,7 +2,7 @@
 $(document).ready(function(){
 
 	$('#calendarWidget').fullCalendar({
-		
+		  firstDay: 1,
 		  header:{
 			  left: 'prev',
 			  center: 'title',
@@ -11,8 +11,8 @@ $(document).ready(function(){
 		  titleFormat:{
 			  month: 'MMMM'
 			  
-		  },
-		    	  
+		  }
+                  
 		  
 		});
 	});
