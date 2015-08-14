@@ -45,19 +45,17 @@ $(document).ready(function() {
 
     refreshLatest : function() {
       var _this = this;
-          
+
        
       mApi().forum.latest.read().on('$', function(msgs, msgsCallback) {
         mApi().forum.areas.read(msgs.forumAreaId).callback(function(err, area) {
           msgs.areaName = area.name;
-          
-
-          
+                  
         });
         
         mApi().user.users.basicinfo.read(msgs.creator).callback(function(err, user) {
           msgs.creatorFullName = user.firstName + ' ' + user.lastName;
-
+          
         });
 
         
@@ -74,7 +72,6 @@ $(document).ready(function() {
         } else {
           _this.clearLoading();  
           _this.clearMessages(); 
-  
           renderDustTemplate('/discussion/discussion_items.dust', threads, function(text) {
 
             $(DiscImpl.msgContainer).append($.parseHTML(text));
@@ -165,11 +162,12 @@ $(document).ready(function() {
     },
 
     filterMessagesByArea : function(val) {
+      
+      var _this = this;
 
-
-      this.clearMessages();
+      _this.clearMessages();
       if (val == 'all') {
-        this.refreshLatest();
+        _this.refreshLatest();
       } else {
         mApi().forum.areas.threads.read(val).on('$', function(thread, threadCallback) {
 
@@ -197,6 +195,7 @@ $(document).ready(function() {
             renderDustTemplate('/discussion/discussion_items.dust', threads, function(text) {
 
               $(DiscImpl.msgContainer).append($.parseHTML(text));
+
 
             });
             
@@ -280,7 +279,7 @@ $(document).ready(function() {
 
           mApi().forum.areas.read(thread.forumAreaId).callback(function(err, area) {
             thread.areaName = area.name;
-
+            
           });
 
           mApi().user.users.basicinfo.read(thread.creator).callback(function(err, user) {
@@ -522,7 +521,9 @@ $(document).ready(function() {
         }
       });
     },
+    
 
+    
     clearMessages : function() {
       $(DiscImpl.msgContainer).empty();
     },
@@ -568,14 +569,15 @@ $(document).ready(function() {
           if (hash.indexOf("all") == -1){
            
             var areaId = hash.substring(5);
-           
+  
           }else{
            var areaId = "all";
+  
           }
-          this.filterMessagesByArea(areaId);
+          _this.filterMessagesByArea(areaId);
           $("#discussionAreaSelect").val(areaId);
         }else{
-          this.refreshLatest();
+          _this.refreshLatest();
         }
 
     },    
