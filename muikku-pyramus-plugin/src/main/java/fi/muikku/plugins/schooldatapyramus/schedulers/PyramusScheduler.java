@@ -102,11 +102,11 @@ public class PyramusScheduler {
         }
       });
       
-      PyramusUpdateScheduler updateScheduler = schedulers.get(schedulerIndex);
+//      PyramusUpdateScheduler updateScheduler = schedulers.get(schedulerIndex);
 
       try {
         running = true;
-        updateScheduler.synchronize();
+//         updateScheduler.synchronize();
       } catch (Exception ex) {
         logger.log(Level.SEVERE, "synchronization failed.", ex);
       } finally {

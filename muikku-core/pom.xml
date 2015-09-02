@@ -112,6 +112,11 @@
       <groupId>fi.otavanopisto</groupId>
       <artifactId>webapp-permission</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>fi.muikku</groupId>
+      <artifactId>debug</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

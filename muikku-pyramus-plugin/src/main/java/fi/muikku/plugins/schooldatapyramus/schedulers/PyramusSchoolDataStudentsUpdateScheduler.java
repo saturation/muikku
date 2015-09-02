@@ -10,7 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import fi.muikku.plugins.schooldatapyramus.PyramusUpdater;
 import fi.muikku.schooldata.UnexpectedSchoolDataBridgeException;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class PyramusSchoolDataStudentsUpdateScheduler extends PyramusDataScheduler implements PyramusUpdateScheduler {
 
   private static final int BATCH_SIZE = NumberUtils.createInteger(System.getProperty("muikku.pyramus-updater.students.batchsize", "20"));

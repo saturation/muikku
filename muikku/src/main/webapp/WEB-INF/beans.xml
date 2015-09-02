@@ -13,6 +13,7 @@
     <class>fi.otavanopisto.security.LoggedInInterceptor</class>
     <class>fi.otavanopisto.security.PermitInterceptor</class>
     <class>fi.muikku.LoggedInterceptor</class>
+    <class>fi.muikku.debug.CDIDebugInterceptor</class>
   </interceptors>
   
 </beans>

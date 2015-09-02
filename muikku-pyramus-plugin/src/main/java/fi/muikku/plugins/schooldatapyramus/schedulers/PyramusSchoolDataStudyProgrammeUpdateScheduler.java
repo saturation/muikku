@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import fi.muikku.plugins.schooldatapyramus.PyramusUpdater;
 import fi.muikku.schooldata.UnexpectedSchoolDataBridgeException;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class PyramusSchoolDataStudyProgrammeUpdateScheduler implements PyramusUpdateScheduler {
 
   @Inject

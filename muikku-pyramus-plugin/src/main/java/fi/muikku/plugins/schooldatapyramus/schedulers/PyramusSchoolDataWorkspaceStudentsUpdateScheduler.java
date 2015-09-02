@@ -14,7 +14,7 @@ import fi.muikku.plugins.schooldatapyramus.SchoolDataPyramusPluginDescriptor;
 import fi.muikku.schooldata.UnexpectedSchoolDataBridgeException;
 import fi.muikku.schooldata.WorkspaceEntityController;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class PyramusSchoolDataWorkspaceStudentsUpdateScheduler extends PyramusDataScheduler implements PyramusUpdateScheduler {
 
   private static final int BATCH_SIZE = NumberUtils.createInteger(System.getProperty("muikku.pyramus-updater.workspace-students.batchsize", "1"));
