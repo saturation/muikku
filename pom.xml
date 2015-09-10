@@ -4,7 +4,7 @@
 
 	<groupId>fi.muikku</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.56-SNAPSHOT</version>
+	<version>1.0.64-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Muikku Parent</name>
 
@@ -49,6 +49,7 @@
 	<modules>
 		<module>muikku-bom</module>
 		<module>muikku-core</module>
+    <module>muikku-debug</module>
 		<module>muikku-core-plugins</module>
     <module>muikku-calendar</module>
 		<module>muikku-hsqldb-plugin</module>
@@ -63,6 +64,7 @@
 		<module>muikku-rest</module>
 		<module>muikku-pyramus-plugin</module>
 		<module>muikku-dummy-mail-bridge-plugin</module>
+		<module>muikku-jndi-mail-bridge-plugin</module>
 		<module>muikku-deus-nex-machina</module>
 		<module>muikku</module>
 		<module>muikku-atests</module>
@@ -82,7 +84,7 @@
 			<dependency>
 				<groupId>fi.muikku</groupId>
 				<artifactId>bom</artifactId>
-				<version>1.0.56-SNAPSHOT</version>
+				<version>1.0.64-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

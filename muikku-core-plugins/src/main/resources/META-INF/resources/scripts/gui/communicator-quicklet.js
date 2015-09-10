@@ -9,7 +9,7 @@
       this._widgetElement = widgetElement;
       
       $(".tt-menu-link-communicator-msg").click(function (event) {
-        $(".ui-dialog-content").dialog("close");
+        $(".ui-dialog-content").dialog().remove();
 
         var dTitle = $(this).text();
         
@@ -33,7 +33,7 @@
       });
 
       $(".tt-menu-link-communicator-req").click(function (event) {
-        $(".ui-dialog-content").dialog("close");
+        $(".ui-dialog-content").dialog().remove();
 
         var context = {
           newGuidanceRequestContext: $(this).find("input[name='newGuidanceRequestContext']").val(),
@@ -64,6 +64,9 @@
       this._refreshUnreadMessagesFlappidiFlap();
       
       $(document).on("Communicator:newmessagereceived", function (event, data) {
+        _this._refreshUnreadMessagesFlappidiFlap();
+      });
+      $(document).on("Communicator:messageread", function (event) {
         _this._refreshUnreadMessagesFlappidiFlap();
       });
     },
@@ -107,7 +110,7 @@
       }).success(function (data, textStatus, jqXHR) {
       });
       
-      $(".ui-dialog-content").dialog("close");
+      $(".ui-dialog-content").dialog().remove();
     }
   });
   

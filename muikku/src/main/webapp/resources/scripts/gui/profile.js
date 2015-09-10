@@ -23,7 +23,7 @@
             var newPassword1 = $(this).find('input[name="newPassword1"]').val();
             var newPassword2 = $(this).find('input[name="newPassword2"]').val();
             
-            if (newPassword1 == "") {
+            if (newPassword1 && newPassword2 == "") {
               $('.notification-queue').notificationQueue('notification', 'error',
                   getLocaleText("plugin.profile.changePassword.dialog.notif.emptypass"));
               return;
@@ -50,18 +50,21 @@
                 else
                   $('.notification-queue').notificationQueue('notification', 'error', err);
               } else {
-                $('.notification-queue').notificationQueue('notification', 'success', getLocaleText("plugin.profile.changePassword.dialog.notif.successful"));
+                if (values.newPassword == '')
+                  $('.notification-queue').notificationQueue('notification', 'success', getLocaleText("plugin.profile.changePassword.dialog.notif.username.successful"));
+                else
+                  $('.notification-queue').notificationQueue('notification', 'success', getLocaleText("plugin.profile.changePassword.dialog.notif.successful"));
               }
             });
 
             if (!erronous)
-              $(this).dialog("close");
+              $(this).dialog().remove();
           }
         }, {
           'text': dialog.data('button-cancel-text'),
           'class': 'cancel-button',
           'click': function(event) {
-            $(this).dialog("close");
+            $(this).dialog().remove();
           }
         }]
       });

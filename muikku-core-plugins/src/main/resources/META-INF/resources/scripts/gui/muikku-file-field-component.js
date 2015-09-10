@@ -2,7 +2,11 @@
   'use strict';
 
   $.widget("custom.muikkuFileField", {
+    options : {
+        maxFileSize: undefined
+      },
     _create : function() {
+      
       this._readonly = false;
       this._fieldName = this.element.attr("name");
       this._multiple = this.element.attr("multiple") == 'multiple';
@@ -178,6 +182,15 @@
         data.context = this._createFileElement(this._fileIndex);
       }
       
+      var i, l;
+      for (i=0, l=data.originalFiles.length; i<l; i++) {
+        if (data.originalFiles[i].size && data.originalFiles[i].size > this.options.maxFileSize) {
+          // TODO localize
+          $('.notification-queue').notificationQueue('notification', 'error', "File size too large");
+          return;
+        }
+      }
+      
       $(this.element).trigger('uploadStart');
       
       data.submit();
@@ -201,6 +214,13 @@
       var fileId = data._response.result.fileId;
       var fileName = data.files[0].name;
       var contentType = data.files[0].type;
+      if (contentType == '' || contentType == 'application/download' || contentType == 'application/x-download' || contentType == 'bad/type') {
+        contentType = data._response.result.fileContentType != null ? data._response.result.fileContentType : contentType;
+        if (contentType == '') {
+          contentType = 'application/download';
+        }
+      }
+      
       this._updateFileMeta(this._fileIndex, fileId, fileName, contentType);
       this._updateFileLabel(this._fileIndex, fileName, fileId);
       

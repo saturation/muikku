@@ -54,7 +54,7 @@ public class DefaultSchoolDataWorkspaceListener {
   public synchronized void onSchoolDataWorkspaceDiscoveredEvent(@Observes SchoolDataWorkspaceDiscoveredEvent event) {
     String discoverId = "WS-" + event.getDataSource() + "/" + event.getIdentifier();
     if (discoveredWorkspaces.containsKey(discoverId)) {
-      event.setDiscoveredWorkspaceEntityId(discoveredWorkspaceUsers.get(discoverId));
+      event.setDiscoveredWorkspaceEntityId(discoveredWorkspaces.get(discoverId));
       return;
     }
     
@@ -109,6 +109,7 @@ public class DefaultSchoolDataWorkspaceListener {
       if (workspaceUserRole != null) {
         UserSchoolDataIdentifier userSchoolDataIdentifier = userSchoolDataIdentifierController.findUserSchoolDataIdentifierByDataSourceAndIdentifier(event.getUserDataSource(), event.getUserIdentifier());
         if (userSchoolDataIdentifier != null) {
+          // TODO: Does the find method actually check for the same entity that the create would create? (constraint violations)
           if (workspaceUserEntityController.findWorkspaceUserEntityByWorkspaceAndUserSchoolDataIdentifier(workspaceEntity, userSchoolDataIdentifier) == null) {
             WorkspaceUserEntity workspaceUserEntity = workspaceUserEntityController.createWorkspaceUserEntity(userSchoolDataIdentifier, workspaceEntity, event.getIdentifier(), workspaceUserRole);
             discoveredWorkspaceUsers.put(discoverId, workspaceUserEntity.getId());

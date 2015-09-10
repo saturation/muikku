@@ -38,7 +38,7 @@ public class SessionBackingBean {
         String activeSchoolDataSource = sessionController.getLoggedUserSchoolDataSource();
         String activeUserIdentifier = sessionController.getLoggedUserIdentifier();
         EnvironmentUser environmentUser = environmentUserController.findEnvironmentUserByUserEntity(loggedUser);
-        if (environmentUser != null) {
+        if ((environmentUser != null) && (environmentUser.getRole() != null)) {
           loggedUserRoleArchetype = environmentUser.getRole().getArchetype();
         }
 
@@ -81,6 +81,10 @@ public class SessionBackingBean {
 
   public String getLoggedUserName() {
     return loggedUserName;
+  }
+  
+  public String getCurrentCountry() {
+    return sessionController.getLocale().getCountry();
   }
   
   private EnvironmentRoleArchetype loggedUserRoleArchetype;

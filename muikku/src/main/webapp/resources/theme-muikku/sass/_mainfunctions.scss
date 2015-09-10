@@ -148,7 +148,7 @@
       > div:first-child{
         width:170px;
         margin-left:31px;
-        margin-top:20px;
+        margin-top:13px;
       }
   }
   
@@ -204,6 +204,7 @@
       
       li{
         border-bottom: 1px solid $brd1;
+        border-left: 5px solid #fff;
 
         a{
           font-weight:300;
@@ -387,7 +388,19 @@
      font-weight:700;
    }
 }
-  
+ .mf-item-tool-btn{
+    &:not(:first-child){
+     margin-left:10px;
+    }
+    background:#068feb;
+    cursor:pointer;
+    @include rounded(3px);
+    padding:2px 6px;
+    display:inline-block;
+    color:#fff;
+    margin-top:5px;
+    box-shadow:0 0 5px rgba(0,0,0,0.25);
+  }   
 
 .mf-item{
    @extend .co-listItem;
@@ -415,25 +428,9 @@
   }
  
 
-  .mf-item-tools{
-    
 
-  
-      .mf-item-tool-btn{
-        &:not(:first-child){
-         margin-left:10px;
-        }
-        background:#068feb;
-        cursor:pointer;
-        @include rounded(3px);
-        padding:2px 6px;
-        display:inline-block;
-        color:#fff;
-        margin-top:5px;
-        box-shadow:0 0 5px rgba(0,0,0,0.25);
-      } 
- 
-           
+  .mf-item-tools{
+
      .mf-item-tool{
 
         dispay:inline-block;
@@ -451,9 +448,9 @@
     }
     
 }
+
   
   .mf-item-details-container{
-    background-color:#f0f3f4;
     min-height:35px;
   }
   
@@ -475,7 +472,6 @@
   
 .mf-item-header-name{
     display : inline-block;
-    text-transform:uppercase;
     vertical-align:center;
     white-space:nowrap;
     width:80%;
@@ -619,6 +615,7 @@
       white-space:normal;
 
     }
+
     
   .mf-item-description{
      width:100%;
@@ -676,34 +673,53 @@
     position:relative;
     margin:2px 0 3px 0;
     
+    &.hidden{
+      display:none;
+    }
+    
     > div {
       display:inline-block;
       box-sizing:border-box;
     }
-    
+ 
+    .mf-textfield-time{
+      width:50px;
+    }
+    .mf-textfield-date{
+     width:80px;
+    }
     .mf-textfield {
       position:relative;
       top:0;
-      .mf-textfield-subelement{
+      
+      .mf-textfield-subelement {
         display:inline-block;
         float:left;
       }
-      .mf-textfield-subcontainer{
-
+      
+      .mf-textfield-subcontainer {
         border:2px solid #fff;
         color:#000;
         border-radius:3px;
         padding:0 8px;
+        margin:0 0 4px 0;
 
         background-color:#fff;
         
-        .mf-textfield-title{
+        .mf-textfield-title {
           color:$formTitle;
           padding:6px 5px;
         }
         
+         .mf-textfield-content {
+          color:$formTitle;
+          padding:6px 5px;
+          width:500px;
+        }
+        
       }
-      input[type="textfield"] {
+      
+      input[type="text"] {
         border:0 solid #fff;
         color:#000;
         border-radius:3px;
@@ -712,19 +728,29 @@
         margin-left:5px;
         margin-top:5px;
         min-width:200px;
-        &:focus{
-        background-color:#eee;         
+        width:auto;
+        
+        &:focus {
+          background-color:#eee;     
+          border:0;
+          box-shadow:none;    
         }
-        &:hover{
-        background-color:#eee;         
+        
+        &:hover {
+          background-color:#eee;   
+          border:0;
+          box-shadow:none;      
         }
-        &.mf-textfield-subject{        
+        
+        &.mf-textfield-subject {        
           width:750px;
-          &:focus{
-          background-color:#fff;         
+          
+          &:focus {
+            background-color:#fff;         
           }
-          &:hover{
-          background-color:#fff;         
+          
+          &:hover {
+            background-color:#fff;         
           }
          
         }
@@ -803,3 +829,31 @@
   
   
 }
+
+.mf-items-paging{
+  padding:10px;
+}
+.mf-paging-toolbar{
+  text-align:center;
+  
+}
+
+
+.mf-paging-tool{
+    margin-left: auto;
+    margin-right: auto;
+    background: #36A3CE none repeat scroll 0% 0%;
+    cursor: pointer;
+    padding: 6px 26px;
+    display: inline-block;
+    color: #FFF;
+    font-size: 18px;
+
+  
+  &.disabled{
+    background:$bgr1;
+    color:$bgr2;
+  }
+}
+
+

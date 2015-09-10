@@ -8,7 +8,9 @@
   template="/jsf/workspace/templates/workspace-materials-view.xhtml">
 
   <ui:define name="workspace.content.top.static">
- 
+   <form style="display: none;">
+      <input type="hidden" name="max-file-size" value="#{workspaceMaterialsBackingBean.maxFileSize}" />
+    </form>
   </ui:define>
   
   <ui:define name="workspace.content">
@@ -16,9 +18,8 @@
     <nav class="workspace-materials-toc-wrapper" id="workspaceMaterialsTOCWrapper">
       <div class="workspace-materials-toc-container">
         <h1 class="workspace-materials-toc-title">#{i18n.text['plugin.workspace.materials.tocTitle']}</h1>
-        <div class="workspace-materials-toc-content-outer">
-          <div class="workspace-materials-toc-content-inner">
-            <div class="workspace-materials-toc-content-scrolling">
+        
+            <div class="workspace-materials-toc-content-scrolling" id="materialsScrollableTOC">
               <ul class="workspace-materials-toc-root">
                 <ui:repeat var="node" value="#{workspaceMaterialsBackingBean.contentNodes}">
                   <ui:fragment rendered="#{node.type eq 'folder'}">
@@ -48,8 +49,7 @@
                 </ui:repeat>
               </ul>
             </div>
-          </div>
-        </div>
+            
       </div>
     </nav>
     

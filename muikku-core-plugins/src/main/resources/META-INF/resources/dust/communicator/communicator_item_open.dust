@@ -1,5 +1,5 @@
 
-    <div class="mf-item cm-message open {?isOwner}owner{/isOwner}" id="{id}">
+    <div class="mf-item cm-message open{?isOwner} owner{/isOwner}" id="{id}" data-thread-id="{communicatorMessageId}">
       <div class="cm-message-topic mf-item-topic">
         <span class="mf-item-header-name cm-message-header"><h3>{caption}</h3></span>
         <div class="clear"></div>
@@ -37,8 +37,7 @@
       </div>
     
       <input type="hidden" name="communicatorMessageId" value="{id}"/>
-      <input type="hidden" name="communicatorMessageIdId" value="{communicatorMessageId}"/>
-  
+      <input type="hidden" name="communicatorMessageThreadId" value="{communicatorMessageId}"/>  
     </div >
 
 
