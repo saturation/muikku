@@ -264,6 +264,7 @@
         <it.keystore.file>${it.build.directory}/pyrit.keystore</it.keystore.file>
         <it.wiremock.port>8089</it.wiremock.port>
         <it.report.directory>${project.build.directory}/failsafe-reports/</it.report.directory>
+        <it.test.file>${project.basedir}/img_100x100_3x8bit_RGB_circles_center_0016.png</it.test.file>
       </properties>
 
       <dependencies>
@@ -313,6 +314,7 @@
                 <it.wiremock.port>${it.wiremock.port}</it.wiremock.port>
                 <it.report.directory>${it.report.directory}</it.report.directory>
                 <it.build.directory>${it.build.directory}</it.build.directory>
+                <it.test.file>${it.test.file}</it.test.file>
               </systemPropertyVariables>
             </configuration>
             <executions>
@@ -584,6 +586,7 @@
         <it.sauce.username>${env.SAUCE_USERNAME}</it.sauce.username>
         <it.sauce.accessKey>${env.SAUCE_ACCESS_KEY}</it.sauce.accessKey>
         <it.sauce.tunnelId>${env.TRAVIS_JOB_NUMBER}</it.sauce.tunnelId>
+        <it.test.file>${project.basedir}/img_100x100_3x8bit_RGB_circles_center_0016.png</it.test.file>
       </properties>
 
       <dependencies>
@@ -636,6 +639,7 @@
                 <it.sauce.username>${it.sauce.username}</it.sauce.username>
                 <it.sauce.accessKey>${it.sauce.accessKey}</it.sauce.accessKey>
                 <it.sauce.tunnelId>${it.sauce.tunnelId}</it.sauce.tunnelId>
+                <it.test.file>${it.test.file}</it.test.file>
               </systemPropertyVariables>
             </configuration>
             <executions>
@@ -935,6 +939,7 @@
         <it.sauce.username>${env.SAUCE_USERNAME}</it.sauce.username>
         <it.sauce.accessKey>${env.SAUCE_ACCESS_KEY}</it.sauce.accessKey>
         <it.sauce.tunnelId>${env.TRAVIS_JOB_NUMBER}</it.sauce.tunnelId>
+        <it.test.file>${project.basedir}/img_100x100_3x8bit_RGB_circles_center_0016.png</it.test.file>
       </properties>
 
       <dependencies>
@@ -987,6 +992,7 @@
                 <it.sauce.username>${it.sauce.username}</it.sauce.username>
                 <it.sauce.accessKey>${it.sauce.accessKey}</it.sauce.accessKey>
                 <it.sauce.tunnelId>${it.sauce.tunnelId}</it.sauce.tunnelId>
+                <it.test.file>${it.test.file}</it.test.file>
               </systemPropertyVariables>
             </configuration>
             <executions>
@@ -1255,6 +1261,7 @@
         <it.keystore.file>${it.build.directory}/pyrit.keystore</it.keystore.file>
         <it.wiremock.port>8089</it.wiremock.port>
         <it.report.directory>${project.build.directory}/failsafe-reports/</it.report.directory>
+        <it.test.file>${project.basedir}/img_100x100_3x8bit_RGB_circles_center_0016.png</it.test.file>
       </properties>
 
       <dependencies>
@@ -1304,6 +1311,7 @@
                 <it.wiremock.port>${it.wiremock.port}</it.wiremock.port>
                 <it.report.directory>${it.report.directory}</it.report.directory>
                 <it.build.directory>${it.build.directory}</it.build.directory>
+                <it.test.file>${it.test.file}</it.test.file>
               </systemPropertyVariables>
             </configuration>
             <executions>

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -38,6 +39,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -63,7 +65,6 @@ import fi.muikku.atests.WorkspaceHtmlMaterial;
 import fi.pyramus.webhooks.WebhookPersonCreatePayload;
 import fi.pyramus.webhooks.WebhookStaffMemberCreatePayload;
 import fi.pyramus.webhooks.WebhookStudentCreatePayload;
-import wiremock.org.apache.commons.lang.StringUtils;
 
 public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDemandSessionIdProvider {
   
@@ -144,7 +145,11 @@ public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDe
       capabilities.setCapability("tunnel-identifier", getSauceTunnelId());
     }
     
-    return new RemoteWebDriver(new URL(String.format("http://%s:%s@ondemand.saucelabs.com:80/wd/hub", getSauceUsername(), getSauceAccessKey())), capabilities);
+    RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL(String.format("http://%s:%s@ondemand.saucelabs.com:80/wd/hub", getSauceUsername(), getSauceAccessKey())), capabilities);
+    
+    remoteWebDriver.setFileDetector(new LocalFileDetector());
+
+    return remoteWebDriver; 
   }
   
   protected RemoteWebDriver createChromeDriver() {
@@ -338,9 +343,18 @@ public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDe
     click(selector);
   }
 
+  protected void assertCount(String selector, int expectedCount) {
+    assertEquals(expectedCount, getWebDriver().findElements(By.cssSelector(selector)).size());
+  }
+
   protected void assertText(String selector, String text) {
     WebElement element = getWebDriver().findElement(By.cssSelector(selector));
     assertEquals(text, element.getText());
+  }
+
+  protected void assertTextIgnoreCase(String selector, String text) {
+    WebElement element = getWebDriver().findElement(By.cssSelector(selector));
+    assertEquals(StringUtils.lowerCase(text), StringUtils.lowerCase(element.getText()));
   }
 
   protected void sendKeys(String selector, String keysToSend) {
