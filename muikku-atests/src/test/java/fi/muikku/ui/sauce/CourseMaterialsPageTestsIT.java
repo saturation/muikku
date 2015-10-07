@@ -45,6 +45,36 @@ public class CourseMaterialsPageTestsIT extends CourseMaterialsPageTestsBase {
   }
   
   @Override
+  public void answerFileFieldTestStudent() throws Exception {
+    if ("microsoftedge".equals(browser)) {
+      // FIXME: this test does not work on edge because edge driver does not support file uploads
+      return;
+    }
+    
+    if ("safari".equals(browser)) {
+      // FIXME: this test does not work on safari because safari driver does not support file uploads
+      return;
+    }
+    
+    super.answerFileFieldTestStudent();
+  }
+  
+  @Override
+  public void answerFileFieldTestAdmin() throws Exception {
+    if ("microsoftedge".equals(browser)) {
+      // FIXME: this test does not work on edge because edge driver does not support file uploads
+      return;
+    }
+    
+    if ("safari".equals(browser)) {
+      // FIXME: this test does not work on safari because safari driver does not support file uploads
+      return;
+    }
+    
+    super.answerFileFieldTestAdmin();
+  }
+  
+  @Override
   public void courseTOCExistsTest() throws Exception {
     if (!"microsoftedge".equals(browser)) {
       // FIXME: this test does not work because ms edge does not support window maximization yet

@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.Description;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -310,6 +311,11 @@ public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDe
     assertPresent(selector);
     assertTrue(String.format("Element %s not visible", selector), getWebDriver().findElement(By.cssSelector(selector)).isDisplayed());
   }
+
+  protected void assertEnabled(String selector) {
+    assertPresent(selector);
+    assertTrue(String.format("Element %s not enabled", selector), getWebDriver().findElement(By.cssSelector(selector)).isEnabled());
+  }
   
   protected void assertNotVisible(String selector) {
     List<WebElement> elements = getWebDriver().findElements(By.cssSelector(selector));
@@ -334,6 +340,23 @@ public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDe
     waitForElementToBePresent(By.cssSelector(selector));
   }
   
+  protected void waitEnabled(final String selector) {
+    WebDriver driver = getWebDriver();
+    new WebDriverWait(driver, 60).until(new ExpectedCondition<Boolean>() {
+      public Boolean apply(WebDriver driver) {
+        try {
+          List<WebElement> elements = driver.findElements(By.cssSelector(selector));
+          if (elements.size() == 1) {
+            return elements.get(0).isEnabled();
+          }
+        } catch (Exception e) {
+        }
+        
+        return false;
+      }
+    });
+  }
+  
   protected void click(String selector) {
     getWebDriver().findElement(By.cssSelector(selector)).click();
   }
@@ -344,7 +367,15 @@ public class AbstractUITest extends AbstractIntegrationTest implements SauceOnDe
   }
 
   protected void assertCount(String selector, int expectedCount) {
-    assertEquals(expectedCount, getWebDriver().findElements(By.cssSelector(selector)).size());
+    int count = 0;
+    
+    try {
+      count = getWebDriver().findElements(By.cssSelector(selector)).size();
+    } catch (NoSuchElementException e) {
+      // Could not find element, so the element count is zero.
+    }
+    
+    assertEquals(expectedCount, count);
   }
 
   protected void assertText(String selector, String text) {
