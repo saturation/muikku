@@ -78,7 +78,7 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
     getWebDriver().manage().window().maximize();
     waitForElementToBePresent(By.className("index"));
     getWebDriver().get(getAppUrl(true) + "/workspace/testcourse/discussions");
-    waitForElementToBePresent(By.className("di-message-meta-topic"));
+    waitForPresent(".di-message-meta-topic");
     getWebDriver().findElementByCssSelector(".di-message-meta-topic>span").click();
     waitForElementToBePresent(By.className("di-message-reply-link"));
     getWebDriver().findElementByClassName("di-message-reply-link").click();
