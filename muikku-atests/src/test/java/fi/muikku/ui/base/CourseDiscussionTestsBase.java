@@ -12,6 +12,7 @@ import fi.muikkku.ui.PyramusMocks;
 import fi.muikku.SqlAfter;
 import fi.muikku.SqlBefore;
 import fi.muikku.atests.Workspace;
+import fi.pyramus.webhooks.WebhookCourseCreatePayload;
 import fi.pyramus.webhooks.WebhookStaffMemberCreatePayload;
 
 public class CourseDiscussionTestsBase extends AbstractUITest {
@@ -27,7 +28,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
     String payload = objectMapper.writeValueAsString(new WebhookStaffMemberCreatePayload((long) 4));
     webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
     
-    asAdmin().get("/test/reindex");
+    payload = objectMapper.writeValueAsString(new WebhookCourseCreatePayload((long) 1));
+    webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
     
     getWebDriver().get(getAppUrl(true) + "/login?authSourceId=1");
     getWebDriver().manage().window().maximize();
@@ -72,7 +74,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
     String payload = objectMapper.writeValueAsString(new WebhookStaffMemberCreatePayload((long) 4));
     webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
     
-    asAdmin().get("/test/reindex");
+    payload = objectMapper.writeValueAsString(new WebhookCourseCreatePayload((long) 1));
+    webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
     
     getWebDriver().get(getAppUrl(true) + "/login?authSourceId=1");
     getWebDriver().manage().window().maximize();
@@ -102,7 +105,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
     String payload = objectMapper.writeValueAsString(new WebhookStaffMemberCreatePayload((long) 4));
     webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
      
-    asAdmin().get("/test/reindex");
+    payload = objectMapper.writeValueAsString(new WebhookCourseCreatePayload((long) 1));
+    webhookCall("http://dev.muikku.fi:8080/pyramus/webhook", payload);
 
     getWebDriver().get(getAppUrl(true) + "/login?authSourceId=1");
     getWebDriver().manage().window().maximize();
