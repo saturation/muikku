@@ -3,7 +3,12 @@
     <div class="evaluation-modal-workspace-assignment-info">
       <div class="evaluation-modal-workspace-assignment-wrapper">
         {#assignments}
-          {>"evaluation/evaluation_evaluate_single_assigment.dust"/}
+          {>"evaluation/evaluation_evaluate_workspace_single_assigment.dust"/}
+        {/assignments}
+      </div>
+      <div class="evaluation-modal-workspace-exercise-wrapper">
+        {#assignments}
+          {>"evaluation/evaluation_evaluate_workspace_single_exercise.dust"/}
         {/assignments}
       </div>
     </div>

@@ -191,15 +191,26 @@
       
       dialog.dialog({
         modal: true, 
+        draggable: false,
         resizable: false,
         width: 'auto',
         height: 'auto',
-        title: '<span class="modal-title-student-name">'+studentDisplayName+'</span><span class="modal-title-workspace-name">'+$('input[name="workspaceName"]').val()+'</span>',
+        title: '<span class="modal-title-workspace-evaluation">' + getLocaleText("plugin.evaluation.workspaceEvaluationDialog.title") + '</span><span class="modal-title-student-name">'+studentDisplayName+'</span><span class="modal-title-workspace-name">'+$('input[name="workspaceName"]').val()+'</span>',
         dialogClass: "evaluation-evaluate-modal",
         close: function () {
           $(this).remove();
         },
         open: function() {
+          
+          $("#evaluationStudentAssignmentWrapper").perfectScrollbar({
+            wheelSpeed:3,
+            swipePropagation:false
+          });
+          
+          $(".evaluation-modal-evaluateForm-content").perfectScrollbar({
+            wheelSpeed:3,
+            swipePropagation:false
+          });
           
           var datePickerLocale = getLocale() == 'en' ? '' : getLocale();
           $(this).find('input[name="evaluationDate"]')
@@ -368,15 +379,27 @@
       
       dialog.dialog({
         modal: true, 
+        draggable: false,
         resizable: false,
         width: 'auto',
         height: 'auto',
-        title: '<span class="modal-title-student-name">'+studentDisplayName+'</span><span class="modal-title-workspace-name">'+$('input[name="workspaceName"]').val()+'</span>',
+        title: '<span class="modal-title-assignment-evaluation">' + getLocaleText("plugin.evaluation.assignmentEvaluationDialog.title") + '</span><span class="modal-title-student-name">'+studentDisplayName+'</span><span class="modal-title-workspace-name">'+$('input[name="workspaceName"]').val()+'</span>',
         dialogClass: "evaluation-evaluate-modal",
         close: function () {
           $(this).remove();
         },
         open: function() {
+          
+          $("#evaluationStudentAssignmentWrapper").perfectScrollbar({
+            wheelSpeed:3,
+            swipePropagation:false
+          });
+          
+          $(".evaluation-modal-evaluateForm-content").perfectScrollbar({
+            wheelSpeed:3,
+            swipePropagation:false
+          });
+          
           $(this).find('input[name="evaluationDate"]')
             .css({'z-index': 9999, 'position': 'relative'})
             .attr('type', 'text')
@@ -502,6 +525,7 @@
   }
 
   $(document).ready(function() {
+    
     var workspaceEntityId = $('#evaluation-views-wrapper').attr('data-workspace-entity-id');
     ASSIGNMENTS = $.parseJSON($('input[name="assignments"]').val())
     
@@ -570,6 +594,70 @@
       }
     });
     
+    $(document).on('click', '.evaluation-assignment-title-container h2', function(event){
+      
+      var assigmentContainer = $(this).closest(".evaluation-assignmentlist-wrapper").find(".evaluation-assignment-content");
+      
+      var assigmentContainerState = assigmentContainer.attr("data-open-state");
+      
+      if (assigmentContainerState == "closed") {
+        assigmentContainer
+        .animate({
+          height:"200px"
+        }, {
+          duration : 300,
+          easing : "easeInQuad",
+          complete: function() {
+            assigmentContainer.attr("data-open-state", "open");
+          }
+        });
+      } else {
+        assigmentContainer
+        .animate({
+          height:"0px"
+        }, {
+          duration : 500,
+          easing : "easeInQuad",
+          complete: function() {
+            assigmentContainer.attr("data-open-state", "closed");
+          }
+        });
+      }
+
+    });
+    
+    $(document).on('click', '.evaluation-exercise-title-container h2', function(event){
+      
+      var assigmentContainer = $(this).closest(".evaluation-exerciselist-wrapper").find(".evaluation-exercise-content");
+      
+      var assigmentContainerState = assigmentContainer.attr("data-open-state");
+      
+      if (assigmentContainerState == "closed") {
+        assigmentContainer
+        .animate({
+          height:"200px"
+        }, {
+          duration : 300,
+          easing : "easeInQuad",
+          complete: function() {
+            assigmentContainer.attr("data-open-state", "open");
+          }
+        });
+      } else {
+        assigmentContainer
+        .animate({
+          height:"0px"
+        }, {
+          duration : 500,
+          easing : "easeInQuad",
+          complete: function() {
+            assigmentContainer.attr("data-open-state", "closed");
+          }
+        });
+      }
+
+    });
+
     $(document).on('click', '.evaluation-student-wrapper', function(event){
       var workspaceEntityId = $('input[name="workspace-entity-id"]').val();
       var workspaceStudentEntityId = $(this).attr('data-workspace-student-entity-id');

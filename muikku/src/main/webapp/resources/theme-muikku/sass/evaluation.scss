@@ -618,7 +618,7 @@ body.evaluation {
   .evaluation-evaluate-modal-wrapper {
     position:absolute;
     left:0;
-    top:72px;
+    top:69px;
     bottom:0;
     right:0;
     padding:0;
@@ -631,9 +631,8 @@ body.evaluation {
       position:absolute;
       top:0;
       right:50%;
-      bottom:0;
+      bottom:3px;
       left:10px;
-      overflow:auto;
       
       .evaluation-modal-student-wrapper {
         
@@ -674,20 +673,102 @@ body.evaluation {
   
         }
         
-        .evaluation-modal-workspace-assignment-info {
+        .evaluation-modal-workspace-assignment-info,
+        .evaluation-modal-assignment-info {
           
-          /* ASSIGNMENT EVALUATION */
-          .evaluation-modal-workspace-assignment-wrapper {
+          /* WORKSPACE EVALUATION */
+          .evaluation-modal-workspace-assignment-wrapper,
+          .evaluation-modal-workspace-exercise-wrapper {
             margin:20px 0 0 0;
             font-size:14px;
             
-            .evaluation-modal-workspace-single-assignment {
-              margin:10px 0;
+            .evaluation-modal-workspace-single-assignment,
+            .evaluation-modal-workspace-single-exercise {
+              border-bottom:2px solid #f9f9f9;
+              padding:0 0 15px 0;
+              margin:0 0 15px 0;
+              
+              .evaluation-assignmentlist-wrapper,
+              .evaluation-exerciselist-wrapper {
+                clear:both;
+                
+                .evaluation-exercise-title-container {
+                  position:relative;
+                  margin:0;
+                  background:#fff;
+                  border-radius:3px;
+                  color:#000;
+                  
+                  h2 {
+                    border-left:5px solid $exerciseAssignment;
+                    font-size:20px;
+                    margin:0 100px 0 -5px; 
+                    padding:5px 5px 5px 10px;
+                    font-weight:300;
+                    margin:0;
+                    color:#000;
+                    cursor:pointer;
+                  }
+                  
+                  .evaluation-exercise-assesmentvalue {
+                    position:absolute;
+                    max-width:80px;
+                    right:0;
+                    top:0;
+                    text-align:right;
+                    padding:0 10px;
+                  }
+                  
+                }
+              
+                .evaluation-assignment-title-container {
+                  position:relative;
+                  margin:0;
+                  background:#fff;
+                  border-radius:3px;
+                  color:#000;
+                
+                  h2 {
+                    border-left:5px solid $evaluatedAssignment;
+                    font-size:20px;
+                    margin:0 100px 0 -5px; 
+                    padding:5px 5px 5px 10px;
+                    font-weight:300;
+                    margin:0;
+                    color:#000;
+                    cursor:pointer;
+                  }
+                  
+                  .evaluation-assignment-assesmentvalue {
+                    position:absolute;
+                    max-width:80px;
+                    right:0;
+                    top:0;
+                    text-align:right;
+                    padding:0 10px;
+                  }
+                
+                }
+                
+                .evaluation-assignment-content,
+                .evaluation-exercise-content {
+                  height:0px;
+                }
+              
+              }
+              
+            }
+            
+          }
+              
+          /* ASSIGNMENT EVALUATION */
+          .evaluation-modal-assignment-wrapper {
+            margin:20px 0 0 0;
+            font-size:14px;
+            
+            .evaluation-modal-single-assignment {
               
               article {
-                border-bottom:5px solid #eee;
-                padding:0 0 30px 0;
-                margin:0 0 30px 0;
                 clear:both;
               
                 h2,h3,h4,h5,h6 {
@@ -698,9 +779,14 @@ body.evaluation {
                 }
                 
                 h2 {
-                  font-size:24px;
-                  margin-left:-20px;
-                  border-left:20px solid #ce01bd;
+                  border-left:5px solid $evaluatedAssignment;
+                  font-size:20px;
+                  margin:0 100px 0 -5px; 
+                  padding:5px 5px 5px 10px;
+                  font-weight:300;
+                  margin:0;
+                  color:#000;
+                  cursor:pointer;
                 }
                 
                 h3 {
@@ -908,15 +994,12 @@ body.evaluation {
       }
   
       .evaluation-modal-evaluateForm-content {
-        padding:10px 20px;
-        overflow-x:hidden;
-        overflow-y:auto;
+        padding:10px 20px 10px 0;
         position:absolute;
         bottom:65px;
-        top:100px;
+        top:0px;
         right:10px;
         left:10px;
-        border-top:1px solid #eee;
         border-bottom:1px solid #eee;
         
         label {
@@ -1015,13 +1098,12 @@ body.evaluation {
     font-size:16px;
     padding:0;
     border:none;
-    border-radius:10px !important;
     z-index:9999;
     position:fixed;
-    top:15px;
-    right:15px;
-    bottom:15px;
-    left:15px;
+    top:5px;
+    right:5px;
+    bottom:5px;
+    left:5px;
     background:#fff;
     border-radius:10px;
     overflow:hidden;
@@ -1040,23 +1122,34 @@ body.evaluation {
       height:50px;
       border:0;
       background:#657e90;
-      @include background-image('gfx/default-user-picture.jpg');
-      background-repeat:no-repeat;
-      background-position:left center;
-      background-size:contain;
       
       .ui-dialog-title {
         background-size:cover;
         display:inline-block;
         position:absolute;
         margin:0;
-        top:15px;
-        left:80px;
+        top:12px;
+        left:10px;
         color:#fff;
         
+        span.modal-title-workspace-evaluation,
+        span.modal-title-assignment-evaluation {
+          display:inline-block;
+          padding:0 10px;
+          font-size:26px;
+          margin:0 50px 0 0;
+        }
+        
         span.modal-title-student-name {
+          font-size:24px;
           display:inline-block;
           margin:0 20px 0 0;
+          padding:0 0 0 40px;
+          @include background-image('gfx/default-user-picture.jpg');
+          background-repeat:no-repeat;
+          background-position:left center;
+          background-size:contain;
+          color:#c9e1f2;
         }
         
         span.modal-title-workspace-name {
@@ -1064,6 +1157,7 @@ body.evaluation {
           font-size:24px;
           border-left:1px solid #fff;
           padding:0 0 0 20px;
+          color:#c9e1f2;
         }
         
       }
@@ -1071,12 +1165,12 @@ body.evaluation {
       .ui-dialog-titlebar-close {
         position:absolute;
         right:0px;
-        top:10px;
+        top:20px;
         border:0px;
         background:transparent;
         z-index:999;
-        width:44px;
-        height:38px;
+        width:50px;
+        height:50px;
         
         span {
           display:none;
@@ -1084,12 +1178,11 @@ body.evaluation {
         
         &:before {
           color:#fff;
-          padding:14px;
           border-bottom-left-radius:10px;
           cursor:pointer;
-          content: "\e604";
+          content: "\e63b";
           color:#fff;
-          font-size:16px;
+          font-size:30px;
           font-weight:normal;
           font-family: 'muikku';
           speak: none;
