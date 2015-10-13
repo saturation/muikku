@@ -106,6 +106,14 @@ public class FieldTranslator {
       String fieldName = String.valueOf(i+1);
       String counterpartName = getExcelStyleLetterIndex(i);
       
+      // Quick fix for bug #500: Simply truncate massive terms and equivalents to 255 characters...
+      if (StringUtils.length(option.getTerm()) > 255) {
+        option.setTerm(option.getTerm().substring(0, 254));
+      }
+      if (StringUtils.length(option.getEquivalent()) > 255) {
+        option.setEquivalent(option.getEquivalent().substring(0, 254));
+      }
+      
       connectFieldOptionMetas.add(new ConnectFieldOptionMeta(fieldName, option.getTerm()));
       counterparts.add(new ConnectFieldOptionMeta(counterpartName, option.getEquivalent()));
       connectFieldConnectionMetas.add(new ConnectFieldConnectionMeta(fieldName, option.getAnswer()));
