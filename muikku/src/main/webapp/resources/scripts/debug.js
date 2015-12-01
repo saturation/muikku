@@ -20,4 +20,8 @@ $(document).ready(function () {
       );
   };
   
+  window.onerror = function (event) {
+    console.log(event);
+  }
+  
 });
