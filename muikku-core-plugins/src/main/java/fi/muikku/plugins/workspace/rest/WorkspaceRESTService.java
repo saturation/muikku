@@ -76,11 +76,13 @@ import fi.muikku.plugins.workspace.rest.model.WorkspaceMaterialReply;
 import fi.muikku.plugins.workspace.rest.model.WorkspaceStaffMember;
 import fi.muikku.plugins.workspace.rest.model.WorkspaceStudent;
 import fi.muikku.rest.RESTPermitUnimplemented;
+import fi.muikku.schooldata.CourseMetaController;
 import fi.muikku.schooldata.GradingController;
 import fi.muikku.schooldata.SchoolDataBridgeSessionController;
 import fi.muikku.schooldata.SchoolDataIdentifier;
 import fi.muikku.schooldata.WorkspaceController;
 import fi.muikku.schooldata.WorkspaceEntityController;
+import fi.muikku.schooldata.entity.EducationType;
 import fi.muikku.schooldata.entity.GradingScale;
 import fi.muikku.schooldata.entity.GradingScaleItem;
 import fi.muikku.schooldata.entity.User;
@@ -146,6 +148,9 @@ public class WorkspaceRESTService extends PluginRESTService {
 
   @Inject
   private SchoolDataBridgeSessionController schoolDataBridgeSessionController;
+  
+  @Inject
+  private CourseMetaController courseMetaController;
 
   @Inject
   @Any
@@ -2061,6 +2066,21 @@ public class WorkspaceRESTService extends PluginRESTService {
         restModel.getContent());
 
     return Response.noContent().build();
+  }
+  
+  @GET
+  @Path("/educationTypes")
+  @RESTPermit (requireLoggedIn = false, handling = Handling.UNSECURED)
+  public Response listEducationTypes() {
+    List<fi.muikku.plugins.workspace.rest.model.EducationType> result = new ArrayList<>();
+    
+    List<EducationType> educationTypes = courseMetaController.listEducationTypes();
+    for (EducationType educationType : educationTypes) {
+      SchoolDataIdentifier identifier = new SchoolDataIdentifier(educationType.getIdentifier(), educationType.getSchoolDataSource());
+      result.add(new fi.muikku.plugins.workspace.rest.model.EducationType(identifier.toId(), educationType.getName()));
+    }
+   
+    return Response.ok(result).build();
   }
 
 }

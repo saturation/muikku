@@ -20,9 +20,6 @@ import fi.muikku.schooldata.entity.Subject;
 
 public class CourseMetaController {
 	
-	// TODO: Caching 
-	// TODO: Events
-	
 	@Inject
 	private Logger logger;
 	
@@ -87,7 +84,7 @@ public class CourseMetaController {
 
     return null;
   }
-
+	
   public EducationType findEducationType(SchoolDataSource schoolDataSource, String identifier) {
     CourseMetaSchoolDataBridge schoolDataBridge = getCourseMetaBridge(schoolDataSource);
     if (schoolDataBridge != null) {
@@ -101,6 +98,17 @@ public class CourseMetaController {
     }
   
     return null;
+  }
+
+  public List<EducationType> listEducationTypes() {
+    List<EducationType> result = new ArrayList<>();
+    
+    List<CourseMetaSchoolDataBridge> bridges = getCourseMetaBridges();
+    for (CourseMetaSchoolDataBridge bridge : bridges) {
+      result.addAll(bridge.listEducationTypes());
+    }
+    
+    return result;
   }
   
   /* CourseLenthUnit */

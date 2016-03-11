@@ -33,6 +33,7 @@ public interface CourseMetaSchoolDataBridge {
 	/* EducationType */
 	
 	public EducationType findEducationType(String identifier) throws SchoolDataBridgeRequestException, UnexpectedSchoolDataBridgeException;
+  public List<EducationType> listEducationTypes();
 	
 	/* CourseLengthUnit */
 

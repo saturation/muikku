@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 
 import fi.muikku.plugins.schooldatapyramus.entities.PyramusCourseIdentifier;
-import fi.muikku.plugins.schooldatapyramus.entities.PyramusEducationType;
 import fi.muikku.plugins.schooldatapyramus.entities.PyramusSchoolDataEntityFactory;
 import fi.muikku.plugins.schooldatapyramus.entities.PyramusSubject;
 import fi.muikku.plugins.schooldatapyramus.rest.PyramusClient;
@@ -166,10 +165,15 @@ public class PyramusCourseMetaSchoolDataBridge implements CourseMetaSchoolDataBr
     Long educationTypeId = pyramusIdentifierMapper.getPyramusEducationTypeId(identifier);
     fi.pyramus.rest.model.EducationType restEducationType = pyramusClient.get("/common/educationTypes/" + educationTypeId, fi.pyramus.rest.model.EducationType.class);
     if (restEducationType != null) {
-      return new PyramusEducationType(identifier, restEducationType.getName());
+      return pyramusSchoolDataEntityFactory.createEntity(restEducationType);
     }
     
     return null;
+  }
+
+  @Override
+  public List<EducationType> listEducationTypes() {
+    return pyramusSchoolDataEntityFactory.createEntities(pyramusClient.get("/common/educationTypes/", fi.pyramus.rest.model.EducationType[].class));
   }
   
   @Override

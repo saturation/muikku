@@ -1,6 +1,7 @@
 package fi.muikku.plugins.schooldatapyramus.entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import fi.muikku.plugins.schooldatapyramus.PyramusIdentifierMapper;
 import fi.muikku.plugins.schooldatapyramus.SchoolDataPyramusPluginDescriptor;
 import fi.muikku.schooldata.SchoolDataIdentifier;
 import fi.muikku.schooldata.entity.CourseLengthUnit;
+import fi.muikku.schooldata.entity.EducationType;
 import fi.muikku.schooldata.entity.EnvironmentRole;
 import fi.muikku.schooldata.entity.EnvironmentRoleArchetype;
 import fi.muikku.schooldata.entity.GroupUser;
@@ -434,21 +436,43 @@ public class PyramusSchoolDataEntityFactory {
     return new PyramusCourseLengthUnit(identifierMapper.getCourseLengthUnitIdentifier(educationalTimeUnit.getId()),
         educationalTimeUnit.getSymbol(), educationalTimeUnit.getName());
   }
+  
+  public EducationType createEntity(fi.pyramus.rest.model.EducationType educationType) {
+    if (educationType == null) {
+      return null;
+    }
+    
+    return new PyramusEducationType(identifierMapper.getEducationTypeIdentifier(educationType.getId()), educationType.getName());
+  }
+  
+  public List<EducationType> createEntities(fi.pyramus.rest.model.EducationType[] educationTypes) {
+    if (educationTypes == null) {
+      return Collections.emptyList();
+    }
+    
+    List<EducationType> result = new ArrayList<>();
+    
+    for (fi.pyramus.rest.model.EducationType educationType : educationTypes) {
+      result.add(new PyramusEducationType(identifierMapper.getEducationTypeIdentifier(educationType.getId()), educationType.getName()));
+    }
+    
+    return result;
+  }
 
   private EnvironmentRoleArchetype getEnvironmentRoleArchetype(UserRole role) {
     switch (role) {
-    case ADMINISTRATOR:
-      return EnvironmentRoleArchetype.ADMINISTRATOR;
-    case MANAGER:
-      return EnvironmentRoleArchetype.MANAGER;
-    case STUDENT:
-      return EnvironmentRoleArchetype.STUDENT;
-    case USER:
-    case TEACHER:
-    case STUDY_GUIDER:
-      return EnvironmentRoleArchetype.TEACHER;
-    default:
-      return EnvironmentRoleArchetype.CUSTOM;
+      case ADMINISTRATOR:
+        return EnvironmentRoleArchetype.ADMINISTRATOR;
+      case MANAGER:
+        return EnvironmentRoleArchetype.MANAGER;
+      case STUDENT:
+        return EnvironmentRoleArchetype.STUDENT;
+      case USER:
+      case TEACHER:
+      case STUDY_GUIDER:
+        return EnvironmentRoleArchetype.TEACHER;
+      default:
+        return EnvironmentRoleArchetype.CUSTOM;
     }
   }
 
