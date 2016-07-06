@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 public abstract class AbstractUser implements User {
   
-  public AbstractUser(String identifier, String firstName, String lastName, String displayName,
+  public AbstractUser(String identifier, String firstName, String lastName, String nickname, String displayName,
       String studyProgrammeName, String nationality, String language, String municipality, String school,
       DateTime studyStartDate, DateTime studyEndDate, DateTime studyTimeEnd, boolean hidden, 
       boolean startedStudies, boolean finishedStudies, boolean active, boolean evaluationFees) {
@@ -12,6 +12,7 @@ public abstract class AbstractUser implements User {
     this.identifier = identifier;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.nickname = nickname;
     this.displayName = displayName;
     this.studyProgrammeName = studyProgrammeName;
     this.nationality = nationality;
@@ -171,10 +172,20 @@ public abstract class AbstractUser implements User {
   public boolean hasEvaluationFees() {
     return evaluationFees;
   }
+  
+  public String getNickname() {
+    return nickname;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
 
   private String identifier;
   private String firstName;
   private String lastName;
+  private String nickname;
   private String displayName;
   private String studyProgrammeName;
   private String nationality;
