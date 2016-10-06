@@ -82,6 +82,11 @@
     },
     
     markAsRead: function (threadId, callback) {
+      callback();
+    },
+    
+    markAsUnread: function (threadId, callback) {
+      callback();
     },
 
     superApply: function (method) {
@@ -163,6 +168,9 @@
     },
     markAsRead: function (threadId, callback) {
       mApi().communicator.items.markasread.create(threadId).callback(callback);    
+    },
+    markAsUnread: function (threadId, callback) {
+      mApi().communicator.items.markasunread.create(threadId).callback(callback);    
     }
   });
   
@@ -235,6 +243,10 @@
     },
     
     markAsRead: function (threadId, callback) {
+      callback();
+    },
+    markAsUnread: function (threadId, callback) {
+      callback();
     }
     
   });
@@ -314,6 +326,9 @@
     
     markAsRead: function (threadId, callback) {
       mApi().communicator.trash.markasread.create(threadId).callback(callback);    
+    },
+    markAsUnread: function (threadId, callback) {
+      mApi().communicator.trash.markasunread.create(threadId).callback(callback);    
     }
     
   });
@@ -324,9 +339,12 @@
       this._items = [];
       this._folderId = this.options.folderId;      
       $('.mf-controls-container').on('click', '.mf-label-link', $.proxy(this._onAddLabelToMessagesClick, this));
-      $('.mf-controls-container').on('click', '.icon-delete', $.proxy(this._onDeleteClick, this));
+      $('.mf-controls-container').on('click', '.cm-delete-thread', $.proxy(this._onDeleteClick, this));
+      $('.mf-controls-container').on('click', '.cm-mark-unread-thread', $.proxy(this._onMarkUnreadClick, this));
       $('.mf-controls-container').on('click', '.cm-add-label-menu', $.proxy(this._onAddLabelMenuClick, this));         
-      $('.mf-controls-container').on('click', '#newLabelSubmit', $.proxy(this._onCreateLabelClick, this));   
+      $('.mf-controls-container').on('click', '#newLabelSubmit', $.proxy(this._onCreateLabelClick, this));
+      
+      this.element.on('change', 'input[name="messageSelect"]', $.proxy(this._onThreadSelectionChange, this));
       this.element.on('click', '.cm-page-link-load-more:not(.disabled)', $.proxy(this._onMoreClick, this));
       this.element.on('click', '.cm-message-header-container', $.proxy(this._onMessageHeaderClick, this));
       $(document).on("Communicator:newmessagereceived", $.proxy(this._onNewMessageReceived, this));
@@ -420,9 +438,21 @@
     },
     
     _onDeleteClick: function (event) {
+      if ($(event.target).closest(".mf-tool-container").hasClass("disabled"))
+        return;
+      
       var selectedThreads = this._getSelectedThreads();
       this.element.closest('.communicator') 
         .communicator('deleteThreads', selectedThreads);
+    },
+    
+    _onMarkUnreadClick: function (event) {
+      if ($(event.target).closest(".mf-tool-container").hasClass("disabled"))
+        return;
+      
+      var selectedThreads = this._getSelectedThreads();
+      this.element.closest('.communicator') 
+        .communicator('markUnreadThreads', selectedThreads);
     },
     
     _onMessageHeaderClick: function (event) {
@@ -433,6 +463,18 @@
         .communicator('loadThread', threadId);
     },
 
+    _onThreadSelectionChange: function (event) {
+      var selectedThreads = this._getSelectedThreads();
+      var communicatorElement = this.element.closest(".communicator");
+      if (selectedThreads.length === 0) {
+        communicatorElement.find(".cm-delete-thread").closest(".mf-tool-container").addClass("disabled");
+        communicatorElement.find(".cm-mark-unread-thread").closest(".mf-tool-container").addClass("disabled");
+      } else {
+        communicatorElement.find(".cm-delete-thread").closest(".mf-tool-container").removeClass("disabled");
+        communicatorElement.find(".cm-mark-unread-thread").closest(".mf-tool-container").removeClass("disabled");
+      }
+    },
+    
     _onAddLabelMenuClick: function (event) {
       var labelObjs = $('.cm-categories').find('.mf-label');      
       var labels = [];
@@ -441,7 +483,6 @@
       var checkedMessages = $('.cm-messages-pages').find('input[name="messageSelect"]:checked');
       var checkedMessagesLabels = checkedMessages.closest('.cm-message-header').find('.mf-item-label');
 
-      
       $.each(checkedMessagesLabels, function(key, label) {
         var labelId = $(label).attr('data-label-id')
         if( messagesLabels.indexOf(labelId) == -1){
@@ -582,23 +623,29 @@
   
   $.widget("custom.messageTools", {
     options : {
-      toolset : 'thread'
+      value : 'none'
     },
-
     _create : function(){
-      switch (this.options.toolset) {
+      this.toolset(this.options.value);
+    },
+    toolset: function(value) {      
+      if ( value === undefined ) {
+        return this.options.value;
+      }      
+      this.options.value = value;
+      switch (this.options.value) {
         case 'message':
           var toolTemplate = 'communicator/communicator_tools_message.dust';
-          this.loadTools(toolTemplate);
-        break;
-        
-        default:
+          this._loadTools(toolTemplate);
+          break;
+        case 'thread':
           var toolTemplate = 'communicator/communicator_tools_thread.dust';
-          this.loadTools(toolTemplate);
-      }
+          this._loadTools(toolTemplate);
+          break;
+      }      
     },
-	 
-    loadTools: function(toolSet) {
+    
+    _loadTools: function(toolSet) {
       renderDustTemplate(toolSet, {}, $.proxy(function (text) {
         this.element.html(text);
       }, this));
@@ -654,7 +701,7 @@
             maxMessageCount: this.options.maxMessageCount,
             folderId: folderId
           });
-          $('.mf-controls-container').messageTools();          
+          $('.mf-controls-container').messageTools();
           this.element.on('click', '.mf-label-functions', $.proxy(this._onLabelMenuOpenClick, this));    
           this.element.on('click', '.mf-label-function-edit', $.proxy(this._onLabelEditClick, this));  
           this.element.on('click', '.mf-label-function-delete', $.proxy(this._onLabelDeleteClick, this));               
@@ -663,9 +710,9 @@
           this.element.on('click', '.cm-folder', $.proxy(this._onCommunicatorFolderClick, this));
           
           if (threadId) {
-            this.loadThread(threadId);
+            this.loadThread(threadId);  
           } else {
-            this.loadFolder(folderId);
+            this.loadFolder(folderId);       
           }
         }
       , this));
@@ -676,7 +723,7 @@
       this._updateSelected(id);
       
       this.element.find('.cm-thread-container').hide();
-      $('.mf-controls-container').messageTools( 'loadTools', 'communicator/communicator_tools_thread.dust');       
+      $('.mf-controls-container').messageTools( 'toolset', 'thread');       
       this.element.find('.cm-messages-container')
         .communicatorMessages('loadFolder', id)
         .show();
@@ -697,7 +744,7 @@
       this._updateSelected(folderId);
       
       this.element.find('.cm-messages-container').hide();
-      $('.mf-controls-container').messageTools( 'loadTools', 'communicator/communicator_tools_message.dust');     
+      $('.mf-controls-container').messageTools( 'toolset', 'message');     
       this.element.find('.cm-thread-container')
         .empty()
         .communicatorThread('loadThread', folderId, threadId)
@@ -717,6 +764,24 @@
       }, this));
     },
 
+    markUnreadThreads: function (threads) {
+      var calls = $.map(threads, $.proxy(function (thread) {
+        return $.proxy(function (callback) {
+          this._folderControllers[thread.folderId].markAsUnread(thread.id, callback);
+        }, this);
+      }, this));
+      
+      async.series(calls, $.proxy(function (err, results) {
+        if (err) {
+          $('.notification-queue').notificationQueue('notification', 'error', err);
+        } else {
+          mApi().communicator.cacheClear();
+          $(document).trigger("Communicator:messageread");
+          this.reloadFolder();
+        }
+      }, this));
+    },
+    
     createLabel: function (name, colorHex) {
       var colorInt = this.hexToColorInt(colorHex);
       var label = {
@@ -1151,7 +1216,7 @@
     _load: function (callback) {
       var replyMessageId = this.options.replyMessageId;
       
-      if(replyMessageId){
+      if (replyMessageId) {
         mApi().communicator.communicatormessages.read(replyMessageId).callback($.proxy(function (err, message) {
           if (err) {
             $('.notification-queue').notificationQueue('notification', 'error', err);
@@ -1178,7 +1243,11 @@
               sender.senderFullName = sender.firstName  + " " + sender.lastName;
               var recipients = results[1];
 
-              renderDustTemplate('/communicator/communicator_create_message.dust', message, $.proxy(function (text) {
+              var data = {
+                replyMessage: message
+              };
+              
+              renderDustTemplate('/communicator/communicator_create_message.dust', data, $.proxy(function (text) {
                 this.element.html(text);
                 if(message.senderId === MUIKKU_LOGGED_USER_ID){                 
                   $.each(recipients,  $.proxy(function (index, recipient) {
@@ -1311,7 +1380,7 @@
       
       return $.proxy(function (callback) {
         mApi().user.users
-          .read({ 'searchString' : term })
+          .read({ 'searchString' : term, 'onlyDefaultUsers': true })
           .callback(function(err, results) {
             if (err) {
               callback(err);
@@ -1326,7 +1395,7 @@
                   category: getLocaleText("plugin.communicator.users"),
                   label : label,
                   id: result.id,
-                  type : "USER",
+                  type: "USER",
                   img: result.hasImage ? "/picture?userId=" + result.id : null,
                   existing: existingUserIds.indexOf(result.id) != -1
                 };
@@ -1450,7 +1519,9 @@
       var controls = $('.mf-controls-container');
       this._threadId = null;
       controls.on('click', '.icon-goback', $.proxy(this._onBackClick, this));
-      controls.on('click', '.icon-delete', $.proxy(this._onDeleteClick, this));
+      controls.on('click', '.cm-delete-message', $.proxy(this._onDeleteClick, this));
+      controls.on('click', '.cm-mark-unread-message', $.proxy(this._onMarkUnreadClick, this));
+
       this.element.on('click', '.cm-message-reply-link', $.proxy(this._onReplyClick, this));    
     },
     
@@ -1493,6 +1564,17 @@
     _onDeleteClick: function () {
       this.element.closest('.communicator') 
         .communicator('deleteThread', this._folderId, this._threadId);
+    },
+    
+    _onMarkUnreadClick: function (event) {
+      var threads = [
+          {
+            folderId: this._folderId,
+            id: this._threadId
+          }
+      ];
+      this.element.closest('.communicator') 
+        .communicator('markUnreadThreads', threads);
     },
     
     _onReplyClick: function (event) {
