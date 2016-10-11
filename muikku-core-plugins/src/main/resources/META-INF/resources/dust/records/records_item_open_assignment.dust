@@ -4,5 +4,10 @@
   </div>
   <div class="content-container flex-row" style="display:none;">
     <div class="content lg-flex-cell-full md-flex-cell-full sm-flex-cell-full"><span class="tr-task-evaluated-verbal">{verbalAssessment|s}</span></div>
+    <div class="assignment lg-flex-cell-full md-flex-cell-full sm-flex-cell-full">
+      <div class="tr-task-evaluated-assignment">
+         <h3>In here be assignment</h3>
+      </div>
+    </div>
   </div>
 </div>

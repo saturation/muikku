@@ -7,7 +7,6 @@
     <div class="mf-item tr-item ft-01 open flex-row">
       <input type="hidden" name="workspaceId" value="{id}"/>
       <input type="hidden" name="workspaceUrl" value="{urlName}"/>
-    
       <div class="flex-row">
         <div class="tr-item-details lg-flex-cell-full md-flex-cell-full sm-flex-cell-full">  
           <div class="flex-row tr-item-description-title">
