@@ -1,7 +1,21 @@
-@import "_vars.scss";
-@import "_styles.scss";
+@import "vars";
+@import "animations";
+@import "styles";
 
 /* Coursepicker (.cp-*) */
+
+#coursesList > div.loading{
+    padding: 20px;
+  
+    &:after {
+      @include generic-loader(50px);
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+} 
+
 .cp-course { 
   margin:0 0 5px 0;
   &.not-published {
@@ -9,18 +23,22 @@
     opacity:0.8;
    
     .cp-course-header-name {
-      color:#d89828;
+      color: $item-header-font-color;
     }
+
   }
+
   .cp-course-fee {
-    color: #3f639a;
+    color: $item-header-icon-font-color;
     font-size: 21px;
     margin-right: 5px;
     vertical-align: top;
   }  
+
   .cp-course-details {
     position:relative;
   }
+
 }
 
 .cp-course-details-open {
@@ -45,11 +63,11 @@
 }
 
 .cp-course-education-type {
-    background: #daf5ff none repeat scroll 0 0;
-    border-radius: 2px;
-    font-style: normal;
-    padding: 6px;
-    text-transform: uppercase;
+  background: $item-header-label-background-color none repeat scroll 0 0;
+  border-radius: 2px;
+  font-style: normal;
+  padding: 6px;
+  text-transform: uppercase;
 }
 
 .cp-course-details-close {

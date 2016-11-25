@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -300,7 +301,8 @@ public class UserRESTService extends AbstractRESTService {
             emailAddress,
             studyStartDate,
             studyEndDate,
-            studyTimeEnd));
+            studyTimeEnd,
+            (String) o.get("curriculumIdentifier")));
         }
       }
     }
@@ -353,7 +355,7 @@ public class UserRESTService extends AbstractRESTService {
     Date studyStartDate = user.getStudyStartDate() != null ? Date.from(user.getStudyStartDate().toInstant()) : null;
     Date studyEndDate = user.getStudyEndDate() != null ? Date.from(user.getStudyEndDate().toInstant()) : null;
     Date studyTimeEnd = user.getStudyTimeEnd() != null ? Date.from(user.getStudyTimeEnd().toInstant()) : null;
-    
+
     Student student = new Student(
         studentIdentifier.toId(), 
         user.getFirstName(), 
@@ -367,7 +369,8 @@ public class UserRESTService extends AbstractRESTService {
         emailAddress, 
         studyStartDate,
         studyEndDate,
-        studyTimeEnd);
+        studyTimeEnd,
+        user.getCurriculumIdentifier());
     
     return Response
         .ok(student)
@@ -570,7 +573,11 @@ public class UserRESTService extends AbstractRESTService {
   @GET
   @Path("/students/{ID}/transferCredits")
   @RESTPermit (handling = Handling.INLINE, requireLoggedIn = true)
-  public Response listStudentTransferCredits(@PathParam("ID") String id) {
+  public Response searchStudentTransferCredits(
+      @PathParam("ID") String id,
+      @QueryParam("curriculumEmpty") @DefaultValue ("true") Boolean curriculumEmpty,
+      @QueryParam("curriculumIdentifier") String curriculumIdentifier
+      ) {
     if (!sessionController.isLoggedIn()) {
       return Response.status(Status.UNAUTHORIZED).build();
     }
@@ -591,7 +598,21 @@ public class UserRESTService extends AbstractRESTService {
       }
     }
     
-    List<TransferCredit> transferCredits = gradingController.listStudentTransferCredits(studentIdentifier);
+    List<TransferCredit> transferCredits = new ArrayList<TransferCredit>(gradingController.listStudentTransferCredits(studentIdentifier));
+
+    for (int i = transferCredits.size() - 1; i >= 0; i--) {
+      TransferCredit tc = transferCredits.get(i);
+      SchoolDataIdentifier tcCurriculum = tc.getCurriculumIdentifier();
+      
+      if (tcCurriculum != null) {
+        if (!StringUtils.isEmpty(curriculumIdentifier) && !Objects.equals(tcCurriculum.toId(), curriculumIdentifier)) {
+          transferCredits.remove(i);
+        }
+      } else {
+        if (!curriculumEmpty)
+          transferCredits.remove(i);
+      }
+    }
     
     return Response.ok(createRestModel(transferCredits.toArray(new TransferCredit[0]))).build();
   }
@@ -700,6 +721,56 @@ public class UserRESTService extends AbstractRESTService {
     }
 
     return Response.ok(createRestModel(flagController.updateFlag(flag, payload.getName(), payload.getColor(), payload.getDescription()))).build();
+  }
+
+  @DELETE
+  @Path("/flags/{ID}")
+  @RESTPermit(handling = Handling.INLINE, requireLoggedIn = true)
+  public Response deleteFlag(@PathParam("ID") long flagId) {
+    Flag flag = flagController.findFlagById(flagId);
+
+    if (flag == null) {
+      return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    boolean isOwner = false;
+    UserSchoolDataIdentifier ownerIdentifier = flag.getOwnerIdentifier();
+    SchoolDataIdentifier loggedIdentifier = sessionController.getLoggedUser();
+    if (loggedIdentifier == null) {
+      return Response.status(Status.BAD_REQUEST).entity("Must be logged in.").build();
+    }
+
+    UserSchoolDataIdentifier loggedUserIdentifier =
+        userSchoolDataIdentifierController.findUserSchoolDataIdentifierBySchoolDataIdentifier(
+            loggedIdentifier);
+    
+    if (loggedUserIdentifier == null) {
+      return Response
+                .status(Status.BAD_REQUEST)
+                .entity("No user school data identifier for logged user")
+                .build();
+    }
+    
+    if (Objects.equals(ownerIdentifier.getIdentifier(), loggedUserIdentifier.getIdentifier()) &&
+        Objects.equals(ownerIdentifier.getDataSource().getIdentifier(),
+                       loggedUserIdentifier.getDataSource().getIdentifier())) {
+      isOwner = true;
+    }
+    
+    if (!flagController.hasFlagPermission(flag, loggedIdentifier)) {
+      return Response
+                  .status(Status.FORBIDDEN)
+                  .entity("You don't have the permission to delete this flag")
+                  .build();
+    }
+
+    if (isOwner) {
+      flagController.deleteFlagCascade(flag);
+      return Response.noContent().build();
+    } else {
+      flagController.unshareFlag(flag, loggedUserIdentifier);
+      return Response.noContent().build();
+    }
   }
   
   @POST

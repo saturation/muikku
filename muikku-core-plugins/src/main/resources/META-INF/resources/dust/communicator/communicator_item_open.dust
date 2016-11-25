@@ -2,12 +2,27 @@
       <div class="mf-item-details cm-message-details lg-flex-cell-full md-flex-cell-full sm-flex-cell-full no-margin-top no-margin-bottom">
         <div class="cm-message-details-container flex-row">       
           <div class="mf-item-description cm-message-details lg-flex-cell-full md-flex-cell-full sm-flex-cell-full">
-            <div class="cm-message-details-sender">
+            <div class="cm-message-details-sender flex-row flex-align-items-center">
               <div class="mf-item-header-content-primary cm-message-header-content-primary">
                 <span>{senderFullName}</span>
-                {#recipients}
-                  <span class="icon-arrow-right" data-recipient-id="{recipientFullName}"></span>
+                <span class="icon-arrow-right cm-message-recipient-arrow"></span>
+                {?recipients}
+                  {#recipients}
+                    <span class="cm-message-recipient-name">{firstName} {lastName}</span>
+                  {/recipients}
                 {/recipients}
+                
+                {?userGroupRecipients}
+                  {#userGroupRecipients}
+                    <span class="cm-message-recipient-name">{name}</span>
+                  {/userGroupRecipients}
+                {/userGroupRecipients}
+                
+                {?workspaceRecipients}
+                  {#workspaceRecipients}
+                    <span class="cm-message-recipient-name">{workspaceName}</span>
+                  {/workspaceRecipients}
+                {/workspaceRecipients}
               </div>        
               <div class="mf-item-header-content-secondary cm-message-header-content-secondary">{created|formatDate} {created|formatTime}</div>    
             </div>
@@ -16,11 +31,8 @@
               <div class="mf-item-content-text cm-message-content-text">{content|s}</div>          
               <div class="cm-message-content-tools">
                 <div class="cm-message-content-tools-container">
-                  {^isOwner}
-                    <div id="{id}" data-recipients="{recipientIds}" class="cm-message-tool cm-message-reply-link mf-item-tool"><span>{#localize key="plugin.communicator.reply"/}</span></div>                    
-                  {:else}
-                    <div id="{id}" data-recipients="{recipientIds}" class="cm-message-tool cm-message-reply-link mf-item-tool"><span>{#localize key="plugin.communicator.reply"/}</span></div>
-                  {/isOwner}
+                  <div id="{id}" class="cm-message-tool cm-message-reply-link mf-item-tool"><span>{#localize key="plugin.communicator.reply"/}</span></div>
+                  <div id="{id}" class="cm-message-tool cm-message-reply-all-link mf-item-tool"><span>{#localize key="plugin.communicator.replyAll"/}</span></div>
                 </div>
                 <div class="cm-message-content-tools-reply-container"></div>
               </div>
@@ -32,5 +44,3 @@
       <input type="hidden" name="communicatorMessageId" value="{id}"/>
       <input type="hidden" name="communicatorMessageThreadId" value="{communicatorMessageId}"/>  
     </div >
-
-

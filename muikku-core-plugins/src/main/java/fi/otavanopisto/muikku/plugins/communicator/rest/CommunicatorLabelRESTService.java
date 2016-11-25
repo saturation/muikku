@@ -1,6 +1,5 @@
 package fi.otavanopisto.muikku.plugins.communicator.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateful;
@@ -19,7 +18,9 @@ import javax.ws.rs.core.Response.Status;
 import fi.otavanopisto.muikku.model.users.UserEntity;
 import fi.otavanopisto.muikku.plugin.PluginRESTService;
 import fi.otavanopisto.muikku.plugins.communicator.CommunicatorController;
+import fi.otavanopisto.muikku.plugins.communicator.CommunicatorFolderType;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorLabel;
+import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessage;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageId;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageIdLabel;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorUserLabel;
@@ -46,6 +47,9 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
   
   @Inject
   private CommunicatorController communicatorController;
+
+  @Inject
+  private CommunicatorRESTModels restModels;
   
   @GET
   @Path ("/messages/{COMMUNICATORMESSAGEID}/labels")
@@ -57,14 +61,9 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     UserEntity userEntity = sessionController.getLoggedUserEntity();
 
     List<CommunicatorMessageIdLabel> labels = communicatorController.listMessageIdLabelsByUserEntity(userEntity, messageId);
-    List<CommunicatorMessageIdLabelRESTModel> result = new ArrayList<CommunicatorMessageIdLabelRESTModel>();
-    
-    for (CommunicatorMessageIdLabel label : labels) {
-      result.add(toRESTModel(label));
-    }
     
     return Response.ok(
-      result
+      restModels.restLabel(labels)
     ).build();
   }
   
@@ -86,7 +85,7 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
         userLabel = communicatorController.createMessageIdLabel(userEntity, messageId, label);
     
         return Response.ok(
-          toRESTModel(userLabel)
+          restModels.restLabel(userLabel)
         ).build();
       } else {
         return Response.status(Status.BAD_REQUEST).build();
@@ -111,7 +110,7 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     }
     
     return Response.ok(
-      toRESTModel(label)
+      restModels.restLabel(label)
     ).build();
   }
 
@@ -141,14 +140,9 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     
     // Lists only labels of logged user so we can consider this safe
     List<CommunicatorUserLabel> userLabels = communicatorController.listUserLabelsByUserEntity(userEntity);
-    List<CommunicatorUserLabelRESTModel> result = new ArrayList<CommunicatorUserLabelRESTModel>();
-    
-    for (CommunicatorUserLabel userLabel : userLabels) {
-      result.add(toRESTModel(userLabel));
-    }
     
     return Response.ok(
-      result
+      restModels.restUserLabel(userLabels)
     ).build();
   }
   
@@ -162,7 +156,7 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     CommunicatorUserLabel userLabel = communicatorController.createUserLabel(newUserLabel.getName(), newUserLabel.getColor(), userEntity);
 
     return Response.ok(
-      toRESTModel(userLabel)
+      restModels.restUserLabel(userLabel)
     ).build();
   }
   
@@ -177,7 +171,7 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     
     if ((userLabel != null) && canAccessLabel(userEntity, userLabel)) {
       return Response.ok(
-        toRESTModel(userLabel)
+        restModels.restUserLabel(userLabel)
       ).build();
     } else {
       return Response.status(Status.NOT_FOUND).build();
@@ -220,13 +214,38 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
       CommunicatorUserLabel editedUserLabel = communicatorController.updateUserLabel(userLabel, updatedUserLabel.getName(), updatedUserLabel.getColor());
 
       return Response.ok(
-        toRESTModel(editedUserLabel)
+        restModels.restUserLabel(editedUserLabel)
       ).build();
     } else {
       return Response.status(Status.NOT_FOUND).build();
     }
   }
 
+  @GET
+  @Path ("/userLabels/{USERLABELID}/messages/{COMMUNICATORMESSAGEID}")
+  @RESTPermit(handling = Handling.INLINE, requireLoggedIn = true)
+  public Response listUserUnreadCommunicatorMessagesByMessageId( 
+      @PathParam ("USERLABELID") Long userLabelId,
+      @PathParam ("COMMUNICATORMESSAGEID") Long communicatorMessageId) {
+    UserEntity userEntity = sessionController.getLoggedUserEntity();
+    CommunicatorUserLabel userLabel = communicatorController.findUserLabelById(userLabelId);
+    
+    if ((userLabel != null) && canAccessLabel(userEntity, userLabel)) {
+      CommunicatorMessageId threadId = communicatorController.findCommunicatorMessageId(communicatorMessageId);
+      
+      List<CommunicatorMessage> receivedItems = communicatorController.listMessagesByMessageId(userEntity, threadId, false);
+  
+      CommunicatorMessageId olderThread = communicatorController.findOlderThreadId(userEntity, threadId, CommunicatorFolderType.LABEL, userLabel);
+      CommunicatorMessageId newerThread = communicatorController.findNewerThreadId(userEntity, threadId, CommunicatorFolderType.LABEL, userLabel);
+      
+      return Response.ok(
+        restModels.restThreadViewModel(receivedItems, olderThread, newerThread)
+      ).build();
+    } else {
+      return Response.status(Status.NOT_FOUND).build();
+    }
+  }
+  
   private boolean canAccessLabel(UserEntity userEntity, CommunicatorLabel label) {
     if (label instanceof CommunicatorUserLabel) {
       // No access if not logged in
@@ -240,18 +259,4 @@ public class CommunicatorLabelRESTService extends PluginRESTService {
     return false;
   }
   
-  private CommunicatorUserLabelRESTModel toRESTModel(CommunicatorUserLabel userLabel) {
-    return new CommunicatorUserLabelRESTModel(userLabel.getId(), userLabel.getName(), userLabel.getColor());    
-  }
-  
-  private CommunicatorMessageIdLabelRESTModel toRESTModel(CommunicatorMessageIdLabel messageIdLabel) {
-    return new CommunicatorMessageIdLabelRESTModel(
-        messageIdLabel.getId(), 
-        messageIdLabel.getUserEntity(), 
-        messageIdLabel.getCommunicatorMessageId() != null ? messageIdLabel.getCommunicatorMessageId().getId() : null,
-        messageIdLabel.getLabel() != null ? messageIdLabel.getLabel().getId() : null,
-        messageIdLabel.getLabel() != null ? messageIdLabel.getLabel().getName() : null,
-        messageIdLabel.getLabel() != null ? messageIdLabel.getLabel().getColor() : null
-    );    
-  }
 }

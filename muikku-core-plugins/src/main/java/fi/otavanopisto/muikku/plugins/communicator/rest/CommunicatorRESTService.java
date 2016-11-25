@@ -6,11 +6,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -27,31 +35,32 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import fi.otavanopisto.muikku.controller.TagController;
 import fi.otavanopisto.muikku.model.base.Tag;
 import fi.otavanopisto.muikku.model.users.UserEntity;
 import fi.otavanopisto.muikku.model.users.UserGroupEntity;
-import fi.otavanopisto.muikku.model.users.UserGroupUserEntity;
-import fi.otavanopisto.muikku.model.users.UserSchoolDataIdentifier;
 import fi.otavanopisto.muikku.model.workspace.WorkspaceEntity;
-import fi.otavanopisto.muikku.model.workspace.WorkspaceRoleArchetype;
-import fi.otavanopisto.muikku.model.workspace.WorkspaceUserEntity;
 import fi.otavanopisto.muikku.notifier.NotifierController;
 import fi.otavanopisto.muikku.plugin.PluginRESTService;
 import fi.otavanopisto.muikku.plugins.communicator.CommunicatorAttachmentController;
 import fi.otavanopisto.muikku.plugins.communicator.CommunicatorController;
+import fi.otavanopisto.muikku.plugins.communicator.CommunicatorFolderType;
 import fi.otavanopisto.muikku.plugins.communicator.CommunicatorNewInboxMessageNotification;
 import fi.otavanopisto.muikku.plugins.communicator.CommunicatorPermissionCollection;
+import fi.otavanopisto.muikku.plugins.communicator.events.CommunicatorMessageSent;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorLabel;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessage;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageAttachment;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageCategory;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageId;
+import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageIdLabel;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageRecipient;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageSignature;
 import fi.otavanopisto.muikku.plugins.communicator.model.CommunicatorMessageTemplate;
+import fi.otavanopisto.muikku.rest.model.UserBasicInfo;
 import fi.otavanopisto.muikku.schooldata.RestCatchSchoolDataExceptions;
 import fi.otavanopisto.muikku.schooldata.SchoolDataBridgeSessionController;
 import fi.otavanopisto.muikku.schooldata.WorkspaceEntityController;
@@ -61,7 +70,6 @@ import fi.otavanopisto.muikku.session.SessionController;
 import fi.otavanopisto.muikku.users.UserController;
 import fi.otavanopisto.muikku.users.UserEntityController;
 import fi.otavanopisto.muikku.users.UserGroupEntityController;
-import fi.otavanopisto.muikku.users.WorkspaceUserEntityController;
 import fi.otavanopisto.security.AuthorizationException;
 import fi.otavanopisto.security.rest.RESTPermit;
 import fi.otavanopisto.security.rest.RESTPermit.Handling;
@@ -79,6 +87,9 @@ public class CommunicatorRESTService extends PluginRESTService {
   @BaseUrl
   private String baseUrl;
   
+  @Inject
+  private Logger logger;
+ 
   @Inject
   private SessionController sessionController;
   
@@ -113,13 +124,17 @@ public class CommunicatorRESTService extends PluginRESTService {
   private WorkspaceEntityController workspaceEntityController;
 
   @Inject
-  private WorkspaceUserEntityController workspaceUserEntityController;
+  private CommunicatorRESTModels restModels;
+  
+  @Inject
+  private Event<CommunicatorMessageSent> communicatorMessageSentEvent;
   
   @GET
   @Path ("/items")
   @RESTPermit(handling = Handling.INLINE, requireLoggedIn = true)
-  public Response listUserCommunicatorItems(
+  public Response listUserInboxMessages(
       @QueryParam("labelId") Long labelId,
+      @QueryParam("onlyUnread") @DefaultValue ("false") Boolean onlyUnread,
       @QueryParam("firstResult") @DefaultValue ("0") Integer firstResult, 
       @QueryParam("maxResults") @DefaultValue ("10") Integer maxResults) {
     UserEntity user = sessionController.getLoggedUserEntity();
@@ -135,11 +150,11 @@ public class CommunicatorRESTService extends PluginRESTService {
       
     List<CommunicatorMessage> receivedItems;
     if (label != null)
-      receivedItems = communicatorController.listReceivedItems(user, label, firstResult, maxResults);
+      receivedItems = communicatorController.listReceivedItems(user, label, onlyUnread, firstResult, maxResults);
     else
-      receivedItems = communicatorController.listReceivedItems(user, firstResult, maxResults);
+      receivedItems = communicatorController.listReceivedItems(user, onlyUnread, firstResult, maxResults);
 
-    List<CommunicatorMessageItemRESTModel> result = new ArrayList<CommunicatorMessageItemRESTModel>();
+    List<CommunicatorThreadRESTModel> result = new ArrayList<CommunicatorThreadRESTModel>();
     
     for (CommunicatorMessage receivedItem : receivedItems) {
       String categoryName = receivedItem.getCategory() != null ? receivedItem.getCategory().getName() : null;
@@ -155,10 +170,16 @@ public class CommunicatorRESTService extends PluginRESTService {
         latestMessageDate = latestMessageDate == null || latestMessageDate.before(created) ? created : latestMessageDate;
       }
       
-      result.add(new CommunicatorMessageItemRESTModel(
-          receivedItem.getId(), receivedItem.getCommunicatorMessageId().getId(), receivedItem.getSender(), categoryName, 
-          receivedItem.getCaption(), receivedItem.getContent(), receivedItem.getCreated(), tagIdsToStr(receivedItem.getTags()), 
-          getMessageRecipientIdList(receivedItem), hasUnreadMsgs, latestMessageDate));
+      UserBasicInfo senderBasicInfo = restModels.getSenderBasicInfo(receivedItem);
+      Long messageCountInThread = communicatorController.countMessagesByUserAndMessageId(user, receivedItem.getCommunicatorMessageId(), false);
+
+      List<CommunicatorMessageIdLabel> labels = communicatorController.listMessageIdLabelsByUserEntity(user, receivedItem.getCommunicatorMessageId());
+      List<CommunicatorMessageIdLabelRESTModel> restLabels = restModels.restLabel(labels);
+      
+      result.add(new CommunicatorThreadRESTModel(
+          receivedItem.getId(), receivedItem.getCommunicatorMessageId().getId(), receivedItem.getSender(), senderBasicInfo, categoryName, 
+          receivedItem.getCaption(), receivedItem.getCreated(), tagIdsToStr(receivedItem.getTags()), hasUnreadMsgs, latestMessageDate, 
+          messageCountInThread, restLabels));
     }
 
     return Response.ok(
@@ -190,18 +211,59 @@ public class CommunicatorRESTService extends PluginRESTService {
     UserEntity user = sessionController.getLoggedUserEntity(); 
     List<CommunicatorMessage> sentItems = communicatorController.listSentItems(user, firstResult, maxResults);
 
-    List<CommunicatorMessageRESTModel> result = new ArrayList<CommunicatorMessageRESTModel>();
+    List<CommunicatorThreadRESTModel> result = new ArrayList<CommunicatorThreadRESTModel>();
     
-    for (CommunicatorMessage msg : sentItems) {
-      String categoryName = msg.getCategory() != null ? msg.getCategory().getName() : null;
+    for (CommunicatorMessage sentItem : sentItems) {
+      String categoryName = sentItem.getCategory() != null ? sentItem.getCategory().getName() : null;
+      boolean hasUnreadMsgs = false;
+      Date latestMessageDate = sentItem.getCreated();
       
-      result.add(new CommunicatorMessageRESTModel(
-          msg.getId(), msg.getCommunicatorMessageId().getId(), msg.getSender(), categoryName, 
-          msg.getCaption(), msg.getContent(), msg.getCreated(), tagIdsToStr(msg.getTags()), getMessageRecipientIdList(msg)));
+      List<CommunicatorMessageRecipient> recipients = communicatorController.listCommunicatorMessageRecipientsByUserAndMessage(
+          user, sentItem.getCommunicatorMessageId(), false);
+      
+      for (CommunicatorMessageRecipient recipient : recipients) {
+        hasUnreadMsgs = hasUnreadMsgs || Boolean.FALSE.equals(recipient.getReadByReceiver()); 
+        Date created = recipient.getCommunicatorMessage().getCreated();
+        latestMessageDate = latestMessageDate == null || latestMessageDate.before(created) ? created : latestMessageDate;
+      }
+      
+      UserBasicInfo senderBasicInfo = restModels.getSenderBasicInfo(sentItem);
+      Long messageCountInThread = communicatorController.countMessagesByUserAndMessageId(user, sentItem.getCommunicatorMessageId(), false);
+
+      List<CommunicatorMessageIdLabel> labels = communicatorController.listMessageIdLabelsByUserEntity(user, sentItem.getCommunicatorMessageId());
+      List<CommunicatorMessageIdLabelRESTModel> restLabels = restModels.restLabel(labels);
+      
+      List<CommunicatorMessageRecipient> messageRecipients = communicatorController.listCommunicatorMessageRecipients(sentItem);
+      List<CommunicatorMessageRecipientRESTModel> restRecipients = restModels.restRecipient(messageRecipients);
+      Long recipientCount = (long) messageRecipients.size();
+      
+      result.add(new CommunicatorSentThreadRESTModel(
+          sentItem.getId(), sentItem.getCommunicatorMessageId().getId(), sentItem.getSender(), senderBasicInfo, categoryName, 
+          sentItem.getCaption(), sentItem.getCreated(), tagIdsToStr(sentItem.getTags()), hasUnreadMsgs, latestMessageDate, 
+          messageCountInThread, restLabels, restRecipients, recipientCount));
     }
     
     return Response.ok(
       result
+    ).build();
+  }
+  
+  @GET
+  @Path ("/sentitems/{COMMUNICATORMESSAGEID}")
+  @RESTPermit(handling = Handling.INLINE, requireLoggedIn = true)
+  public Response listUserSentCommunicatorMessagesByMessageId( 
+      @PathParam ("COMMUNICATORMESSAGEID") Long communicatorMessageId) {
+    UserEntity user = sessionController.getLoggedUserEntity(); 
+    
+    CommunicatorMessageId threadId = communicatorController.findCommunicatorMessageId(communicatorMessageId);
+    
+    List<CommunicatorMessage> receivedItems = communicatorController.listMessagesByMessageId(user, threadId, false);
+
+    CommunicatorMessageId olderThread = communicatorController.findOlderThreadId(user, threadId, CommunicatorFolderType.SENT, null);
+    CommunicatorMessageId newerThread = communicatorController.findNewerThreadId(user, threadId, CommunicatorFolderType.SENT, null);
+    
+    return Response.ok(
+      restModels.restThreadViewModel(receivedItems, olderThread, newerThread)
     ).build();
   }
   
@@ -218,6 +280,25 @@ public class CommunicatorRESTService extends PluginRESTService {
     communicatorController.trashSentMessages(user, messageId);
     
     return Response.noContent().build();
+  }
+  
+  @GET
+  @Path ("/unread/{COMMUNICATORMESSAGEID}")
+  @RESTPermit(handling = Handling.INLINE, requireLoggedIn = true)
+  public Response listUserUnreadCommunicatorMessagesByMessageId( 
+      @PathParam ("COMMUNICATORMESSAGEID") Long communicatorMessageId) {
+    UserEntity user = sessionController.getLoggedUserEntity(); 
+    
+    CommunicatorMessageId threadId = communicatorController.findCommunicatorMessageId(communicatorMessageId);
+    
+    List<CommunicatorMessage> receivedItems = communicatorController.listMessagesByMessageId(user, threadId, false);
+
+    CommunicatorMessageId olderThread = communicatorController.findOlderThreadId(user, threadId, CommunicatorFolderType.UNREAD, null);
+    CommunicatorMessageId newerThread = communicatorController.findNewerThreadId(user, threadId, CommunicatorFolderType.UNREAD, null);
+    
+    return Response.ok(
+      restModels.restThreadViewModel(receivedItems, olderThread, newerThread)
+    ).build();
   }
   
   @GET
@@ -253,22 +334,15 @@ public class CommunicatorRESTService extends PluginRESTService {
       @PathParam ("COMMUNICATORMESSAGEID") Long communicatorMessageId) {
     UserEntity user = sessionController.getLoggedUserEntity(); 
     
-    CommunicatorMessageId messageId = communicatorController.findCommunicatorMessageId(communicatorMessageId);
+    CommunicatorMessageId threadId = communicatorController.findCommunicatorMessageId(communicatorMessageId);
     
-    List<CommunicatorMessage> receivedItems = communicatorController.listMessagesByMessageId(user, messageId, false);
+    List<CommunicatorMessage> receivedItems = communicatorController.listMessagesByMessageId(user, threadId, false);
 
-    List<CommunicatorMessageRESTModel> result = new ArrayList<CommunicatorMessageRESTModel>();
-    
-    for (CommunicatorMessage msg : receivedItems) {
-      String categoryName = msg.getCategory() != null ? msg.getCategory().getName() : null;
-      
-      result.add(new CommunicatorMessageRESTModel(
-          msg.getId(), msg.getCommunicatorMessageId().getId(), msg.getSender(), categoryName, 
-          msg.getCaption(), msg.getContent(), msg.getCreated(), tagIdsToStr(msg.getTags()), getMessageRecipientIdList(msg)));
-    }
+    CommunicatorMessageId olderThread = communicatorController.findOlderThreadId(user, threadId, CommunicatorFolderType.INBOX, null);
+    CommunicatorMessageId newerThread = communicatorController.findNewerThreadId(user, threadId, CommunicatorFolderType.INBOX, null);
     
     return Response.ok(
-      result
+      restModels.restThreadViewModel(receivedItems, olderThread, newerThread)
     ).build();
   }
 
@@ -307,86 +381,79 @@ public class CommunicatorRESTService extends PluginRESTService {
       if (recipient != null)
         recipients.add(recipient);
     }
+
+    List<UserGroupEntity> userGroupRecipients = null;
+    List<WorkspaceEntity> workspaceStudentRecipients = null;
+    List<WorkspaceEntity> workspaceTeacherRecipients = null;
     
-    // TODO: Duplicates
-    
-    if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_GROUP_MESSAGING, null)) {
-      for (Long groupId : newMessage.getRecipientGroupIds()) {
-        UserGroupEntity group = userGroupEntityController.findUserGroupEntityById(groupId);
-        List<UserGroupUserEntity> groupUsers = userGroupEntityController.listUserGroupUserEntitiesByUserGroupEntity(group);
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientGroupIds())) {
+      if (sessionController.hasEnvironmentPermission(CommunicatorPermissionCollection.COMMUNICATOR_GROUP_MESSAGING)) {
+        userGroupRecipients = new ArrayList<UserGroupEntity>();
         
-        for (UserGroupUserEntity groupUser : groupUsers) {
-          UserSchoolDataIdentifier userSchoolDataIdentifier = groupUser.getUserSchoolDataIdentifier();
-          recipients.add(userSchoolDataIdentifier.getUserEntity());
+        for (Long groupId : newMessage.getRecipientGroupIds()) {
+          UserGroupEntity group = userGroupEntityController.findUserGroupEntityById(groupId);
+          userGroupRecipients.add(group);
         }
-      }
-    } else {
-      // Trying to feed group ids when you don't have permission greets you with bad request
-      if (!newMessage.getRecipientGroupIds().isEmpty())
+      } else {
+        // Trying to feed group ids when you don't have permission greets you with bad request
         return Response.status(Status.BAD_REQUEST).build();
+      }
     }
 
     // Workspace members
 
-    for (Long workspaceId : newMessage.getRecipientStudentsWorkspaceIds()) {
-      WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientStudentsWorkspaceIds())) {
+      workspaceStudentRecipients = new ArrayList<WorkspaceEntity>();
+      
+      for (Long workspaceId : newMessage.getRecipientStudentsWorkspaceIds()) {
+        WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+  
+        if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity))
+          workspaceStudentRecipients.add(workspaceEntity);
+        else
+          return Response.status(Status.BAD_REQUEST).build();
+      }
+    }
 
-      if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity)) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.STUDENT);
-        
-        for (WorkspaceUserEntity workspaceUserEntity : workspaceUsers) {
-          recipients.add(workspaceUserEntity.getUserSchoolDataIdentifier().getUserEntity());
-        }
-      } else
-        return Response.status(Status.BAD_REQUEST).build();
-    }      
-
-    for (Long workspaceId : newMessage.getRecipientTeachersWorkspaceIds()) {
-      WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
-
-      if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity)) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.TEACHER);
-        
-        for (WorkspaceUserEntity wosu : workspaceUsers) {
-          recipients.add(wosu.getUserSchoolDataIdentifier().getUserEntity());
-        }
-      } else
-        return Response.status(Status.BAD_REQUEST).build();
-    }      
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientTeachersWorkspaceIds())) {
+      workspaceTeacherRecipients = new ArrayList<WorkspaceEntity>();
+      
+      for (Long workspaceId : newMessage.getRecipientTeachersWorkspaceIds()) {
+        WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+  
+        if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity))
+          workspaceTeacherRecipients.add(workspaceEntity);
+        else
+          return Response.status(Status.BAD_REQUEST).build();
+      }
+    }
     
     if (StringUtils.isBlank(newMessage.getCategoryName())) {
       return Response.status(Status.BAD_REQUEST).entity("CategoryName missing").build();
     }
 
-    // Clean duplicates from recipient list
-    communicatorController.cleanDuplicateRecipients(recipients);
-    
     // TODO Category not existing at this point would technically indicate an invalid state
     CommunicatorMessageCategory categoryEntity = communicatorController.persistCategory(newMessage.getCategoryName());
     
-    CommunicatorMessage message = communicatorController.createMessage(communicatorMessageId, userEntity, recipients, categoryEntity, 
+    CommunicatorMessage message = communicatorController.createMessage(communicatorMessageId, userEntity, 
+        recipients, userGroupRecipients, workspaceStudentRecipients, workspaceTeacherRecipients, categoryEntity, 
         newMessage.getCaption(), newMessage.getContent(), tagList);
     
-    Map<String, Object> params = new HashMap<String, Object>();
-    User user = userController.findUserByDataSourceAndIdentifier(sessionController.getLoggedUserSchoolDataSource(), sessionController.getLoggedUserIdentifier());
-    params.put("sender", String.format("%s %s", user.getFirstName(), user.getLastName()));
-    params.put("subject", newMessage.getCaption());
-    params.put("content", newMessage.getContent());
-    params.put("url", String.format("%s/communicator", baseUrl));
-    //TODO Hash paramters cannot be utilized in redirect URLs
-    //params.put("url", String.format("%s/communicator#inbox/%d", baseUrl, message.getCommunicatorMessageId().getId()));
-      
-    notifierController.sendNotification(communicatorNewInboxMessageNotification, userEntity, recipients, params);
-    
-    CommunicatorMessageRESTModel result = new CommunicatorMessageRESTModel(message.getId(), message.getCommunicatorMessageId().getId(), 
-        message.getSender(), message.getCategory().getName(), message.getCaption(), message.getContent(), message.getCreated(), 
-        tagIdsToStr(message.getTags()), getMessageRecipientIdList(message));
+    sendNewMessageNotifications(message);
     
     return Response.ok(
-      result
+      restModels.restFullMessage(message)
     ).build();
+  }
+
+  private void sendNewMessageNotifications(CommunicatorMessage message) {
+    List<CommunicatorMessageRecipient> recipients = communicatorController.listAllCommunicatorMessageRecipients(message);
+    
+    for (CommunicatorMessageRecipient recipient : recipients) {
+      // Don't notify the sender in case he sent message to himself
+      if (recipient.getRecipient() != message.getSender())
+        communicatorMessageSentEvent.fire(new CommunicatorMessageSent(message.getId(), recipient.getRecipient()));
+    }
   }
 
   @POST
@@ -431,16 +498,6 @@ public class CommunicatorRESTService extends PluginRESTService {
     return Response.noContent().build();
   }
 
-  private List<Long> getMessageRecipientIdList(CommunicatorMessage msg) {
-    List<CommunicatorMessageRecipient> messageRecipients = communicatorController.listCommunicatorMessageRecipients(msg);
-    List<Long> recipients = new ArrayList<Long>();
-    for (CommunicatorMessageRecipient messageRecipient : messageRecipients) {
-      recipients.add(messageRecipient.getId());
-    }
-
-    return recipients;
-  }
-  
   private Set<String> tagIdsToStr(Set<Long> tagIds) {
     Set<String> tagsStr = new HashSet<String>();
     for (Long tagId : tagIds) {
@@ -472,7 +529,7 @@ public class CommunicatorRESTService extends PluginRESTService {
   public Response postMessageReply(
       @PathParam ("COMMUNICATORMESSAGEID") Long communicatorMessageId, CommunicatorNewMessageRESTModel newMessage
    ) throws AuthorizationException {
-    UserEntity user = sessionController.getLoggedUserEntity();
+    UserEntity userEntity = sessionController.getLoggedUserEntity();
     
     CommunicatorMessageId communicatorMessageId2 = communicatorController.findCommunicatorMessageId(communicatorMessageId);
     
@@ -486,71 +543,63 @@ public class CommunicatorRESTService extends PluginRESTService {
         recipients.add(recipient);
     }
     
-    if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_GROUP_MESSAGING, null)) {
-      for (Long groupId : newMessage.getRecipientGroupIds()) {
-        UserGroupEntity group = userGroupEntityController.findUserGroupEntityById(groupId);
-        List<UserGroupUserEntity> groupUsers = userGroupEntityController.listUserGroupUserEntitiesByUserGroupEntity(group);
+    List<UserGroupEntity> userGroupRecipients = null;
+    List<WorkspaceEntity> workspaceStudentRecipients = null;
+    List<WorkspaceEntity> workspaceTeacherRecipients = null;
+    
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientGroupIds())) {
+      if (sessionController.hasEnvironmentPermission(CommunicatorPermissionCollection.COMMUNICATOR_GROUP_MESSAGING)) {
+        userGroupRecipients = new ArrayList<UserGroupEntity>();
         
-        for (UserGroupUserEntity groupUser : groupUsers) {
-          UserSchoolDataIdentifier userSchoolDataIdentifier = groupUser.getUserSchoolDataIdentifier();
-          UserEntity userEntity = userEntityController.findUserEntityByDataSourceAndIdentifier(userSchoolDataIdentifier.getDataSource(), userSchoolDataIdentifier.getIdentifier());
-          
-          recipients.add(userEntity);
+        for (Long groupId : newMessage.getRecipientGroupIds()) {
+          UserGroupEntity group = userGroupEntityController.findUserGroupEntityById(groupId);
+          userGroupRecipients.add(group);
         }
-      }
-    } else {
-      // Trying to feed group ids when you don't have permission greets you with bad request
-      if (!newMessage.getRecipientGroupIds().isEmpty())
+      } else {
+        // Trying to feed group ids when you don't have permission greets you with bad request
         return Response.status(Status.BAD_REQUEST).build();
+      }
     }
-      
+
     // Workspace members
 
-    for (Long workspaceId : newMessage.getRecipientStudentsWorkspaceIds()) {
-      WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientStudentsWorkspaceIds())) {
+      workspaceStudentRecipients = new ArrayList<WorkspaceEntity>();
+      
+      for (Long workspaceId : newMessage.getRecipientStudentsWorkspaceIds()) {
+        WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+  
+        if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity))
+          workspaceStudentRecipients.add(workspaceEntity);
+        else
+          return Response.status(Status.BAD_REQUEST).build();
+      }
+    }
 
-      if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity)) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.STUDENT);
-        
-        for (WorkspaceUserEntity wosu : workspaceUsers) {
-          recipients.add(wosu.getUserSchoolDataIdentifier().getUserEntity());
-        }
-      } else
-        return Response.status(Status.BAD_REQUEST).build();
-    }      
-
-    for (Long workspaceId : newMessage.getRecipientTeachersWorkspaceIds()) {
-      WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
-
-      if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity)) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.TEACHER);
-        
-        for (WorkspaceUserEntity wosu : workspaceUsers) {
-          recipients.add(wosu.getUserSchoolDataIdentifier().getUserEntity());
-        }
-      } else
-        return Response.status(Status.BAD_REQUEST).build();
-    }      
-    
-    // Clean duplicates from recipient list
-    communicatorController.cleanDuplicateRecipients(recipients);
+    if (!CollectionUtils.isEmpty(newMessage.getRecipientTeachersWorkspaceIds())) {
+      workspaceTeacherRecipients = new ArrayList<WorkspaceEntity>();
+      
+      for (Long workspaceId : newMessage.getRecipientTeachersWorkspaceIds()) {
+        WorkspaceEntity workspaceEntity = workspaceEntityController.findWorkspaceEntityById(workspaceId);
+  
+        if (sessionController.hasPermission(CommunicatorPermissionCollection.COMMUNICATOR_WORKSPACE_MESSAGING, workspaceEntity))
+          workspaceTeacherRecipients.add(workspaceEntity);
+        else
+          return Response.status(Status.BAD_REQUEST).build();
+      }
+    }
     
     // TODO Category not existing at this point would technically indicate an invalid state
     CommunicatorMessageCategory categoryEntity = communicatorController.persistCategory(newMessage.getCategoryName());
     
-    CommunicatorMessage message = communicatorController.createMessage(communicatorMessageId2, user, 
-        recipients, categoryEntity, newMessage.getCaption(), newMessage.getContent(), tagList);
+    CommunicatorMessage message = communicatorController.createMessage(communicatorMessageId2, userEntity, 
+        recipients, userGroupRecipients, workspaceStudentRecipients, workspaceTeacherRecipients, categoryEntity, 
+        newMessage.getCaption(), newMessage.getContent(), tagList);
 
-    notifierController.sendNotification(communicatorNewInboxMessageNotification, user, recipients);
-    
-    CommunicatorMessageRESTModel result = new CommunicatorMessageRESTModel(message.getId(), message.getCommunicatorMessageId().getId(), 
-        message.getSender(), message.getCategory().getName(), message.getCaption(), message.getContent(), message.getCreated(), 
-        tagIdsToStr(message.getTags()), getMessageRecipientIdList(message));
+    sendNewMessageNotifications(message);
     
     return Response.ok(
-      result
+      restModels.restFullMessage(message)
     ).build();
   }
 
@@ -564,14 +613,8 @@ public class CommunicatorRESTService extends PluginRESTService {
       return Response.status(Status.FORBIDDEN).build();
     }
 
-    String categoryName = msg.getCategory() != null ? msg.getCategory().getName() : null;
-    
-    CommunicatorMessageRESTModel result = new CommunicatorMessageRESTModel(
-        msg.getId(), msg.getCommunicatorMessageId().getId(), msg.getSender(), categoryName, 
-        msg.getCaption(), msg.getContent(), msg.getCreated(), tagIdsToStr(msg.getTags()), getMessageRecipientIdList(msg));
-    
     return Response.ok(
-      result
+      restModels.restFullMessage(msg)
     ).build();
   }
   
@@ -586,15 +629,9 @@ public class CommunicatorRESTService extends PluginRESTService {
     }
 
     List<CommunicatorMessageRecipient> messageRecipients = communicatorController.listCommunicatorMessageRecipients(communicatorMessage);
-    
-    List<CommunicatorMessageRecipientRESTModel> result = new ArrayList<CommunicatorMessageRecipientRESTModel>();
-    
-    for (CommunicatorMessageRecipient recipient : messageRecipients) {
-      result.add(new CommunicatorMessageRecipientRESTModel(recipient.getId(), recipient.getCommunicatorMessage().getId(), recipient.getRecipient()));
-    }
-    
+
     return Response.ok(
-      result
+      restModels.restRecipient(messageRecipients)
     ).build();
   }
 
@@ -644,27 +681,9 @@ public class CommunicatorRESTService extends PluginRESTService {
       return Response.status(Status.FORBIDDEN).build();
     }
     
-    schoolDataBridgeSessionController.startSystemSession();
-    try {
-      UserEntity userEntity = userEntityController.findUserEntityById(communicatorMessage.getSender());
-      fi.otavanopisto.muikku.schooldata.entity.User user = userController.findUserByUserEntityDefaults(userEntity);
-      Boolean hasPicture = false; // TODO: userController.hasPicture(userEntity);
-      
-      fi.otavanopisto.muikku.rest.model.UserBasicInfo result = new fi.otavanopisto.muikku.rest.model.UserBasicInfo(
-          userEntity.getId(), 
-          user.getFirstName(), 
-          user.getLastName(), 
-          user.getStudyProgrammeName(),
-          hasPicture,
-          user.hasEvaluationFees(),
-          user.getCurriculumIdentifier());
-    
-      return Response.ok(
-        result
-      ).build();
-    } finally {
-      schoolDataBridgeSessionController.endSystemSession();
-    }
+    return Response.ok(
+      restModels.getSenderBasicInfo(communicatorMessage)
+    ).build();
   }
 
   @GET
@@ -886,15 +905,36 @@ public class CommunicatorRESTService extends PluginRESTService {
         return true;
       }
       else {
-        List<CommunicatorMessageRecipient> recipients = communicatorController.listCommunicatorMessageRecipients(communicatorMessage);
-        for (CommunicatorMessageRecipient recipient : recipients) {
-          if (recipient.getRecipient().equals(userEntityId)) {
-            return true;
-          }
-        }
+        CommunicatorMessageRecipient recipient = communicatorController.findCommunicatorMessageRecipientByMessageAndRecipient(communicatorMessage, sessionController.getLoggedUserEntity());
+
+        return recipient != null;
       }
     }
     return false;
   }
 
+  @Transactional (value = TxType.REQUIRES_NEW)
+  public void onCommunicatorMessageSent(@Observes (during = TransactionPhase.AFTER_COMPLETION) CommunicatorMessageSent event) {
+    CommunicatorMessage communicatorMessage = communicatorController.findCommunicatorMessageById(event.getCommunicatorMessageId());
+    UserEntity sender = userEntityController.findUserEntityById(communicatorMessage.getSender());
+    UserEntity recipient = userEntityController.findUserEntityById(event.getRecipientUserEntityId());
+
+    if ((communicatorMessage != null) && (sender != null) && (recipient != null)) {
+      if (!Objects.equals(sender.getId(), recipient.getId())) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        User senderUser = userController.findUserByUserEntityDefaults(sender);
+        params.put("sender", String.format("%s %s", senderUser.getFirstName(), senderUser.getLastName()));
+        params.put("subject", communicatorMessage.getCaption());
+        params.put("content", communicatorMessage.getContent());
+        params.put("url", String.format("%s/communicator", baseUrl));
+        //TODO Hash paramters cannot be utilized in redirect URLs
+        //params.put("url", String.format("%s/communicator#inbox/%d", baseUrl, message.getCommunicatorMessageId().getId()));
+        
+        notifierController.sendNotification(communicatorNewInboxMessageNotification, sender, recipient, params);
+      }
+    } else {
+      logger.log(Level.SEVERE, String.format("Communicator couldn't send notifications as some entity was not found"));
+    }
+  }
+  
 }

@@ -1,5 +1,6 @@
-@import "_vars.scss";
-@import "_styles.scss";
+@import "vars";
+@import "vars_backup";
+@import "styles";
 
 body { 
   
@@ -98,4 +99,3 @@ body {
   }
   
 }
-  
