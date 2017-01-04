@@ -539,7 +539,6 @@ public class LocalUserSchoolDataBridge implements UserSchoolDataBridge {
 
   @Override
   public List<GroupUser> listGroupUsersByGroupAndType(String groupIdentifier, GroupUserType type) {
-    // TODO Auto-generated method stub
     return null;
   }
   
