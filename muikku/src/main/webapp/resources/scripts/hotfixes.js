@@ -7,7 +7,4 @@ if ('ontouchstart' in window || 'onmsgesturechange' in window){
   $.fn.draggable = function(){
     return this;
   }
-  $.fn.droppable = function(){
-    return this;
-  }
 }
