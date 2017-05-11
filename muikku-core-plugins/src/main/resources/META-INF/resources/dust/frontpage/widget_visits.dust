@@ -18,7 +18,7 @@
     </ul>
   {/lastWeek}   
   {?older}
-    <div class="subtitle">{#localize key="plugin.frontPage.visits.older"/}</div>
+<!--     <div class="subtitle">{#localize key="plugin.frontPage.visits.older"/}</div> -->
     <ul>
     {#older}
       {>"frontpage/widget_visit.dust"/}

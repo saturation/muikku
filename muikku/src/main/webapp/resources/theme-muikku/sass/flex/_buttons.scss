@@ -6,7 +6,7 @@
   line-height:1.5em;
   color:#ffffff;
   cursor:pointer;
-  @include buttonFontShadow;
+/*   @include buttonFontShadow; */
   font-weight:400;
   
   &.bt-login {
@@ -19,7 +19,7 @@
     background: rgb(107,187,105);
     @include gradient-top-bottom(rgba(107,187,105,1),rgba(76,163,74,1),#52b050);
     position:relative;
-    @include button-shadow;
+/*     @include button-shadow; */
     
     &::before {
       position:absolute;
@@ -111,8 +111,8 @@
   line-height:1.3em;
   color:#ffffff;
   cursor:pointer;
-  @include buttonFontShadow;
-  @include button-shadow;  
+/*   @include buttonFontShadow; */
+/*   @include button-shadow;   */
   background-color:#ed8e00;
   border:1px solid #d9e4e8;
   font-size:1em;
@@ -193,8 +193,8 @@ input[type="reset"] {
     line-height:1.5em;
     color:#ffffff;
     cursor:pointer;
-    @include buttonFontShadow;
-    @include button-shadow;
+/*     @include buttonFontShadow; */
+/*     @include button-shadow; */
     
     &.bt-login {
       background-color:#52b050;

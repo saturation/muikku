@@ -1,4 +1,3 @@
-
 // Open front page's variables
 
 $of-body-font-family: 'Exo 2',Arial,sans-serif;
@@ -68,12 +67,24 @@ $of-feed-date-text-color: #8c8c8c;
 $of-footer-background-color: #454545;
 $of-footer-text-color: #fff;
 
+
+// Startup-lukio vars
+
+$startup-dark-color: #eaeaea;
+$startup-light-color: #fff;  
+$startup-theme-color: #6f1fee; 
+$startup-dark-font-color: #aaaaaa;
+$startup-light-font-color: #fff;
+$startup-border-color: #6f1fee;
+
+$startup-button-font-color: #6f1fee; 
+
 // Environment level variables
 
 // TODO: Move shadows to _styles.scss
 
-$body-background-color: #f6fcff;
-$body-font-color: #2c2c2c;
+$body-background-color: $startup-light-color;
+$body-font-color: $startup-theme-color;
 $environment-icon-family: 'muikku';
 $environment-header-font-family: 'Axis', 'Gentium Basic';
 $environment-font-family: 'Gentium Basic',Arial,sans-serif;
@@ -86,50 +97,50 @@ $journal-color: #0effe6;
 
 // TODO: Should be environment-icon-color - the fact that an icon is a font is irrelevant
 
-$environment-icon-font-color: #fff;
+$environment-icon-font-color: $startup-theme-color;
 $environment-content-box-shadow: 0 0 15px rgba(216, 230, 235, 0.5);
 $environment-box-shadow: -2px 3px 5px rgba(0, 0, 0, 0.03);
 $environment-bottom-bar-box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
-$environment-bottom-bar-background-color: #485c64;
-$environment-bottom-bar-font-color: #fff;
-$environment-bottom-bar-link-color: #b3e9ff;
-$environment-background-color: #fff;
-$environment-language-selection-background-color: #2e72a0;
+$environment-bottom-bar-background-color: $startup-dark-color;
+$environment-bottom-bar-font-color: $startup-dark-font-color;
+$environment-bottom-bar-link-color: $startup-theme-color;
+$environment-background-color: $startup-light-color;
+$environment-language-selection-background-color: $startup-theme-color;
 $environment-language-selection-shadow: 0 0 15px rgba(255,255,255,0.5);
 $environment-language-selection-active-background-color: #fff;
 $environment-language-selection-link-color: #fff;
-$environment-language-selection-language-background-color: #fff;
-$environment-language-selection-language-link-color: #569bca;
+$environment-language-selection-language-background-color: $startup-dark-color;
+$environment-language-selection-language-link-color: $startup-theme-color;
 $environment-language-selection-language-link-hover-color: #fff;
-$environment-language-selection-language-background-hover-color: #2e72a0;
-$environment-sign-in-link-color: #fff;
+$environment-language-selection-language-background-hover-color: $startup-theme-color;
+$environment-sign-in-link-color: $startup-theme-color;
 $environment-sign-in-font-shadow: 0 0 1px #000;
-$environment-logged-in-border-color: #fff;
-$environment-logged-in-background-color: #fff;
-$environment-logged-in-font-color: #3c77a0;
-$environment-static-navigation-icon-color: #fff;
+$environment-logged-in-border-color: $startup-theme-color;
+$environment-logged-in-background-color: $startup-dark-color;
+$environment-logged-in-font-color: $startup-theme-color;
+$environment-static-navigation-icon-color: $startup-dark-font-color;
 $environment-static-navigation-gradient-color-start: rgba(36, 108, 162, 0.15);
 $environment-static-navigation-gradient-color-end: rgba(255, 255, 255, 0);
-$environment-static-navigation-background-color: #4594bf;
-$environment-static-navigation-border-top-color: #71c3e1;
-$environment-static-navigation-border-bottom-color: #b2e0ff;
-$environment-static-navigation-active-border-color: #aae3f2;
+$environment-static-navigation-background-color: $startup-dark-color;
+$environment-static-navigation-border-top-color: $startup-dark-color;
+$environment-static-navigation-border-bottom-color: $startup-dark-color;
+$environment-static-navigation-active-border-color: #fff;
 $environment-static-navigation-border-color: #66aace;
-$environment-static-navigation-notifier-background-color: #ff0000;
+$environment-static-navigation-notifier-background-color: $startup-theme-color;
 $environment-static-navigation-notifier-border-color: #fff;
-$environment-static-navigation-notifier-font-color: #fff;
-$environment-background-dim-color: #ededed;
-$environment-background-light-dim-color: #f9f9f9;
-$environment-background-highlight-color: #fff8c1;
-$environment-background-active-color: #69cff9;
-$environment-background-selected-color: #eee;
-$environment-file-background-color: #34acfd;
-$environment-font-color: #000;
-$environment-link-color: #4290ea;
-$environment-header-font-color: #2c2c2c;
-$environment-page-title-font-color: #374145;
-$environment-alt-font-color: #fff; 
-$environment-font-disabled-color: #aaa;
+$environment-static-navigation-notifier-font-color: $startup-light-font-color;
+$environment-background-dim-color: $startup-dark-color;
+$environment-background-light-dim-color: $startup-dark-color;
+$environment-background-highlight-color: $startup-theme-color;
+$environment-background-active-color: $startup-theme-color;
+$environment-background-selected-color: $startup-theme-color;
+$environment-file-background-color: $startup-dark-color;
+$environment-font-color: $startup-theme-color;
+$environment-link-color: $startup-theme-color;
+$environment-header-font-color: $startup-theme-color;
+$environment-page-title-font-color: $startup-theme-color;
+$environment-alt-font-color: $startup-theme-color; 
+$environment-font-disabled-color: $startup-theme-color;
 $environment-border-color: #ededed;
 $environment-border-selected-color: #dadada;
 $environment-border-highlight-color: #ccc;
@@ -139,28 +150,28 @@ $environment-button-background-color: #ed8e00;
 $environment-button-gradient-start-color: rgba(253, 167, 38, 1);
 $environment-button-gradient-end-color: rgba(237, 142, 0, 1);
 $environment-button-border-color: #d9e4e8;
-$environment-button-font-color: #fff;
+$environment-button-font-color: $startup-theme-color;
 $environment-button-disabled-background-color: #757575;
 $environment-button-disabled-gradient-start-color: rgba(220, 220, 220, 1);
 $environment-button-disabled-gradient-end-color: rgba(176, 176, 176, 1);
-$environment-button-disabled-font-color: #dadada;
+$environment-button-disabled-font-color: $startup-theme-color;
 $environment-button-dropdown-background-color: #f6c06d;
 $environment-menu-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 $environment-menu-background-color: #fff;
 $environment-menu-font-color: #000;
 $environment-menu-item-active-background-color: #1a9bfc;
-$environment-menu-item-active-font-color: #fff;
+$environment-menu-item-active-font-color: $startup-theme-color;
 $environment-content-container-background-color: #f0f3f4;
 $environment-header-background-color: #eff7fb;
 $environment-navigation-container-background-color: #f1f8fb;
 $environment-navigation-content-navigation-background-color: #f5fcff;
 $environment-paging-tool-background-color: #36a3ce;
-$environment-paging-tool-font-color: #fff;
+$environment-paging-tool-font-color: $startup-theme-color;
 $environment-paging-tool-background-disabled-color: #ededed;
-$environment-paging-tool-font-disabled-color: #dadada;
+$environment-paging-tool-font-disabled-color: $startup-theme-color;
 $environment-widget-overlay-background-color: #000;
-$environment-subtitle-font-color: #757575;
-$environment-items-title-font-color: #757575;
+$environment-subtitle-font-color: $startup-theme-color;
+$environment-items-title-font-color: $startup-theme-color;
 $environment-settings-icon-color: #000;
 $environment-settings-hover-icon-color: #3782df;
 $environment-settings-subtitle-background-color: #f7fdff;
@@ -170,21 +181,21 @@ $environment-profile-background-color: #fff;
 $environment-profile-picture-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 $environment-profile-picture-border: #fff;
 $environment-profile-section-background-color: #ff008d;
-$environment-profile-section-font-color: #fff;
+$environment-profile-section-font-color: $startup-theme-color;
 $environment-profile-button-background-color: #0099ff;
-$environment-profile-button-font-color: #fff;
+$environment-profile-button-font-color: $startup-theme-color;
 
 
 
 // Forms (bottom bar)
 
-$form-header-font-color: #fff;
-$form-element-title-font-color: #5b5b5b; 
-$form-textfield-font-color: #000;
+$form-header-font-color: $startup-theme-color;
+$form-element-title-font-color: $startup-theme-color; 
+$form-textfield-font-color: $startup-theme-color;
 $form-textfield-focus-background-color: #eee;
 $form-textfield-hover-background-color: #eee;
 $form-textfield-subcontainer-border-color: #fff;
-$form-textfield-subcontainer-font-color: #000;
+$form-textfield-subcontainer-font-color: $startup-theme-color;
 $form-textfield-subcontainer-background-color: #fff;
 $form-button-font-color: #fff;
 $form-button-send-background-color: #27b91c;
@@ -201,10 +212,10 @@ $item-markup-border-color-2: #f90ae3;
 $item-markup-border-color-3: #5dc005;
 $item-shadow: 0 0 15px rgba(216, 230, 235, 0.2);
 $item-header-hidden-font-color: #d89828;
-$item-header-secondary-font-color: #cecece;
-$item-header-icon-font-color: #3f639a;
+$item-header-secondary-font-color: $startup-theme-color;
+$item-header-icon-font-color: $startup-theme-color;
 $item-header-label-background-color: #daf5ff;
-$item-description-font-color: #9f9f9f;
+$item-description-font-color: $startup-theme-color;
 $item-border-color: #fff;
 $item-border-color-active: #0099ff;
 $item-background-active-color: #dff7ff;
@@ -213,31 +224,31 @@ $item-border-highlight-color: #ff9600;
 $item-target-icon-color: #049a00;
 $item-state-locked-icon-color: #c92d2d;
 $item-state-pinned-icon-color: #149000;
-$item-state-info-font-color: #a4a4a4;
+$item-state-info-font-color: $startup-theme-color;
 $item-title-background-color: #f8f8f8;
-$item-grade-font-color: #fff;
+$item-grade-font-color: $startup-theme-color;
 $item-grade-passing-background-color: #0acf00;
 $item-grade-failing-background-color: #ea7401;
 $item-button-add-background-color: #0099ff;
 $item-button-font-color: #fff;
-$item-tool-font-color: #ededed;
-$item-tool-font-hover-color: #000;
+$item-tool-font-color: $startup-theme-color;
+$item-tool-font-hover-color: $startup-theme-color;
 $item-tool-button-font-color: #fff;
-$item-tool-button-background-color: #068feb;
-$item-tool-button-wizard-background-color: #00b8c8;
-$item-tool-button-goto-background-color: #068feb;
-$item-tool-link-font-color: #068feb;
-$item-label-font-color: #4c4c4c;
+$item-tool-button-background-color: $startup-theme-color;
+$item-tool-button-wizard-background-color: $startup-theme-color;
+$item-tool-button-goto-background-color: $startup-theme-color;
+$item-tool-link-font-color: $startup-theme-color;
+$item-label-font-color: $startup-theme-color;
 
 // Vertical navigation bar seen in mainfunctions (labels, folders...)
 
-$navigation-vertical-bar-icon-color: #dadada;
-$navigation-vertical-bar-empty-font-color: #dadada;
-$navigation-vertical-bar-border-color: #fff;
-$navigation-vertical-bar-hover-border-color: #ededed;
+$navigation-vertical-bar-icon-color: $startup-theme-color;
+$navigation-vertical-bar-empty-font-color: $startup-theme-color;
+$navigation-vertical-bar-border-color: $startup-theme-color;
+$navigation-vertical-bar-hover-border-color: $startup-theme-color;
 $navigation-vertical-bar-selected-background-color: #ededed;
-$navigation-vertical-bar-deco-icon-color: #dadada;
-$navigation-vertical-bar-deco-active-icon-color: #000;
+$navigation-vertical-bar-deco-icon-color: $startup-theme-color;
+$navigation-vertical-bar-deco-active-icon-color: $startup-theme-color;
 $navigation-vertical-bar-background-color: #fff;
 $navigation-vertical-bar-background-active-color: #dadada;
 $navigation-vertical-bar-sub-header-background-color: #aed4e3;
@@ -246,30 +257,30 @@ $navigation-vertical-bar-active-background-color: #eee;
 // Horizontal navigation bar seen in mainfunctions (delete, add labels, add area, edit area...)
 
 $navigation-horizontal-bar-button-icon-color: #fff;
-$navigation-horizontal-bar-default-button-background-color: #0099ff;
-$navigation-horizontal-bar-default-button-background-hover-color: #0065cb;
-$navigation-horizontal-bar-navigation-background-color: #84d9fe;
+$navigation-horizontal-bar-default-button-background-color: $startup-theme-color;
+$navigation-horizontal-bar-default-button-background-hover-color: $startup-theme-color;
+$navigation-horizontal-bar-navigation-background-color: $startup-theme-color;
 $navigation-horizontal-bar-navigation-icon-color: #fbfbfb;
-$navigation-horizontal-bar-special-background-color: #99eb36;
-$navigation-horizontal-bar-special-accented-background-color: #72b322;
-$navigation-horizontal-bar-special-button-background-color: #72d200;
-$navigation-horizontal-bar-special-menu-link-font-color: #72d200;
-$navigation-horizontal-bar-special-menu-input-border-color: #ccc;
+$navigation-horizontal-bar-special-background-color: $startup-theme-color;
+$navigation-horizontal-bar-special-accented-background-color: $startup-theme-color;
+$navigation-horizontal-bar-special-button-background-color: $startup-theme-color;
+$navigation-horizontal-bar-special-menu-link-font-color: $startup-theme-color;
+$navigation-horizontal-bar-special-menu-input-border-color: $startup-theme-color;
 $navigation-horizontal-bar-special-menu-arrow-border-color-1: #fff;
-$navigation-horizontal-bar-special-menu-arrow-border-color-2: #72d200;
-$navigation-horizontal-bar-special-menu-border-color: #72d200; 
+$navigation-horizontal-bar-special-menu-arrow-border-color-2: $startup-theme-color;
+$navigation-horizontal-bar-special-menu-border-color: $startup-theme-color; 
 $navigation-horizontal-bar-active-font-color: #fff;
-$navigation-horizontal-bar-hover-background-color: #eee;
+$navigation-horizontal-bar-hover-background-color: $startup-theme-color;
 $navigation-horizontal-bar-border-color: #fff;
-$navigation-horizontal-bar-disabled-button-background-color: #ededed;
-$navigation-horizontal-bar-disabled-button-font-color: #dadada;
+$navigation-horizontal-bar-disabled-button-background-color: $startup-theme-color;
+$navigation-horizontal-bar-disabled-button-font-color: #fff;
 
 // This navigation is inside of the content area 
 
-$content-navigation-menu-border-color-1: #00deff;
+$content-navigation-menu-border-color-1: $startup-theme-color;
 $content-navigation-menu-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
-$content-navigation-menu-highlight-background-color: #3a98f0;
-$content-navigation-action-remove-background-color: #d80000;
+$content-navigation-menu-highlight-background-color: $startup-theme-color;
+$content-navigation-action-remove-background-color: $startup-theme-color;
 $content-navigation-action-font-color: #fff;
 
 // Categories are used in differentiating things (users, message areas...) by color. 
@@ -288,18 +299,18 @@ $category-color-10: #0cff00;
 $category-color-11: #000000;
 
 // Searches and filterings 
-$search-icon-color: #dadada;
-$search-result-font-color: #0099ff;
+$search-icon-color: #fff;
+$search-result-font-color: $startup-theme-color;
 $user-picture-font-color: #fff;
 
 // Target (user, group, workspace...) - fe. a recipient
 
-$target-font-color: #777;
-$target-user-color: #ff9600;
-$target-workspace-color: #0012ff;
-$target-group-color: #049a00;
-$target-remove-color: #d80000;
-$target-remove-font-color: #d80000;
+$target-font-color: $startup-theme-color;
+$target-user-color: $startup-theme-color;
+$target-workspace-color: $startup-theme-color;
+$target-group-color: $startup-theme-color;
+$target-remove-color: $startup-theme-color;
+$target-remove-font-color: $startup-theme-color;
 
 // Evaluation Basic 
 
@@ -323,9 +334,9 @@ $evaluation-view-background-color: #fff;
 
 // Evaluation Navigation
 
-$evaluation-navigation-background-color: #7ed9ff;
+$evaluation-navigation-background-color: #fff;
 $evaluation-navigation-boxshadow-color: rgba(0, 0, 0, 0.1);
-$evaluation-navigation-item-font-color: #fff;
+$evaluation-navigation-item-font-color: $startup-theme-color;
 $evaluation-navigation-item-textshadow-color: #fff; // Highlight effect
 
 // Evaluation Filer
@@ -335,9 +346,9 @@ $evaluation-filter-wrapper-background-boxshadow-color: rgba(0, 0, 0, 0.1);
 
 // Evaluation Sorting
 
-$evaluation-sorting-item-nonactive-background-color: #eee;
-$evaluation-sorting-item-nonactive-font-color: #000;
-$evaluation-sorting-item-active-background-color: #009fe3;
+$evaluation-sorting-item-nonactive-background-color: #fff;
+$evaluation-sorting-item-nonactive-font-color: $startup-theme-color;
+$evaluation-sorting-item-active-background-color: $startup-theme-color;
 $evaluation-sorting-item-active-font-color: #fff;
 
 // Evaluation Welldone
@@ -352,13 +363,13 @@ $evaluation-card-title-background: #ebfbfe;
 $evaluation-card-assignment-status-font-color: #fff;
 $evaluation-card-assignment-status-notdone-background-color: #da5760;
 $evaluation-card-assignment-status-done-background-color: #63da57;
-$evaluation-important-star-font-color: #009fe3;
+$evaluation-important-star-font-color: $startup-theme-color;
 $evaluation-important-star-active-font-color: #fff;
-$evaluation-important-star-active-background-color: #ff0000;
-$evaluation-unimportant-star-font-color: #009fe3;
-$evaluation-unimportant-star-active-font-color: #fff;
-$evaluation-unimportant-star-active-background-color: #666;
-$evaluation-card-button-font-color: #fff;
+$evaluation-important-star-active-background-color: $startup-theme-color;
+$evaluation-unimportant-star-font-color: #fff;
+$evaluation-unimportant-star-active-font-color: $startup-theme-color;
+$evaluation-unimportant-star-active-background-color: #fff;
+$evaluation-card-button-font-color: $startup-theme-color;
 
 // Evaluation Workspaces
 
@@ -368,29 +379,29 @@ $evaluation-workspaces-wrapper-background-boxshadow-color: rgba(0, 0, 0, 0.1);
 // Evaluation Modal
 
 $evaluation-modal-background-color: #fff;
-$evaluation-modal-close-font-color: #fff;
+$evaluation-modal-close-font-color: $startup-theme-color;
 $evaluation-modal-close-textshadow-color: #fff;
-$evaluation-modal-assignment-close-font-color: #d522c6;
-$evaluation-modal-assignment-close-border-color: #d522c6;
-$evaluation-modal-assignment-close-textshadow-color: #fff;
-$evaluation-modal-header-background-color: #3786bf;
+$evaluation-modal-assignment-close-font-color: $startup-theme-color;
+$evaluation-modal-assignment-close-border-color: $startup-theme-color;
+$evaluation-modal-assignment-close-textshadow-color: $startup-theme-color;
+$evaluation-modal-header-background-color: $startup-theme-color;
 $evaluation-modal-header-font-color: #fff;
 
 // Evaluation Modal - Workspace Evaluation Overlay
 
 $evaluation-modal-workspace-evaluation-form-overlay-background-color: #fff;
-$evaluation-modal-workspace-evaluation-form-activate-button-background-color: #009fe3;
-$evaluation-modal-workspace-evaluation-form-activate-button-font-color: #fff;
+$evaluation-modal-workspace-evaluation-form-activate-button-background-color: #fff;
+$evaluation-modal-workspace-evaluation-form-activate-button-font-color: $startup-theme-color;
 
 // Evaluation Modal - Forms
 
-$evaluation-modal-texteditor-border-color: #abdbed;
+$evaluation-modal-texteditor-border-color: $startup-theme-color;
 $evaluation-modal-textfield-background-color: #fff;
-$evaluation-modal-textfield-border-color: #abdbed;
+$evaluation-modal-textfield-border-color: $startup-theme-color;
 $evaluation-modal-memofield-background-color: #fff;
 $evaluation-modal-memofield-border-color: #abdbed;
 $evaluation-modal-select-background-color: #fff;
-$evaluation-modal-select-border-color: #abdbed;
+$evaluation-modal-select-border-color: $startup-theme-color;
 $evaluation-modal-button-font-color: #fff;
 
 // Evaluation Modal - Assignment Evaluation 
@@ -400,15 +411,15 @@ $evaluation-modal-assignment-evaluation-header-background-color: #fff;
 
 // Evaluation Modal Assignment & Journal Listing
 
-$evaluation-modal-seperator-border-color: #f8f8f8;
+$evaluation-modal-seperator-border-color: $startup-theme-color;
 $evaluation-modal-assignment-evaluate-button-font-color: #fff;
 $evaluation-modal-assignment-evaluated-incomplete-font-color: #fff;
-$evaluation-modal-assignment-evaluated-grade-info-background-color: #c9f8bb;
-$evaluation-modal-assignment-evaluated-literal-background-color: #e2ffe2;
+$evaluation-modal-assignment-evaluated-grade-info-background-color: $startup-theme-color;
+$evaluation-modal-assignment-evaluated-literal-background-color: $startup-theme-color;
 
 // Forms in Evaluation
 
-$forms-generic-border-color: #fff;
-$forms-button-background-color: #62c3eb;
+$forms-generic-border-color: $startup-theme-color;
+$forms-button-background-color: $startup-theme-color;
 $forms-button-font-color: #fff;
-$forms-reset-icon-font-color: #4c4c4c;
+$forms-reset-icon-font-color: #fff;

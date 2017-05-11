@@ -1,5 +1,5 @@
 @import "fonts";
-@import "vars";
+@import "_vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 @import "forms";
@@ -23,10 +23,7 @@ body {
   font-size: 14px;
   font-weight: 300;
   line-height: 1.5em;
-  background-image: url('/gfx/main-background.png'), url('/gfx/main-background-slice.png');
   background-color: $body-background-color;
-  background-repeat: no-repeat,repeat-x;
-  background-position: top center, top left;
   color: $body-font-color;
 }
 
@@ -75,13 +72,14 @@ dt {
 }
 
 #headerLogoTextContainer {
-  background-image: url('/gfx/muikku-header-text.png');
+  background-image: url('/gfx/up-logo.png');
   background-repeat: no-repeat;
   background-position: left center;
   position: relative;
-  left: -25px;
+  left: 0px;
   top: 0;
   height: 110px;
+  background-size: 105px 70px;
 }
 
 #footer {
@@ -89,7 +87,7 @@ dt {
   bottom: 0;
   left: 0;
   right: 0;
-  box-shadow: $environment-bottom-bar-box-shadow;
+/*   box-shadow: $environment-bottom-bar-box-shadow; */
   z-index: 999;
   min-width: 310px;
   padding:0 5px;
@@ -165,7 +163,7 @@ dt {
   
   .forgotpassword-link {
     color: $environment-sign-in-link-color;
-    text-shadow: $environment-sign-in-font-shadow;
+/*     text-shadow: $environment-sign-in-font-shadow; */
   }
   
 }
@@ -176,17 +174,18 @@ dt {
   position: relative;
   
   .selected-language {
-    background: $of-navigation-locale-selected-background-color;
+    font-family:  $environment-header-font-family;
+    background: $startup-dark-color;
     border-radius: 100%;
     box-sizing: border-box;
-    color: $of-navigation-locale-selected-text-color;
+    color: $startup-theme-color;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 300;
     height: 48px; 
     line-height: 1;
     overflow: hidden;
-    padding: 12px 10px;
+    padding: 17px 10px;
     text-align: center;
     transition: border-radius 0.1s ease-in-out;
     width: 48px;
@@ -194,9 +193,9 @@ dt {
   }
   
   .language-selection-container {
-    background: $of-navigation-locale-selection-background-color;
+    background: $startup-light-color;
     border-radius: 5px;
-    box-shadow: 0 10px 20px $of-navigation-locale-selection-boxshadow-color;
+    border: 1px solid  $startup-dark-color;
     display: none;
     min-width: 100px;
     position: absolute;
@@ -215,7 +214,7 @@ dt {
       position: absolute;
       pointer-events: none;
       border-color: rgba(73, 73, 73, 0);
-      border-bottom-color: $of-navigation-locale-selection-arrow-background-color;
+      border-bottom-color: $startup-dark-color;
       border-width: 4px;
       margin-left: -4px;
     }
@@ -224,17 +223,17 @@ dt {
   
   a {  
     border-radius: 5px;
-    color: $of-navigation-locale-selection-link-color;   
+    color: $startup-theme-color;   
     display: block;
     font-size: 14px;
     font-weight: 300;
     line-height: 1;
     padding: 10px;  
     text-decoration: none;
-    white-space: nowrap; 
+    white-space: nowrap;     
     
     &:hover {
-      background: #000;
+      background: $startup-dark-color;
       text-decoration: none;
     }
     
@@ -248,7 +247,6 @@ dt {
   font-weight: 400;
 
   .lu-picture {
-    border: 2px solid $environment-logged-in-border-color;
     border-radius: 100%;
     box-sizing: border-box;
     display: inline-block;
@@ -269,7 +267,6 @@ dt {
   }
 
   .lu-info-container {
-    border: 2px solid $environment-logged-in-border-color;
     background: $environment-logged-in-background-color;
     height: 48px;
     display: inline-block;
@@ -278,11 +275,13 @@ dt {
     border-bottom-left-radius: 24px;
   
     .lu-user-name {
+    
       @include no-select;
       color: $environment-logged-in-font-color;
+      font-family: $environment-header-font-family;
       float: left;
       height: 1.5em;
-      margin: 13px 6px 14px 20px;
+      margin: 15px 6px 14px 20px;
       max-width: 270px;
       min-width: 100px;
       overflow: hidden;
@@ -313,10 +312,16 @@ dt {
       }
       
     }
-
+    .lu-action-signout {
+      font-size: 22px;
+      &::before {
+        color: $startup-dark-font-color;
+      }
+    }
+    
+    
     a[class*="lu-action"] {
       color: $environment-logged-in-font-color;
-      font-size: 21px;
       text-decoration: none;
     }
 
@@ -326,17 +331,9 @@ dt {
 
 /* Navigation */
 #staticNavigationWrapper {
-  height: 76px;
   min-width: 320px;
   z-index: 12;
   position: relative;
-  background: -moz-linear-gradient(top, $environment-static-navigation-gradient-color-start 0%, $environment-static-navigation-gradient-color-end 66%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $environment-static-navigation-gradient-color-start), color-stop(66%, $environment-static-navigation-gradient-color-end));
-  background: -webkit-linear-gradient(top, $environment-static-navigation-gradient-color-start 0%, $environment-static-navigation-gradient-color-end 66%);
-  background: -o-linear-gradient(top, $environment-static-navigation-gradient-color-start 0%, $environment-static-navigation-gradient-color-end 66%);
-  background: -ms-linear-gradient(top, $environment-static-navigation-gradient-color-start 0%, $environment-static-navigation-gradient-color-end 66%);
-  background: linear-gradient(to bottom, $environment-static-navigation-gradient-color-start 0%, $environment-static-navigation-gradient-color-end 66%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#26246ca2', endColorstr='#00ffffff',GradientType=0);
 }
 
 .static-navigation-bg {
@@ -353,67 +350,59 @@ dt {
 }
 
 #staticNavigation {
+  display: flex;
+  align-items: center;
   max-width: $siteWidth;
+  
   margin: 0 auto;
-  height: 56px;
   z-index: 14;
   padding: 10px;
   position: relative;
 }
 
 /* Navigation Icons */
-div[class*="dock-static-navi"] {
-  position: relative;
-  float: left;
-  margin-right: 15px;
-  
-  &.active-trail {
-    border-bottom: 3px solid $environment-static-navigation-active-border-color;
-    
-    &:hover {
-      border-bottom: 3px solid $environment-static-navigation-active-border-color;
-    }
-    
-  }
-  
-  &:hover {
-    border-bottom: 3px solid $environment-static-navigation-border-color;
-  }
-}
+
+
 
 div[class*='dock-static-navi-button'] > a,
 div[class*='dock-static-navi-button'] > div, 
 div[class*='dock-dynamic-navi-button'] > a {
-  font-size: 40px;
+  font-family: $environment-header-font-family;  
+  font-size: 12px;
+  text-transform: uppercase;
+  position:relative;
   color: $environment-static-navigation-icon-color;
   text-decoration: none;
-  @include iconShadow;
-  padding: 5px 10px;
-  height: 40px;
+  letter-spacing: 2px;
+  padding: 5px 10px 5px 5px;
   display: inline-block;
-  
-  &:hover {
-    @include iconShadow(rgba(255, 255, 190, 0.8));
-  }
-  
 }
+
+div[class*="dock-static-navi"] {
+  display: inline-block;
+  margin-right: 15px;
+  
+  &.active-trail {
+    a {
+     color: $startup-theme-color;
+    }
+  }
+}
+
 
 /* Navigation Icons Notifier */
 
 .dock-notification {
   background-color: $environment-static-navigation-notifier-background-color;
-  border-radius: 10px;
+  border-radius: 1px;
   border: 1px solid $environment-static-navigation-notifier-border-color;
-  top: 11px;
   color: $environment-static-navigation-notifier-font-color;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 12px;
   height: 16px;
   min-width: 10px;
-  padding: 0 3px 0 0;
-  position: absolute;
+  padding: 2px 3px;
+
   text-align: center;
-  right: 4px;
 }
 
 /* Content where everything goes */
@@ -424,7 +413,7 @@ main.content {
 
 /* After Personalization Box will be redesigned and moved to proper .scss*/
 .box {
-  box-shadow: $environment-content-box-shadow;
+/*   box-shadow: $environment-content-box-shadow; */
   background: $environment-background-color;
   padding: 15px;
   height: 100%;
@@ -445,7 +434,7 @@ main.content {
   border-radius: 2px;
   color: $environment-alt-font-color;
   margin: 0 5px;
-  padding: 2px 8px;
+  padding: 0 8px;
 }
 
 .box ul {
@@ -520,6 +509,7 @@ main.content {
 /* Headers */
 h1,h2,h3,h4,h5,h6 {
   color: $environment-header-font-color;
+  font-family: $environment-header-font-family;
   text-transform: uppercase;
   margin: 0 0 0.5em;
   font-weight: 300;

@@ -25,6 +25,12 @@ public class JsfResourceRewriteRules extends HttpConfigurationProvider {
         .matches("[a-zA-Z0-9/_.\\-]*");
     
     configuration.addRule(
+    	      Join.path("/fonts/{file}")
+    	        .to("/javax.faces.resource/fonts/{file}.jsf?ln=theme-muikku"))
+    	        .where("file")
+    	        .matches("[a-zA-Z0-9/_.\\-]*");
+    
+    configuration.addRule(
       Join.path("/css/{file}")
         .to("/javax.faces.resource/css/{file}.jsf?ln=theme-muikku"))
         .where("file")

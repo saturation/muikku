@@ -1,5 +1,5 @@
 @import "fonts";
-@import "vars";
+@import "_vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 @import "forms";
@@ -18,17 +18,27 @@ html {
 }
 
 body {
-  background-image:url("/gfx/light-diagonal-strips.png");
-  background-repeat:repeat;
-  background-color:#f0f3f5;
+
+  background-color: $body-background-color;
+  color: $body-font-color; 
   font-size:14px;
   font-weight:300;
-  padding:60px 5px 50px;
+  padding: 0 0 50px;
   margin: 0;
-  font-family:'Open Sans', Arial, sans-serif;
-  line-height:1.9em; /* Set line-height:1 to element when there's a need to override */
+  font-family: $environment-font-family;
+  line-height:1.5em; /* Set line-height:1 to element when there's a need to override */
   color:#2c2c2c;
 }
+
+
+h1,h2,h3,h4,h5,h6 {
+  color: $environment-header-font-color;
+  font-family: $environment-header-font-family;
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+  font-weight: 300;
+}
+
 
 /* TODO: This blockquote is also in the flex-main.scss - refactoring needed */
 
@@ -69,45 +79,114 @@ blockquote{
   text-decoration:none;  
 }
 
-.lu-picture {
-  border: 2px solid $environment-logged-in-border-color;
-  border-radius: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  display: inline-block;
-  float: right;
-  height: 48px;
-  margin: 0 10px 0 0;
-  overflow: hidden;
+.logged-user {
   position: relative;
-  top: 0;
-  width: 48px;
-  z-index: 15; 
-  
-  object,
-  img {
-    height: 44px;
-    width: 44px;
-  }
-  
-  &:hover {
-    box-shadow:0 0 15px rgba(255, 255, 255, 0.9);
-  }
-  
-  a {
-    height:44px;
-    width:44px;      
-    box-sizing:border-box;
-    display:block;
+  float: right;
+  font-weight: 400;
+
+  .lu-picture {
+    border-radius: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 48px;
+    margin: 0 5px 0 auto;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    width: 48px;
+    z-index: 15; 
     
+    object,
     img {
-      width:44px;
-      height:44px;
-      border:0;
+      height: 44px;
+      width: 44px;
     }
     
   }
 
+  .lu-info-container {
+    background: $environment-logged-in-background-color;
+    height: 48px;
+    display: inline-block;
+    box-sizing: border-box;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+  
+    .lu-user-name {
+    
+      @include no-select;
+      color: $environment-logged-in-font-color;
+      font-family: $environment-header-font-family;
+      float: left;
+      height: 1.5em;
+      margin: 15px 6px 14px 20px;
+      max-width: 270px;
+      min-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+      
+      a {
+        color: $environment-logged-in-font-color;
+        text-decoration: none;
+      }
+      
+    }
+    
+    .lu-user-name-button-value {
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+    }
+          
+    .lu-actions {
+      float: left;
+      height: 1.5em;
+      padding: 13px 6px 10px;
+      
+      a {
+        margin: 0 6px;
+      }
+      
+    }
+    .lu-action-signout {
+      font-size: 22px;
+      &::before {
+        color: $startup-dark-font-color;
+      }
+    }
+    
+    
+    a[class*="lu-action"] {
+      color: $environment-logged-in-font-color;
+      text-decoration: none;
+    }
+
+  }
+
+}
+
+
+
+/* Header */
+#header {
+  max-width: $siteWidth;
+  margin: 0 auto;
+  height: 120px;
+  color: $environment-alt-font-color;
+  position: relative;  
+}
+
+#headerLogoTextContainer {
+  background-image: url('/gfx/up-logo.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  position: relative;
+  left: 0px;
+  top: 0;
+  height: 110px;
+  background-size: 105px 70px;
 }
 
 /* Language */
@@ -247,91 +326,69 @@ blockquote{
 }
 
 /* Navigation */
-#staticNavigationWrapper {
-  height:70px;
-  position:fixed;
-  left:0;
-  top:0;
-  right:0;
-  box-shadow:0 3px 10px rgba(0, 0, 0, 0.1);
-  z-index:99;
-}
 
-#staticNavigation {
-  max-width:$siteWidth;
-  margin:0 auto;
-  height:50px;
-  z-index:14;
-  padding:10px;
-  position:relative;
+
+#staticNavigationWrapper {
+  min-width: 320px;
+  z-index: 12;
+  position: relative;
 }
 
 .static-navigation-bg {
-  background:#32acf6 url("/gfx/workspace-navigation-background.png");
-  background-position:30% top;
-  opacity:1;
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  z-index:13;
-  border-bottom:1px solid $naviWorkspaceBorderBottom;
+  background: $environment-static-navigation-background-color;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 13;
+  border-top: 1px solid $environment-static-navigation-border-top-color;
+  border-bottom: 1px solid $environment-static-navigation-border-bottom-color;
+}
+
+#staticNavigation {
+  display: flex;
+  align-items: center;
+  max-width: $siteWidth;
+  
+  margin: 0 auto;
+  z-index: 14;
+  padding: 10px;
+  position: relative;
 }
 
 /* Navigation Icons */
-div[class*="dock-static-navi"] {
-  position:relative;
-  float:left;
-  margin-right:15px;
-  
-  &.active-trail {
-    border-bottom:3px solid #aae3f2;
-    
-    &:hover {
-      border-bottom:3px solid #aae3f2;
-    }
-    
-  }
-  
-  &:hover {
-    border-bottom:3px solid #66aace;
-  }
-}
+
+
 
 div[class*='dock-static-navi-button'] > a,
 div[class*='dock-static-navi-button'] > div, 
 div[class*='dock-dynamic-navi-button'] > a {
-  font-size:40px;
-  color:#fff;
-  text-decoration:none;
-  @include iconShadow;
-  padding:5px 10px;
-  height:40px;
-  display:inline-block;
-  
-  &:hover {
-    @include iconShadow(rgba(255,255,190,0.8));
-  }
-  
+  font-family: $environment-header-font-family;  
+  font-size: 12px;
+  text-transform: uppercase;
+  position:relative;
+  color: $environment-static-navigation-icon-color;
+  text-decoration: none;
+  letter-spacing: 2px;
+  padding: 5px 10px 5px 5px;
+  display: inline-block;
 }
 
-/* Navigation Icons Notifier */
-.dock-notification {
-  background-color: #ff0000;
-  border-radius: 10px;
-  border:1px solid #fff;
-  top: 11px;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
-  height: 16px;
-  min-width: 10px;
-  padding: 0 3px 0 0;
-  position: absolute;
-  text-align: center;
-  right: 4px;
+div[class*="dock-static-navi"] {
+  display: inline-block;
+  margin-right: 15px;
+  
+  &.active-trail {
+    a {
+     color: $startup-theme-color;
+    }
+  }
 }
+
+
+
+
 
 /* Content where everything goes */
 main.content {
