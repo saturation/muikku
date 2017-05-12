@@ -29,14 +29,14 @@
     <header class="flex-row workspace-header-wrapper">
       <div class="workspace-header-container lg-flex-cell-16 md-flex-cell-16 sm-flex-cell-16 no-margin-bottom">
         <h1 class="workspace-title">#{workspaceIndexBackingBean.workspaceName}</h1>
-        <ui:fragment rendered="#{workspaceIndexBackingBean.educationType ne null}">
-          <div class="workspace-study-level-indicator indicator1">
-            <div class="workspace-study-level-text">#{workspaceIndexBackingBean.educationType}</div>
-          </div>
-        </ui:fragment>
-        <ui:fragment rendered="#{not empty workspaceIndexBackingBean.workspaceNameExtension}">
-          <div class="workspace-additional-info-wrapper"><span>#{workspaceIndexBackingBean.workspaceNameExtension}</span></div>
-        </ui:fragment>
+<!--         <ui:fragment rendered="#{workspaceIndexBackingBean.educationType ne null}"> -->
+<!--           <div class="workspace-study-level-indicator indicator1"> -->
+<!--             <div class="workspace-study-level-text">#{workspaceIndexBackingBean.educationType}</div> -->
+<!--           </div> -->
+<!--         </ui:fragment> -->
+<!--         <ui:fragment rendered="#{not empty workspaceIndexBackingBean.workspaceNameExtension}"> -->
+<!--           <div class="workspace-additional-info-wrapper"><span>#{workspaceIndexBackingBean.workspaceNameExtension}</span></div> -->
+<!--         </ui:fragment> -->
         <div class="workspace-progress-widget workspace-progress-container">
         </div>  
       </div>
@@ -44,37 +44,37 @@
     
     <section class="flex-row">
       <div class="workspace-meta-wrapper lg-flex-cell-full md-flex-cell-full sm-flex-cell-full no-margin-top no-margin-bottom">
-        <div class="workspace-meta-item-wrapper">
-          <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseLengthLabel']}</span>
-          <span class="workspace-meta-desc">
-            <h:outputFormat value="#{i18n.text['plugin.workspace.index.courseLength']}">
-              <f:param value="#{workspaceIndexBackingBean.courseLength}"/>
-              <f:param value="#{workspaceIndexBackingBean.courseLengthSymbol}"/>
-            </h:outputFormat>
-          </span> 
-        </div>
-        <div class="workspace-meta-item-wrapper">
-          <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseSubjectLabel']}</span>
-          <span class="workspace-meta-desc">#{workspaceIndexBackingBean.subject}</span> 
-        </div>
-        <ui:fragment rendered="#{workspaceIndexBackingBean.workspaceType ne null}">
-          <div class="workspace-meta-item-wrapper">
-            <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseTypeLabel']}</span>
-            <span class="workspace-meta-desc">#{workspaceIndexBackingBean.workspaceType}</span>
-          </div> 
-        </ui:fragment>
+<!--         <div class="workspace-meta-item-wrapper"> -->
+<!--           <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseLengthLabel']}</span> -->
+<!--           <span class="workspace-meta-desc"> -->
+<!--             <h:outputFormat value="#{i18n.text['plugin.workspace.index.courseLength']}"> -->
+<!--               <f:param value="#{workspaceIndexBackingBean.courseLength}"/> -->
+<!--               <f:param value="#{workspaceIndexBackingBean.courseLengthSymbol}"/> -->
+<!--             </h:outputFormat> -->
+<!--           </span>  -->
+<!--         </div> -->
+<!--         <div class="workspace-meta-item-wrapper"> -->
+<!--           <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseSubjectLabel']}</span> -->
+<!--           <span class="workspace-meta-desc">#{workspaceIndexBackingBean.subject}</span>  -->
+<!--         </div> -->
+<!--         <ui:fragment rendered="#{workspaceIndexBackingBean.workspaceType ne null}"> -->
+<!--           <div class="workspace-meta-item-wrapper"> -->
+<!--             <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseTypeLabel']}</span> -->
+<!--             <span class="workspace-meta-desc">#{workspaceIndexBackingBean.workspaceType}</span> -->
+<!--           </div>  -->
+<!--         </ui:fragment> -->
   
-        <ui:fragment rendered="#{(workspaceIndexBackingBean.beginDate ne null) and (workspaceIndexBackingBean.endDate ne null)}">
-          <div class="workspace-meta-item-wrapper">
-            <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseDatesLabel']}</span>
-            <span class="workspace-meta-desc">
-              <h:outputFormat value="#{i18n.text['plugin.workspace.index.courseDates']}">
-                <f:param value="#{workspaceIndexBackingBean.beginDate}"/>
-                <f:param value="#{workspaceIndexBackingBean.endDate}"/>
-              </h:outputFormat>
-            </span> 
-          </div>
-        </ui:fragment>
+<!--         <ui:fragment rendered="#{(workspaceIndexBackingBean.beginDate ne null) and (workspaceIndexBackingBean.endDate ne null)}"> -->
+<!--           <div class="workspace-meta-item-wrapper"> -->
+<!--             <span class="workspace-meta-title">#{i18n.text['plugin.workspace.index.courseDatesLabel']}</span> -->
+<!--             <span class="workspace-meta-desc"> -->
+<!--               <h:outputFormat value="#{i18n.text['plugin.workspace.index.courseDates']}"> -->
+<!--                 <f:param value="#{workspaceIndexBackingBean.beginDate}"/> -->
+<!--                 <f:param value="#{workspaceIndexBackingBean.endDate}"/> -->
+<!--               </h:outputFormat> -->
+<!--             </span>  -->
+<!--           </div> -->
+<!--         </ui:fragment> -->
         <div class="workspace-publication-container sm-flex-hide" jsf:rendered="#{workspaceIndexBackingBean.canPublish}" data-published="#{workspaceIndexBackingBean.published}">
           <a class="workspace-publish-button" style="display:none;" href="javascript:void(null)">#{i18n.text['plugin.workspace.index.publish']}</a>
           <a class="workspace-unpublish-button" style="display:none;" href="javascript:void(null)">#{i18n.text['plugin.workspace.index.unpublish']}</a>

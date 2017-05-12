@@ -6,7 +6,7 @@
 // WORKSPACE NAVIGATION CONTAINER
 #workspaceNavigationWrapper { 
   position: fixed;
-  top: 90px;
+  top: 206px;
   z-index: 21;
   left: 50%;
   margin-left: -550px;
@@ -175,11 +175,11 @@ div[class*='workspace-dock-navi-button'] > span {
   }
   
   &:hover {
-    background: #25c29e;
+    background: $startup-theme-color;
     
     span[class*='workspace-navi-tt-container-'] {
       display: block;
-      background: #25c29e;
+      background: $startup-theme-color;
       opacity: 1;
       width: auto;
       left: 45px;

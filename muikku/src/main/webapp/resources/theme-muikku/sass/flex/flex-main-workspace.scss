@@ -68,7 +68,23 @@ blockquote{
   padding-top:0.01em;
 }
 
+
+/* Navigation Icons Notifier */
+
+.dock-notification {
+  background-color: $environment-static-navigation-notifier-background-color;
+  border-radius: 1px;
+  border: 1px solid $environment-static-navigation-notifier-border-color;
+  color: $environment-static-navigation-notifier-font-color;
+  font-size: 12px;
+  height: 16px;
+  min-width: 10px;
+  padding: 0 3px;
+  text-align: center;
+}
+
 /* Navigation Icons tooltip */
+
 [class^="icon-"] span, [class*=" icon-"] span {
   display: inline-block;
   font-family:'Open Sans', Arial, sans-serif !important;
@@ -263,45 +279,45 @@ blockquote{
 }
   
 #footer {
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  box-shadow:-5px 0 5px rgba(0, 0, 0, 0.2);
-  font-size:14px;
-  z-index:999;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  min-width: 310px;
+  padding:0 5px;
   
   .footer-custom-bg {
-    background:#485c64;
-    bottom:0;
-    left:0;
-    position:absolute;
-    right:0;
-    top:0;
-    z-index:1;
+    background: $environment-bottom-bar-background-color;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
   }
   
   .footer-custom-content {
-    position:relative;
-    z-index:2;
+    position: relative;
+    z-index: 2;
   }
   
   .footer-predefined-bg {
-    position:absolute;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
-    background:$btBarBgr;
-    z-index:1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: $environment-bottom-bar-background-color;
+    z-index: 1;
   }
   
   .footer-predefined-content {
-    position:relative;
-    z-index:2;
+    position: relative;
+    z-index: 2;
     
     a {
-      text-decoration:none;
+      text-decoration: none;
     }
     
   }
@@ -404,15 +420,15 @@ main.content {
 }
 
 #workspaceDockWrapper {
-  background:#67d9bf;
+  background: $startup-dark-color;
 }
   
 #workspaceFullscreenReadingDockWrapper {
-  background:#288fcd;
+  background:$startup-theme-color;
 }
   
 #workspaceEditDockWrapper {
-  background:#000;
+  background:$startup-theme-color;
 }
   
 #workspaceDock,
