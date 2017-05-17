@@ -1,9 +1,9 @@
-@import "vars";
+@import "vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 
 body {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
   min-height: 100%;
   line-height: 1.7em;
   font-weight: 300;

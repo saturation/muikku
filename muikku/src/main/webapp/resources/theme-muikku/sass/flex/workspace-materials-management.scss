@@ -1,5 +1,5 @@
 @import "fonts";
-@import "vars";
+@import "vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 @import "forms";
@@ -20,7 +20,7 @@
 body {
   background: #4f6677;
   padding: 0.01em; /* Prevent margin collapsing  */
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
   min-height: 100%;
   line-height: 1.7em;
   font-weight: 300;
@@ -53,7 +53,7 @@ div[class*='workspace-materials-full-screen-navi-button'] > span {
 
   span[class*='workspace-materials-full-screen-tt-container-'] {
     opacity: 0;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: $environment-font-family;
     font-size: 16px;
     height: 16px;
     font-weight: 300;
@@ -852,7 +852,7 @@ nav.workspace-waterials-management-nav {
     color: #fff;
     
     span {
-      font-family: 'Open Sans', Arial, sans-serif;
+      font-family: $environment-font-family;
     }
   
   }

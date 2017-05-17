@@ -100,7 +100,7 @@ input[type="radio"] {
   display: inline-block;
   margin: 0 10px;
   outline: none; 
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
 
   &:hover {
     box-shadow: 0 0 0 3px rgba(215, 215, 215, 0.15);
@@ -122,7 +122,7 @@ select {
   max-width: 100%;
   word-wrap: break-word;
   vertical-align: middle;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
 
   option {
     background: #fff;
@@ -183,7 +183,7 @@ label {
 }
 
 blockquote {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
   font-style: italic;
   padding: 2px 0;
   border-style: solid;

@@ -1,4 +1,4 @@
-@import "vars";
+@import "vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 @import "custom-ckeditor-styles";
@@ -120,7 +120,7 @@
       text-transform: uppercase;
       margin: 5px;
       outline: none;
-      font-family: 'Open Sans', Arial, sans-serif;
+      font-family: $environment-font-family;
       padding: 2px 8px;
       font-size: 14px;
       cursor: pointer;
@@ -295,7 +295,7 @@
         text-transform: uppercase;
         margin: 5px;
         outline: none;
-        font-family: 'Open Sans', Arial, sans-serif;
+        font-family: $environment-font-family;
         min-width: 90px;
         padding: 10px;
         font-size: 16px;

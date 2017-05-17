@@ -1,6 +1,6 @@
 @import "fonts";
-@import "_vars-startup-lukio";
 @import "vars_backup";
+@import "_vars-startup-lukio";
 @import "styles";
 @import "forms";
 @import "animations";
@@ -87,7 +87,7 @@ blockquote{
 
 [class^="icon-"] span, [class*=" icon-"] span {
   display: inline-block;
-  font-family:'Open Sans', Arial, sans-serif !important;
+  font-family: $environment-header-font-family !important;
   padding-left: 4px;
 }
 
@@ -119,6 +119,10 @@ blockquote{
     }
     
   }
+
+
+
+
 
   .lu-info-container {
     background: $environment-logged-in-background-color;

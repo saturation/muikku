@@ -1,7 +1,7 @@
 
 // This is used also in ToR 
 
-@import "vars";
+@import "vars-startup-lukio";
 @import "vars_backup";
 @import "styles";
 @import "custom-ckeditor-styles";
@@ -226,7 +226,7 @@ body.evaluation {
 
             span {
               padding: 5px;
-              font-family: 'Open Sans', Arial, sans-serif;
+              font-family: $environment-font-family;
               color: #000;
               font-weight: 300;
               vertical-align: top;
@@ -323,7 +323,7 @@ body.evaluation {
             outline: none;
             box-shadow: none;
             cursor: text;
-            font-family: 'Open Sans', Arial, sans-serif;
+            font-family: $environment-font-family;
 
             &:focus,
             &:active,
@@ -1091,7 +1091,7 @@ body.evaluation {
           text-transform: uppercase;
           margin: 5px;
           outline: none;
-          font-family: 'Open Sans', Arial, sans-serif;
+          font-family: $environment-font-family;
           min-width: 90px;
           font-size: 16px;
           float: none;
@@ -1136,7 +1136,7 @@ body.evaluation {
           background: #fff;
           outline: none;
           transition: border 0.15s ease-in-out;
-          font-family: 'Open Sans', Arial, sans-serif;
+          font-family: $environment-font-family;
           font-weight: 300;
           width: auto;
           transition: border,box-shadow 0.1s,0.2s ease-in-out;
@@ -1189,7 +1189,7 @@ body.evaluation {
     border: 1px solid #fff;
     border-radius: 0;
     bottom: 0;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: $environment-font-family;
     left: 0;
     min-width: 990px;
     overflow: hidden;
@@ -1349,7 +1349,7 @@ body.evaluation {
           border-radius: 0;
           color: #fff;
           float: none;
-          font-family: 'Open Sans', Arial, sans-serif;
+          font-family: $environment-font-family;
           font-size: 18px;
           font-weight: 400;
           margin: 5px;

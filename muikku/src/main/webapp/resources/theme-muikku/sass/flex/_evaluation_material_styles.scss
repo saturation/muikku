@@ -141,7 +141,7 @@ select {
   box-shadow: 0 0 0px 3px rgba(215,215,215,0.15);
   color: #000;
   display: inline-block;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
   font-size: 14px;
   font-weight: 300;
   margin: 4px;
@@ -185,7 +185,7 @@ blockquote {
   border-style: solid;
   border-width: 0;
   color: #777;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: $environment-font-family;
   font-size: 22px;
   font-style: italic;
   margin:0 40px;

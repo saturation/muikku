@@ -1,3 +1,4 @@
+
 // WORKSPACE NAVIGATION BUBLE CONTAINER
 #workspaceNavigationWrapperBuble {
   display: none;
@@ -144,7 +145,7 @@ div[class*='workspace-dock-navi-button'] > a,
 div[class*='workspace-dock-navi-button'] > span {
   cursor: pointer;
   font-size: 32px;
-  color: #fff;
+  color: $startup-dark-font-color;
   text-decoration: none;
   background: transparent;
   padding: 6px;
@@ -156,7 +157,7 @@ div[class*='workspace-dock-navi-button'] > span {
   
   span[class*='workspace-navi-tt-container-'] {
     opacity: 0;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: $environment-header-font-family;
     font-size: 16px;
     height: 16px;
     font-weight: 300;
@@ -164,7 +165,7 @@ div[class*='workspace-dock-navi-button'] > span {
     top: 0;
     left: -4500px;
     width: 0;
-    color: #fff;
+    color: $startup-light-font-color;
     text-transform: uppercase;
     padding: 13px 15px 15px 14px;
     border-top-right-radius: 3px;
@@ -239,7 +240,7 @@ div.workspace-dock-navi-button-workspace-management {
   
 }
 
-div.workspace-dock-navi-button-workspace-management > div.icon-cogs {
+div.workspace-dock-navi-button-workspace-management > div.icon-startup-settings {
   cursor: pointer;
   font-size: 32px;
   color: #fff;

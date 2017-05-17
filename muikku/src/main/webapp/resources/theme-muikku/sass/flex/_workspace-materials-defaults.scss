@@ -368,22 +368,21 @@
   }
 
   // GENERIC PAGE ELEMENTS
-  blockquote {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-style: italic;
-    padding: 2px 0;
-    border-style: solid;
-    border-color: #eee;
-    border-width: 0;
-    color: #777;
-    font-size: 20px;
-    margin: 0 40px;
+blockquote {
+  font-family: $environment-font-family;
+  font-style: italic;
+  padding: 2px 0;
+  border-style: solid;
+  border-color: #eee;
+  border-width: 0;
+  color: #777;
+  font-size: 20px;
+  margin: 0 40px;
   
-    p {
-      margin: 10px 0;
-    }
-  
-  }
+  p {
+    margin: 10px 0;
+  }  
+}
   
   .cke_contents_ltr blockquote {
     padding-left: 20px;
@@ -404,6 +403,22 @@
   label,select,option,input,textarea {
     font-size: 100%;
     font-weight: 300;
+}
+
+// GENERIC PAGE ELEMENTS
+blockquote {
+  font-family: $environment-font-family;
+  font-style: italic;
+  padding: 2px 0;
+  border-style: solid;
+  border-color: #eee;
+  border-width: 0;
+  color: #777;
+  font-size: 20px;
+  margin: 0 40px;
+
+  p {
+    margin: 10px 0;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -515,14 +530,14 @@
       }
       
       .image-details-container {
-        display: none;
-        margin: 30px 0 0;
-        font-family: 'Open Sans', Arial, sans-serif;
-        opacity: 0.9;
-        background: #fff;
-        padding: 15px 10px;
-        font-size: 13px;
-        word-wrap: break-word;
+       	display: none;
+      	margin: 30px 0 0;
+      	font-family: $environment-font-family;
+      	opacity: 0.9;
+      	background: #fff;
+      	padding: 15px 10px;
+      	font-size: 13px;
+      	word-wrap: break-word;
         
         span.image-details-label {
           padding: 0 5px 0 0;

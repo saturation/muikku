@@ -168,7 +168,7 @@
       }
       
       span {
-        font-family: 'Open Sans', Arial, sans-serif;
+        font-family: $environment-font-family;
         display: inline-block;
         margin: 0 5px 0 0;
         vertical-align: middle;
