@@ -1,3 +1,4 @@
+
 .workspace-materials-view-page { // This is article containing single material page
   padding: 10px 20px;
   margin: 30px auto;
@@ -26,8 +27,8 @@
       }
       
     }
-  
-  }
+  }    
+}
 
   
   // MATERIAL LOADING
@@ -90,6 +91,10 @@
     }
   
   }
+
+
+
+
 
   // INPUT OVERRIDES
   input[type="text"],
@@ -368,6 +373,8 @@
   }
 
   // GENERIC PAGE ELEMENTS
+
+
 blockquote {
   font-family: $environment-font-family;
   font-style: italic;
@@ -530,14 +537,14 @@ blockquote {
       }
       
       .image-details-container {
-       	display: none;
-      	margin: 30px 0 0;
-      	font-family: $environment-font-family;
-      	opacity: 0.9;
-      	background: #fff;
-      	padding: 15px 10px;
-      	font-size: 13px;
-      	word-wrap: break-word;
+        display: none;
+        margin: 30px 0 0;
+        font-family: $environment-font-family;
+        opacity: 0.9;
+        background: #fff;
+        padding: 15px 10px;
+        font-size: 13px;
+        word-wrap: break-word;
         
         span.image-details-label {
           padding: 0 5px 0 0;
@@ -995,7 +1002,6 @@ blockquote {
 }
 
 .workspace-materials-view-page[data-view-restricted="true"] {
-
   .muikku-save-page-wrapper,
   .article-details {
     display: none;

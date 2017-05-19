@@ -2,7 +2,6 @@
 
   body {
     padding: 60px 5px 54px 5px;
-    background-image: url('/gfx/light-diagonal-strips.png');
     background-repeat: repeat;
     background-color: #f0f3f5;
     
@@ -52,7 +51,6 @@
   }
   
   .static-navigation-bg {
-    background: #32acf6 url("/gfx/mobile-navigation-background.png");
     background-position: 30% top;
     opacity: 1;
     border: 0;
@@ -68,9 +66,9 @@
   
   div[class*='dock-static-navi-button'] > a, 
   div[class*='dock-dynamic-navi-button'] > a {
-    font-size: 35px;
+    font-size: 12px;
     padding: 7px 5px 2px 5px;
-    height: 35px;
+
   }
   
   .navmore-container {
