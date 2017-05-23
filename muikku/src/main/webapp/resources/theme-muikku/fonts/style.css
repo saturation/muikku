@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'startup';
+  src:  url('fonts/startup.eot?1gyhnv');
+  src:  url('fonts/startup.eot?1gyhnv#iefix') format('embedded-opentype'),
+    url('fonts/startup.ttf?1gyhnv') format('truetype'),
+    url('fonts/startup.woff?1gyhnv') format('woff'),
+    url('fonts/startup.svg?1gyhnv#startup') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'startup' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-startup-materials:before {
+  content: "\ef906";
+}
+.icon-startup-discussions:before {
+  content: "\ef902";
+}
+.icon-startup-diary:before {
+  content: "\ef900";
+}
+.icon-startup-help:before {
+  content: "\ef901";
+}
+.icon-startup-students-teachers:before {
+  content: "\ef903";
+}
+.icon-startup-home:before {
+  content: "\ef904";
+}
+.icon-startup-settings:before {
+  content: "\ef905";
+}
