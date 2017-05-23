@@ -1,3 +1,5 @@
+@import "_vars-startup-lukio";
+
 form * {
   outline: none;
 }
@@ -8,10 +10,11 @@ input[type="password"],
 input[type="url"],
 textarea {   
   font-weight: 300;
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: $environment-font-family;
   border-radius: 2px;
+  border:none;
+  border-bottom: 2px solid $startup-theme-color; 
   font-size: 18px;     
-  border: 1px solid $formBorderColor;
   color: $formFontColor;
   background-color: $formBackgroundColor; 
   width: 100%;
@@ -20,14 +23,10 @@ textarea {
   
   &:hover {
     color: $formFontColorFocus;
-    border: 1px solid $formBorderColorFocus;
-    @include elementFocus(rgba(0, 153, 255,0.3));
   }
   
   &:focus { 
     color: $formFontColorFocus;
-    border: 1px solid $formBorderColorFocus;
-    @include elementFocus(rgba(0, 153, 255,0.3));
   }
 
 }
@@ -55,7 +54,7 @@ select {
   color: $formFontColor;
   font-size: 16px;    
   font-weight: 300;
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: $environment-font-family;
 }
 
 label {

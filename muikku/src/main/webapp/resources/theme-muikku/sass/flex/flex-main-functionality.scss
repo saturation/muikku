@@ -1,4 +1,5 @@
-@import "_vars.scss";
+@import "vars.scss";
+@import "vars-startup-lukio";
 
 // Todo: Remove this after .mf-button-container has a variable (will be merged in the issue 2426)
 @import "_vars_backup";
@@ -26,18 +27,17 @@
     background-color: $environment-button-background-color;
     border: 1px solid $environment-button-border-color;
     font-size: 1em;
-    @include gradient-top-bottom($environment-button-gradient-start-color, $environment-button-gradient-end-color, $environment-button-background-color);
     width: 100%;
     box-sizing: border-box;
     font-weight: 400;
      
-    &.disabled {
-      @include gradient-top-bottom($environment-button-disabled-gradient-start-color, $environment-button-disabled-gradient-end-color, $environment-button-disabled-background-color);      
+    &.disabled {      
       color: $environment-button-disabled-font-color;
       text-shadow: none;
     }
     
     .mf-primary-function-text {
+      font-family: $environment-header-font-family;
       display: inline-block;
       padding: 12px;
       white-space: nowrap; 
@@ -57,16 +57,17 @@
   display: inline-block;
   font-size: 1em;
   font-weight: 400;
+  font-family: $environment-header-font-family;
   line-height: 1.3em;
   @include buttonFontShadow;
   @include button-shadow;  
-  @include gradient-top-bottom($environment-button-gradient-start-color, $environment-button-gradient-end-color, $environment-button-background-color);
   text-transform: uppercase;
   width: 100%;
 
 
 
   .mf-dropdown-text {
+   
     display: inline-block;
     margin-right: 40px;
     padding: 12px;
@@ -873,10 +874,9 @@ ul.mf-tool-label-container {
   .mf-textfield {
     position: relative;
     top: 0;
-      
+    border-bottom: 2px solid $form-textfield-subcontainer-border-color;      
     .mf-form-element-subcontainer {
-      border: 2px solid $form-textfield-subcontainer-border-color;
-      border-radius: 3px;
+
       background-color: $form-textfield-subcontainer-background-color;
       color: $form-textfield-subcontainer-font-color;
     }
@@ -894,12 +894,11 @@ ul.mf-tool-label-container {
     
     input[type="text"] {
       color: $form-textfield-font-color;
-      border-radius: 3px;
       padding-top: 5px;
       padding-bottom: 5px;
       padding-left: 5px;
       font-size: 14px;
-      
+      border: none;
       &:focus {
         background-color: $form-textfield-focus-background-color;     
         box-shadow: none;    
@@ -932,18 +931,20 @@ ul.mf-tool-label-container {
     border-radius: 0;
     border: 0;
     color: $form-button-font-color;
+    font-family: $environment-header-font-family;
     font-weight: 400;
     text-transform: uppercase;
     margin: 5px;
     outline: none;
-    font-family: $environment-font-family;
     min-width: 90px;
     padding: 10px;
     font-size: 16px;
+    
   }
 
   input[name="send"] {
     background: $form-button-send-background-color;
+    
   }
   
   input[name="cancel"] {
@@ -1020,7 +1021,8 @@ ul.mf-tool-label-container {
       border-left: 5px solid $environment-border-selected-color;
       
       a {
-        font-weight: normal;      
+        font-weight: normal;
+        color: $startup-light-font-color;
       }
     }
   }
@@ -1040,7 +1042,7 @@ ul.mf-tool-label-container {
   list-style-type: none;
   z-index: 1000;
   box-sizing: border-box;
-  border: 1px solid $form-autocomplete-border-color;
+  border: none;
   width: auto !important;
   right: 17px;
   box-shadow: $environment-menu-shadow;

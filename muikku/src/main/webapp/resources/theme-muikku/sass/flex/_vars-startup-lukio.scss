@@ -102,7 +102,7 @@ $environment-icon-font-color: $startup-theme-color;
 $environment-content-box-shadow: 0 0 15px rgba(216, 230, 235, 0.5);
 $environment-box-shadow: -2px 3px 5px rgba(0, 0, 0, 0.03);
 $environment-bottom-bar-box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
-$environment-bottom-bar-background-color: $startup-dark-color;
+$environment-bottom-bar-background-color: $startup-light-color;
 $environment-bottom-bar-font-color: $startup-dark-font-color;
 $environment-bottom-bar-link-color: $startup-theme-color;
 $environment-background-color: $startup-light-color;
@@ -147,11 +147,11 @@ $environment-border-selected-color: #dadada;
 $environment-border-highlight-color: #ccc;
 $environment-border-transparent-color: rgba(255, 255, 255, 0);
 $environment-button-container-background-color: #ebf6fb;
-$environment-button-background-color: #ed8e00;
+$environment-button-background-color: $startup-theme-color;
 $environment-button-gradient-start-color: rgba(253, 167, 38, 1);
 $environment-button-gradient-end-color: rgba(237, 142, 0, 1);
 $environment-button-border-color: #d9e4e8;
-$environment-button-font-color: $startup-theme-color;
+$environment-button-font-color: $startup-light-color;
 $environment-button-disabled-background-color: #757575;
 $environment-button-disabled-gradient-start-color: rgba(220, 220, 220, 1);
 $environment-button-disabled-gradient-end-color: rgba(176, 176, 176, 1);
@@ -163,9 +163,9 @@ $environment-menu-font-color: #000;
 $environment-menu-item-active-background-color: #1a9bfc;
 $environment-menu-item-active-font-color: $startup-theme-color;
 $environment-content-container-background-color: #f0f3f4;
-$environment-header-background-color: #eff7fb;
-$environment-navigation-container-background-color: #f1f8fb;
-$environment-navigation-content-navigation-background-color: #f5fcff;
+$environment-header-background-color: $startup-light-color;
+$environment-navigation-container-background-color: $startup-light-color;
+$environment-navigation-content-navigation-background-color: $startup-light-color;
 $environment-paging-tool-background-color: #36a3ce;
 $environment-paging-tool-font-color: $startup-theme-color;
 $environment-paging-tool-background-disabled-color: #ededed;
@@ -187,7 +187,6 @@ $environment-profile-button-background-color: #0099ff;
 $environment-profile-button-font-color: $startup-theme-color;
 
 
-
 // Forms (bottom bar)
 
 $form-header-font-color: $startup-theme-color;
@@ -195,13 +194,13 @@ $form-element-title-font-color: $startup-theme-color;
 $form-textfield-font-color: $startup-theme-color;
 $form-textfield-focus-background-color: #eee;
 $form-textfield-hover-background-color: #eee;
-$form-textfield-subcontainer-border-color: #fff;
+$form-textfield-subcontainer-border-color: $startup-theme-color;
 $form-textfield-subcontainer-font-color: $startup-theme-color;
 $form-textfield-subcontainer-background-color: #fff;
 $form-button-font-color: #fff;
-$form-button-send-background-color: #27b91c;
-$form-button-cancel-background-color: #7391a7;
-$form-autocomplete-background-color: #f2f5f7;
+$form-button-send-background-color: $startup-theme-color;
+$form-button-cancel-background-color: $startup-theme-color;
+$form-autocomplete-background-color: #fff;
 $form-autocomplete-border-color: #fff;
 $form-autocomplete-hover-font-color: #006ab1;
 
