@@ -21,7 +21,7 @@ body {
   margin: 0;
   padding: 0 0 50px;
   font-family: $environment-font-family;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 1.5em;
   background-color: $body-background-color;
@@ -133,6 +133,8 @@ dt {
   font-weight: 400;
   font-size: 14px;
   color: $environment-bottom-bar-font-color;
+  padding: 5px 0;
+  text-align: right;
 }
 
 #guides {
@@ -180,7 +182,7 @@ dt {
     box-sizing: border-box;
     color: $startup-theme-color;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 300;
     height: 48px; 
     line-height: 1;
@@ -260,8 +262,8 @@ dt {
     
     object,
     img {
-      height: 44px;
-      width: 44px;
+      height: 48px;
+      width: 48px;
     }
     
   }
@@ -280,8 +282,8 @@ dt {
       color: $environment-logged-in-font-color;
       font-family: $environment-header-font-family;
       float: left;
-      height: 1.5em;
-      margin: 15px 6px 14px 20px;
+      height: 1.2em;
+      margin: 12px 6px 12px 20px;
       max-width: 270px;
       min-width: 100px;
       overflow: hidden;
@@ -291,6 +293,7 @@ dt {
       
       a {
         color: $environment-logged-in-font-color;
+        font-size: 15px;
         text-decoration: none;
       }
       
