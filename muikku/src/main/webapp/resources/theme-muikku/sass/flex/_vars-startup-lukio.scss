@@ -181,10 +181,10 @@ $environment-setting-signature-background-color: #fafafa;
 $environment-profile-background-color: #fff;
 $environment-profile-picture-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 $environment-profile-picture-border: #fff;
-$environment-profile-section-background-color: #ff008d;
-$environment-profile-section-font-color: $startup-theme-color;
-$environment-profile-button-background-color: #0099ff;
-$environment-profile-button-font-color: $startup-theme-color;
+$environment-profile-section-background-color: $startup-theme-color;
+$environment-profile-section-font-color: $startup-light-color;
+$environment-profile-button-background-color: $startup-theme-color;
+$environment-profile-button-font-color: $startup-light-color;
 
 
 // Forms (bottom bar)
@@ -207,7 +207,7 @@ $form-autocomplete-hover-font-color: #006ab1;
 // Items in the content-area  (messages, users, workspaces...)
 
 $item-background-color: #fff;
-$item-markup-border-color-1: $startup-dark-color;
+$item-markup-border-color-1: $startup-light-color;
 $item-markup-border-color-2: #f90ae3;
 $item-markup-border-color-3: #5dc005;
 $item-shadow: 0 0 15px rgba(216, 230, 235, 0.2);
