@@ -432,11 +432,18 @@ main.content {
 }
 
 .frontpage-continue-studies {
-  background-color: $environment-link-color;
+  background-color: $startup-theme-color;
   border-radius: 2px;
-  color: $environment-alt-font-color;
+  color: $startup-light-color;
+  font-family: 'Axis';
+  font-size: 15px;
   margin: 0 5px;
-  padding: 0 8px;
+  padding: 5px 8px 3px;
+  text-transform: uppercase;
+  
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .box ul {
