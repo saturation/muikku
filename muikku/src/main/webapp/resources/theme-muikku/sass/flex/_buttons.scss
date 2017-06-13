@@ -13,27 +13,30 @@
     border-radius:0;
     border-top-left-radius:3px;
     border-bottom-left-radius:3px;
-    background-color:#52b050;
-    border:1px solid #73c071;
     font-size:1.1em;
-    background: rgb(107,187,105);
-    @include gradient-top-bottom(rgba(107,187,105,1),rgba(76,163,74,1),#52b050);
+    background: $startup-theme-color;
     position:relative;
 /*     @include button-shadow; */
     
     &::before {
       position:absolute;
-      top:12px;
+      top:9px;
       left:12px;
       z-index:1;
     }
     
     a {
       color:#fff;
+      font-size: 15px;
       position:relative;
-      padding:11px 12px 11px 28px;
+      padding:10px 12px 8px 32px;
       display:inline-block;
       z-index:2;
+      
+      span {
+        font-family: 'Axis' !important;
+      }
+      
     }
     
   }
