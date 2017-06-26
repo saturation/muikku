@@ -102,7 +102,7 @@ $environment-icon-font-color: $startup-theme-color;
 $environment-content-box-shadow: 0 0 15px rgba(216, 230, 235, 0.5);
 $environment-box-shadow: -2px 3px 5px rgba(0, 0, 0, 0.03);
 $environment-bottom-bar-box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
-$environment-bottom-bar-background-color: $startup-light-color;
+$environment-bottom-bar-background-color: $startup-dark-color;
 $environment-bottom-bar-font-color: $startup-dark-font-color;
 $environment-bottom-bar-link-color: $startup-theme-color;
 $environment-background-color: $startup-light-color;
@@ -181,10 +181,10 @@ $environment-setting-signature-background-color: #fafafa;
 $environment-profile-background-color: #fff;
 $environment-profile-picture-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 $environment-profile-picture-border: #fff;
-$environment-profile-section-background-color: #ff008d;
-$environment-profile-section-font-color: $startup-theme-color;
-$environment-profile-button-background-color: #0099ff;
-$environment-profile-button-font-color: $startup-theme-color;
+$environment-profile-section-background-color: $startup-theme-color;
+$environment-profile-section-font-color: $startup-light-color;
+$environment-profile-button-background-color: $startup-theme-color;
+$environment-profile-button-font-color: $startup-light-color;
 
 
 // Forms (bottom bar)
@@ -207,14 +207,14 @@ $form-autocomplete-hover-font-color: #006ab1;
 // Items in the content-area  (messages, users, workspaces...)
 
 $item-background-color: #fff;
-$item-markup-border-color-1: #32acf6;
+$item-markup-border-color-1: $startup-light-color;
 $item-markup-border-color-2: #f90ae3;
 $item-markup-border-color-3: #5dc005;
 $item-shadow: 0 0 15px rgba(216, 230, 235, 0.2);
 $item-header-hidden-font-color: #d89828;
 $item-header-secondary-font-color: $startup-theme-color;
 $item-header-icon-font-color: $startup-theme-color;
-$item-header-label-background-color: #daf5ff;
+$item-header-label-background-color: $startup-dark-color;
 $item-description-font-color: $startup-theme-color;
 $item-border-color: #fff;
 $item-border-color-active: #0099ff;

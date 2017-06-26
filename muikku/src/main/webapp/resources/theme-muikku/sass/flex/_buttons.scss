@@ -23,17 +23,23 @@
     
     &::before {
       position:absolute;
-      top:12px;
+      top:9px;
       left:12px;
       z-index:1;
     }
     
     a {
       color:#fff;
+      font-size: 15px;
       position:relative;
-      padding:11px 12px 11px 28px;
+      padding:10px 12px 8px 32px;
       display:inline-block;
       z-index:2;
+      
+      span {
+        font-family: 'Axis' !important;
+      }
+      
     }
     
   }

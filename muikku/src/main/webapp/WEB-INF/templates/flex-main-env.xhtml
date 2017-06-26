@@ -76,11 +76,15 @@
       <div id="staticNavigation">
         <!-- DESKTOP/TABLET NAVIGATION -->
         <!-- HOME -->
-        <div class="dock-static-navi-button-home #{activeTrail eq 'index' ? 'active-trail' : ''}" title="#{i18n.text['plugin.home.home']}">
+        <div class="dock-static-navi-button-home sm-flex-hide #{activeTrail eq 'index' ? 'active-trail' : ''}" title="#{i18n.text['plugin.home.home']}">
           <a jsf:outcome="/index.jsf">#{i18n.text['plugin.home.home']}</a>
         </div>
+        <!-- HOME MOBILE -->
+        <div class="dock-logo lg-flex-hide md-flex-hide #{activeTrail eq 'index' ? 'active-trail' : ''}" title="#{i18n.text['plugin.home.home']}">
+          <a jsf:outcome="/index.jsf"></a>
+        </div>
         <!-- COURSEPICKER -->
-        <div class="dock-static-navi-button-coursepicker #{activeTrail eq 'coursepicker' ? 'active-trail' : ''}" title="#{i18n.text['plugin.coursepicker.coursepicker']}">
+        <div class="dock-static-navi-button-coursepicker sm-flex-hide #{activeTrail eq 'coursepicker' ? 'active-trail' : ''}" title="#{i18n.text['plugin.coursepicker.coursepicker']}">
           <a jsf:outcome="/jsf/coursepicker/index.jsf" class="tooltip">
             #{i18n.text['plugin.coursepicker.coursepicker']}
             <span style="display:none" class="dock-notification"></span>
@@ -88,12 +92,11 @@
         </div>
         <!-- COMMUNICATOR -->
         <ui:fragment rendered="#{sessionBackingBean.loggedIn and sessionBackingBean.isActiveUser}">
-          <div class="dock-static-navi-button-communicator #{activeTrail eq 'communicator' ? 'active-trail' : ''}" title="#{i18n.text['plugin.communicator.communicator']}">
+          <div class="dock-static-navi-button-communicator sm-flex-hide #{activeTrail eq 'communicator' ? 'active-trail' : ''}" title="#{i18n.text['plugin.communicator.communicator']}">
             <span style="display:none" class="dock-notification"></span>
             <a jsf:outcome="/jsf/communicator/index.jsf">
               #{i18n.text['plugin.communicator.communicator']}
             </a>
-                          
           </div>
           <!-- DISCUSSION -->
           <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
@@ -107,7 +110,7 @@
         </ui:fragment>
         <!-- GUIDER -->
         <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('GUIDER_VIEW')}">
-          <div class="dock-static-navi-button-guider #{activeTrail eq 'guider' ? 'active-trail' : ''}" title="#{i18n.text['plugin.guider.guider']}">
+          <div class="dock-static-navi-button-guider sm-flex-hide #{activeTrail eq 'guider' ? 'active-trail' : ''}" title="#{i18n.text['plugin.guider.guider']}">
             <a jsf:outcome="/jsf/guider/index.jsf">
               #{i18n.text['plugin.guider.guider']}
               <span style="display:none" class="dock-notification"></span>
@@ -116,9 +119,9 @@
         </ui:fragment>
         <!-- TRANSCRIPT of RECORDS -->
         <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('TRANSCRIPT_OF_RECORDS_VIEW')}">
-          <div class="dock-static-navi-button-records #{activeTrail eq 'records' ? 'active-trail' : ''}" title="#{i18n.text['plugin.records.records']}">
+          <div class="dock-static-navi-button-records sm-flex-hide #{activeTrail eq 'records' ? 'active-trail' : ''}" title="#{i18n.text['plugin.records.records']}">
             <a jsf:outcome="/jsf/records/index.jsf" >
-              #{i18n.text['plugin.guider.guider']}
+              #{i18n.text['plugin.records.records']}
               <span style="display:none" class="dock-notification"></span>
             </a>
           </div>
@@ -147,10 +150,34 @@
           <div class="dock-static-navi-button-navimore lg-flex-hide md-flex-hide" title="">
             <div class="icon-navicon">
               <div class="navmore-container">
+                <!-- HOME -->
+                <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                  <a jsf:outcome="/index.jsf"><span>#{i18n.text['plugin.home.home']}</span></a>
+                </div>
+                <!-- COURSEPICKER -->
+                <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                  <a jsf:outcome="/jsf/coursepicker/index.jsf"><span>#{i18n.text['plugin.coursepicker.coursepicker']}</span></a>
+                </div>
+                <!-- COMMUNICATOR -->
+                <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                  <a jsf:outcome="/jsf/communicator/index.jsf"><span>#{i18n.text['plugin.communicator.communicator']}</span></a>
+                </div>
                 <!-- DISCUSSION -->
                 <ui:fragment rendered="{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
                   <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
                     <a jsf:outcome="/jsf/discussion/index.jsf" class="icon-bubble"><span>#{i18n.text['plugin.forum.forum']}</span></a>
+                  </div>
+                </ui:fragment>
+                <!-- GUIDER -->
+                <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('GUIDER_VIEW')}">
+                  <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                    <a jsf:outcome="/jsf/guider/index.jsf"><span>#{i18n.text['plugin.guider.guider']}</span></a>
+                  </div>
+                </ui:fragment>
+                <!-- TRANSCRIPT of RECORDS -->
+                <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('TRANSCRIPT_OF_RECORDS_VIEW')}">
+                  <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                    <a jsf:outcome="/jsf/records/index.jsf"><span>#{i18n.text['plugin.records.records']}</span></a>
                   </div>
                 </ui:fragment>
                 <!-- EVALUATION -->
@@ -162,12 +189,12 @@
                 <!-- ANNOUNCER -->
                 <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('ANNOUNCER_TOOL')}">
                   <div class="dock-static-navi-button-announcer lg-flex-hide md-flex-hide">
-                    <a jsf:outcome="/jsf/announcer/index.jsf" class="icon-announcer"><span>#{i18n.text['plugin.announcer.announcer']}</span></a>
+                    <a jsf:outcome="/jsf/announcer/index.jsf"><span>#{i18n.text['plugin.announcer.announcer']}</span></a>
                   </div>
                 </ui:fragment>
                 <!-- PROFILE -->
                 <div class="dock-static-navi-button-profile lg-flex-hide md-flex-hide">
-                  <a class="icon-user" jsf:outcome="/jsf/profile/profile.jsf"><span>#{i18n.text['plugin.profile.profile']}</span></a> 
+                  <a jsf:outcome="/jsf/profile/profile.jsf"><span>#{i18n.text['plugin.profile.profile']}</span></a> 
                 </div>
                 <!-- SIGNOUT -->
                 <h:form>

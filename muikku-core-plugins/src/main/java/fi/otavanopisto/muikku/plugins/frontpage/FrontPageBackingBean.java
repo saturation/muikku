@@ -21,6 +21,7 @@ import fi.otavanopisto.muikku.auth.AuthSourceController;
 import fi.otavanopisto.muikku.controller.PluginSettingsController;
 import fi.otavanopisto.muikku.jsf.NavigationRules;
 import fi.otavanopisto.muikku.model.security.AuthSource;
+import fi.otavanopisto.muikku.session.SessionController;
 
 @Named
 @RequestScoped
@@ -36,15 +37,17 @@ public class FrontPageBackingBean {
   @Inject
   private AuthSourceController authSourceController;
   
+  @Inject
+  SessionController sessionController;
+  
   @RequestAction
   @Transactional
   @Deferred
   public String init() {
     String brandedFrontPageKeyValue = pluginSettingsController.getPluginSetting("frontPage", "brandedFrontPage");
+    String autoLogin = pluginSettingsController.getPluginSetting("frontPage", "autoLogin");
     
-    if ("no".equals(brandedFrontPageKeyValue)) {
-      brandedFrontPage = false;
-    } else if ("skip".equals(brandedFrontPageKeyValue)){
+    if ("yes".equals(autoLogin) && !sessionController.isLoggedIn()) {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       ExternalContext externalContext = facesContext.getExternalContext();
       
@@ -56,13 +59,13 @@ public class FrontPageBackingBean {
         logger.log(Level.SEVERE, "Login failed because of an internal error", e);
         return NavigationRules.INTERNAL_ERROR;
       }
-    } else {
-      brandedFrontPage = true;
     }
-   
-    if (!brandedFrontPage) {
+    
+    if ("no".equals(brandedFrontPageKeyValue)) {
+      brandedFrontPage = false;
       return "/index_nonbranded.jsf";
     } else {
+      brandedFrontPage = true;
       return null;
     }
   }
