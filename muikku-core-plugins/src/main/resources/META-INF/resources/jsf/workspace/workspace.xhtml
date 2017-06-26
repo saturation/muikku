@@ -85,7 +85,7 @@
       </div>
     </section>
     
-    <ui:fragment rendered="#{sessionBackingBean.loggedIn}"> 
+    <ui:fragment rendered="#{sessionBackingBean.loggedIn and sessionBackingBean.isActiveUser}"> 
 	    <section class="flex-row">
 	      <div class="workspace-frontpage-teachers lg-flex-cell-first md-flex-cell-first lg-flex-cell-8 md-flex-cell-8 sm-flex-cell-full sm-flex-order-1">
 	        <h1 class="workspace-block-title">#{i18n.text['plugin.workspace.index.teachersTitle']}</h1>
@@ -108,7 +108,7 @@
           data-material-type="#{contentNode.type}"
           data-path="#{contentNode.path}"
           data-material-content="#{contentNode.html}"
-          class="workspace-materials-view-page material-view lg-flex-cell-full md-flex-cell-full sm-flex-cell-full"/>
+          class="material-page material-view lg-flex-cell-full md-flex-cell-full sm-flex-cell-full"/>
       </ui:repeat>
       <input class="workspaceEntityId" type="hidden" value="#{workspaceIndexBackingBean.workspaceEntityId}" />
       <input class="materialsBaseUrl" type="hidden" value="#{workspaceIndexBackingBean.materialsBaseUrl}" />

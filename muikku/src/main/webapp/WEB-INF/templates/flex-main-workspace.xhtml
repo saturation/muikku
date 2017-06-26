@@ -98,7 +98,7 @@
           </a>
         </div>
         <!-- COMMUNICATOR -->
-        <ui:fragment rendered="#{sessionBackingBean.loggedIn}">
+        <ui:fragment rendered="#{sessionBackingBean.loggedIn and sessionBackingBean.isActiveUser}">
           <div class="dock-static-navi-button-communicator #{activeTrail eq 'communicator' ? 'active-trail' : ''}" title="#{i18n.text['plugin.communicator.communicator']}">
             <span style="display:none" class="dock-notification"></span>
             <a jsf:outcome="/jsf/communicator/index.jsf">
@@ -107,7 +107,7 @@
                           
           </div>
           <!-- DISCUSSION -->
-          <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM')}">
+          <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
             <div class="dock-static-navi-button-discussion sm-flex-hide #{activeTrail eq 'discussion' ? 'active-trail' : ''}" title="#{i18n.text['plugin.forum.forum']}">
               <a jsf:outcome="/jsf/discussion/index.jsf">
                 #{i18n.text['plugin.forum.forum']}
@@ -159,9 +159,11 @@
             <div class="icon-navicon">
               <div class="navmore-container">
                 <!-- DISCUSSION -->
-                <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
-                  <a jsf:outcome="/jsf/discussion/index.jsf" class="icon-bubble"><span>#{i18n.text['plugin.forum.forum']}</span></a>
-                </div>
+                <ui:fragment rendered="{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
+                  <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
+                    <a jsf:outcome="/jsf/discussion/index.jsf" class="icon-bubble"><span>#{i18n.text['plugin.forum.forum']}</span></a>
+                  </div>
+                </ui:fragment>
                 <!-- EVALUATION -->
                 <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('EVALUATION_VIEW_INDEX')}">
                   <div class="dock-static-navi-button-evaluation lg-flex-hide md-flex-hide">
@@ -374,22 +376,16 @@
                       <span class="workspace-evaluation-item-label">#{i18n.text['plugin.workspace.dock.evaluation.requestEvaluationButtonTooltip']}</span>
                     </a>   
                   </ui:fragment>
-                  <ui:fragment rendered="#{workspaceBackingBean.assessmentState eq 'pending'}">
+                  <ui:fragment rendered="#{workspaceBackingBean.assessmentState eq 'pending' or workspaceBackingBean.assessmentState eq 'pending_pass' or workspaceBackingBean.assessmentState eq 'pending_fail'}">
                     <a class="icon-assessment-#{workspaceBackingBean.assessmentState}" 
                          title="#{i18n.text['plugin.workspace.dock.evaluation.cancelEvaluationButtonTooltip']}">
                       <span class="workspace-evaluation-item-label">#{i18n.text['plugin.workspace.dock.evaluation.cancelEvaluationButtonTooltip']}</span>
                     </a>   
                   </ui:fragment>
-                  <ui:fragment rendered="#{workspaceBackingBean.assessmentState eq 'canceled'}">
-                    <a class="icon-assessment-#{workspaceBackingBean.assessmentState}" 
-                         title="#{i18n.text['plugin.workspace.dock.evaluation.requestEvaluationButtonTooltip']}">
-                      <span class="workspace-evaluation-item-label">#{i18n.text['plugin.workspace.dock.evaluation.requestEvaluationButtonTooltip']}</span>
-                    </a>   
-                  </ui:fragment>
                   <ui:fragment rendered="#{workspaceBackingBean.assessmentState eq 'pass'}">
                     <a class="icon-assessment-#{workspaceBackingBean.assessmentState}" 
-                         title="#{i18n.text['plugin.workspace.dock.evaluation.viewEvaluationButtonTooltip']}">
-                      <span class="workspace-evaluation-item-label">#{i18n.text['plugin.workspace.dock.evaluation.requestEvaluationButtonTooltip']}</span>
+                         title="#{i18n.text['plugin.workspace.dock.evaluation.resendRequestEvaluationButtonTooltip']}">
+                      <span class="workspace-evaluation-item-label">#{i18n.text['plugin.workspace.dock.evaluation.resendRequestEvaluationButtonTooltip']}</span>
                     </a>   
                   </ui:fragment>
                   <ui:fragment rendered="#{workspaceBackingBean.assessmentState eq 'fail'}">

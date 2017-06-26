@@ -8,6 +8,7 @@
       replyMessageId: undefined,
       userRecipients: undefined,
       initialCaption: undefined,
+      initialMessage: undefined,
       ckeditor: {
         uploadUrl: '/communicatorAttachmentUploadServlet',
         toolbar: [
@@ -103,34 +104,6 @@
       }
     },
     
-    _createRecipientLoad: function (messageId) {
-      return $.proxy(function (callback) {
-        var isStudent = this.options.isStudent;
-        
-        mApi().communicator.communicatormessages.read(messageId)
-          .on('$', function(reply, replyCallback) {
-            mApi().communicator.communicatormessages.sender
-              .read(messageId)
-              .callback(function(err, user) {
-                reply.senderFullName = isStudent
-                  ? (user.nickName ? user.nickName : user.firstName) + ' ' + user.lastName
-                  : (user.nickName ? user.firstName + ' "' + user.nickName + '"' : user.firstName) + ' ' + user.lastName
-                reply.senderHasPicture = user.hasImage;                
-                replyCallback();
-              });
-          })
-          .callback(callback);
-      }, this);
-    },
-
-    _loadSender: function (messageId) {
-      return $.proxy(function (callback) {
-        mApi().communicator.communicatormessages.sender
-          .read(messageId)
-          .callback(callback);
-      }, this);
-    },
-    
     _load: function (callback) {
       var replyMessageId = this.options.replyMessageId;
       this._signature = undefined;
@@ -166,6 +139,9 @@
                 if (this.options.initialCaption) {
                   $(captionField).val(this.options.initialCaption);
                 }
+                if (this.options.initialMessage) {
+                  $(this.element).find('textarea[name="content"]').val(this.options.initialMessage);
+                }
                 
                 // If the message was sent by 'me', reply defaults for the other recipients
                 var mode = (message.senderId == MUIKKU_LOGGED_USER_ID) ? "replyall" : this.options.mode;
@@ -174,11 +150,11 @@
                   var recipients = [];
                   
                   // Add sender if it's not the logged user
-                  if (message.senderId != MUIKKU_LOGGED_USER_ID) {
+                  if ((message.senderId != MUIKKU_LOGGED_USER_ID) && (message.sender)) {
                     var notMeSenderFullName = isStudent
                       ? (message.sender.nickName ? message.sender.nickName : message.sender.firstName) + ' ' + message.sender.lastName
-                      : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName
-                    recipients.push(this._recipient('USER', message.sender.id, notMeSenderFullName));                       
+                      : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName;
+                    recipients.push(this._recipient('USER', message.sender.id, notMeSenderFullName));
                   }
 
                   // Add all the recipients
@@ -207,11 +183,11 @@
                   }
                   
                   // If there's 0 recipients the reply is for own message so just add the sender anyways
-                  if (recipients.length == 0) {
+                  if ((recipients.length == 0) && (message.sender)) {
                     var senderFullName = isStudent
                       ? (message.sender.nickName ? message.sender.nickName : message.sender.firstName) + ' ' + message.sender.lastName
-                      : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName
-                    recipients.push(this._recipient('USER', message.sender.id, senderFullName));                       
+                      : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName;
+                    recipients.push(this._recipient('USER', message.sender.id, senderFullName));
                   }
                   
                   $.each(recipients, $.proxy(function (ind, recipient) {
@@ -220,10 +196,12 @@
                   
                   this.options.replyToGroupMessage = ((message.userGroupRecipients.length | 0) + (message.workspaceRecipients.length | 0)) > 0;
                 } else {
-                  var replySenderFullName = isStudent
-                    ? (message.sender.nickName ? message.sender.nickName : message.sender.firstName) + ' ' + message.sender.lastName
-                    : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName
-                  this._addRecipient('USER', message.sender.id, replySenderFullName);                       
+                  if (message.sender) {
+                    var replySenderFullName = isStudent
+                      ? (message.sender.nickName ? message.sender.nickName : message.sender.firstName) + ' ' + message.sender.lastName
+                      : (message.sender.nickName ? message.sender.firstName + ' "' + message.sender.nickName + '"' : message.sender.firstName) + ' ' + message.sender.lastName;
+                    this._addRecipient('USER', message.sender.id, replySenderFullName);
+                  }
                 }
                 
                 if (callback) {
@@ -249,6 +227,9 @@
             });
             if (this.options.initialCaption) {
               $(captionField).val(this.options.initialCaption);
+            }
+            if (this.options.initialMessage) {
+              $(this.element).find('textarea[name="content"]').val(this.options.initialMessage);
             }
             
             if (this.options.userRecipients) {

@@ -198,7 +198,7 @@
     </ui:fragment>
     
     <!--  If user is authenticated -->
-    <ui:fragment rendered="#{sessionBackingBean.loggedIn}">
+    <ui:fragment rendered="#{sessionBackingBean.loggedIn and sessionBackingBean.isActiveUser}">
 	    <ui:fragment rendered="#{sessionBackingBean.isStudent}">
 	      <div class="flex-row">
 		      <div class="lg-flex-cell-16 md-flex-cell-16 sm-flex-cell-full md-flex-order-1 sm-flex-order-1">
@@ -227,6 +227,14 @@
 		    </div>
 	    </div>
 	  </ui:fragment>
+
+    <ui:fragment rendered="#{sessionBackingBean.loggedIn and not sessionBackingBean.isActiveUser}">
+      <div class="lg-flex-cell-full md-flex-cell-full sm-flex-cell-full">
+        <div class="box box-max-width">
+          <h:outputText escape="false" value="#{i18n.text['plugin.frontpage.inactiveStudent.message']}" />
+        </div>
+      </div>
+    </ui:fragment>
 
   </ui:define>
   

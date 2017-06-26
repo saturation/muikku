@@ -42,7 +42,9 @@ import fi.otavanopisto.muikku.model.workspace.WorkspaceRoleArchetype;
 import fi.otavanopisto.muikku.model.workspace.WorkspaceRoleEntity;
 import fi.otavanopisto.muikku.model.workspace.WorkspaceUserEntity;
 import fi.otavanopisto.muikku.plugin.PluginRESTService;
+import fi.otavanopisto.muikku.plugins.search.UserIndexer;
 import fi.otavanopisto.muikku.plugins.workspace.WorkspaceVisitController;
+import fi.otavanopisto.muikku.plugins.workspace.rest.WorkspaceUserEntityIdFinder;
 import fi.otavanopisto.muikku.rest.RESTPermitUnimplemented;
 import fi.otavanopisto.muikku.schooldata.CourseMetaController;
 import fi.otavanopisto.muikku.schooldata.RestCatchSchoolDataExceptions;
@@ -119,6 +121,12 @@ public class CoursePickerRESTService extends PluginRESTService {
 
   @Inject
   private CourseMetaController courseMetaController;
+
+  @Inject
+  private UserIndexer userIndexer;
+  
+  @Inject
+  private WorkspaceUserEntityIdFinder workspaceUserEntityIdFinder;
   
   @Inject
   @Any
@@ -182,7 +190,7 @@ public class CoursePickerRESTService extends PluginRESTService {
       }
     } else {
       if (userEntity != null) {
-        workspaceEntities = workspaceUserEntityController.listWorkspaceEntitiesByUserEntity(userEntity);
+        workspaceEntities = workspaceUserEntityController.listActiveWorkspaceEntitiesByUserEntity(userEntity);
       }
     }
 
@@ -383,20 +391,13 @@ public class CoursePickerRESTService extends PluginRESTService {
       return Response.status(Status.UNAUTHORIZED).build();
     }
     
-    User user = userController.findUserByDataSourceAndIdentifier(sessionController.getLoggedUserSchoolDataSource(),
-        sessionController.getLoggedUserIdentifier());
+    User user = userController.findUserByDataSourceAndIdentifier(sessionController.getLoggedUserSchoolDataSource(), sessionController.getLoggedUserIdentifier());
 
     Long workspaceStudentRoleId = getWorkspaceStudentRoleId();
     
     WorkspaceRoleEntity workspaceRole = roleController.findWorkspaceRoleEntityById(workspaceStudentRoleId);
-    if (workspaceUserEntityController.findWorkspaceUserEntityByWorkspaceAndUserIdentifier(workspaceEntity, sessionController.getLoggedUser()) != null) {
-      return Response.status(Status.BAD_REQUEST).build();
-    }
-
     Workspace workspace = workspaceController.findWorkspace(workspaceEntity);
-    
     Role role = roleController.findRoleByDataSourceAndRoleEntity(user.getSchoolDataSource(), workspaceRole);
-    
     
     SchoolDataIdentifier workspaceIdentifier = new SchoolDataIdentifier(workspace.getIdentifier(), workspace.getSchoolDataSource());
     SchoolDataIdentifier userIdentifier = new SchoolDataIdentifier(user.getIdentifier(), user.getSchoolDataSource());
@@ -405,10 +406,15 @@ public class CoursePickerRESTService extends PluginRESTService {
     if (workspaceUserEntity != null && Boolean.TRUE.equals(workspaceUserEntity.getArchived())) {
       workspaceUserEntityController.unarchiveWorkspaceUserEntity(workspaceUserEntity);
     }
+    if (workspaceUserEntity != null && Boolean.FALSE.equals(workspaceUserEntity.getActive())) {
+      workspaceUserEntityController.updateActive(workspaceUserEntity, Boolean.TRUE);
+      userIndexer.indexUser(workspaceUserEntity.getUserSchoolDataIdentifier().getUserEntity());
+    }
     
     fi.otavanopisto.muikku.schooldata.entity.WorkspaceUser workspaceUser = workspaceController.findWorkspaceUserByWorkspaceAndUser(workspaceIdentifier, userIdentifier);
     if (workspaceUser == null) {
       workspaceUser = workspaceController.createWorkspaceUser(workspace, user, role);
+      waitForWorkspaceUserEntity(workspaceEntity, userIdentifier);
     }
     else {
       workspaceController.updateWorkspaceStudentActivity(workspaceUser, true);
@@ -417,8 +423,7 @@ public class CoursePickerRESTService extends PluginRESTService {
     // TODO: should this work based on permission? Permission -> Roles -> Recipients
     // TODO: Messaging should be moved into a CDI event listener
 
-    List<WorkspaceUserEntity> workspaceTeachers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(workspaceEntity,
-        WorkspaceRoleArchetype.TEACHER);
+    List<WorkspaceUserEntity> workspaceTeachers = workspaceUserEntityController.listActiveWorkspaceStaffMembers(workspaceEntity);
     List<UserEntity> teachers = new ArrayList<UserEntity>();
 
     String workspaceName = workspace.getName();
@@ -477,22 +482,22 @@ public class CoursePickerRESTService extends PluginRESTService {
 
   private boolean getIsAlreadyOnWorkspace(WorkspaceEntity workspaceEntity) {
     if (sessionController.isLoggedIn()) {
-      WorkspaceUserEntity workspaceUserEntity = workspaceUserEntityController.findWorkspaceUserByWorkspaceEntityAndUserIdentifier(workspaceEntity, sessionController.getLoggedUser());
-
+      WorkspaceUserEntity workspaceUserEntity = workspaceUserEntityController.findActiveWorkspaceUserByWorkspaceEntityAndUserIdentifier(workspaceEntity, sessionController.getLoggedUser());
       return workspaceUserEntity != null;
-    } else
+    }
+    else {
       return false;
+    }
   }
   
   private boolean getCanSignup(WorkspaceEntity workspaceEntity) {
-    if (sessionController.isLoggedIn()) {
-      WorkspaceUserEntity workspaceUserEntity = workspaceUserEntityController.findWorkspaceUserByWorkspaceEntityAndUserIdentifier(workspaceEntity, sessionController.getLoggedUser());
-
-      return
-          workspaceUserEntity == null &&
-          sessionController.hasWorkspacePermission(MuikkuPermissions.WORKSPACE_SIGNUP, workspaceEntity);
-    } else
+    if (sessionController.isLoggedIn() && sessionController.isActiveUser()) {
+      WorkspaceUserEntity workspaceUserEntity = workspaceUserEntityController.findActiveWorkspaceUserByWorkspaceEntityAndUserIdentifier(workspaceEntity, sessionController.getLoggedUser());
+      return workspaceUserEntity == null && sessionController.hasWorkspacePermission(MuikkuPermissions.WORKSPACE_SIGNUP, workspaceEntity);
+    }
+    else {
       return false;
+    }
   }
   
   private Long getWorkspaceStudentRoleId() {
@@ -521,6 +526,22 @@ public class CoursePickerRESTService extends PluginRESTService {
         educationTypeName,
         canSignup, 
         isCourseMember);
+  }
+  
+  private void waitForWorkspaceUserEntity(WorkspaceEntity workspaceEntity, SchoolDataIdentifier userIdentifier) {
+    Long workspaceUserEntityId = null;
+    long timeoutTime = System.currentTimeMillis() + 10000;    
+    while (workspaceUserEntityId == null) {
+      workspaceUserEntityId = workspaceUserEntityIdFinder.findWorkspaceUserEntityId(workspaceEntity, userIdentifier);
+      if (workspaceUserEntityId != null || System.currentTimeMillis() > timeoutTime) {
+        break;
+      }
+      try {
+        Thread.sleep(100);
+      }
+      catch (InterruptedException e) {
+      }
+    }
   }
   
 }

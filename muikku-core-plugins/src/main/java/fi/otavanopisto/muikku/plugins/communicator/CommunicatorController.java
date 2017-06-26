@@ -95,6 +95,7 @@ public class CommunicatorController {
               .addAttributes("a", "target")
               .addAttributes("img", "width", "height", "style")
               .addAttributes("i", "class")
+              .addAttributes("span", "style")
     ).clean(doc);
     doc.outputSettings().escapeMode(EscapeMode.xhtml);
     return doc.body().html();
@@ -175,8 +176,7 @@ public class CommunicatorController {
 
     if (!CollectionUtils.isEmpty(workspaceStudentRecipients)) {
       for (WorkspaceEntity workspaceEntity : workspaceStudentRecipients) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.STUDENT);
+        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listActiveWorkspaceStudents(workspaceEntity);
 
         if (!CollectionUtils.isEmpty(workspaceUsers)) {
           CommunicatorMessageRecipientWorkspaceGroup groupRecipient = createWorkspaceGroupRecipient(workspaceEntity, WorkspaceRoleArchetype.STUDENT);
@@ -196,8 +196,7 @@ public class CommunicatorController {
 
     if (!CollectionUtils.isEmpty(workspaceTeacherRecipients)) {
       for (WorkspaceEntity workspaceEntity : workspaceTeacherRecipients) {
-        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listWorkspaceUserEntitiesByRoleArchetype(
-            workspaceEntity, WorkspaceRoleArchetype.TEACHER);
+        List<WorkspaceUserEntity> workspaceUsers = workspaceUserEntityController.listActiveWorkspaceStaffMembers(workspaceEntity);
         
         if (!CollectionUtils.isEmpty(workspaceUsers)) {
           CommunicatorMessageRecipientWorkspaceGroup groupRecipient = createWorkspaceGroupRecipient(workspaceEntity, WorkspaceRoleArchetype.TEACHER);
