@@ -1,3 +1,4 @@
+@import "_vars-startup-lukio";
 
 // WORKSPACE NAVIGATION BUBLE CONTAINER
 #workspaceNavigationWrapperBuble {
@@ -26,13 +27,16 @@
   
   // Default state
   &[data-state='unassessed'] {
-    background: #55bbff;
-
+    background: $startup-theme-color;
+    a {
+      color: $startup-light-color;
+    
+    }
     a:hover {
-      background: #28a1f2;
+      background:  $startup-theme-color;
       
       span[class*='workspace-navi-tt-container-'] {
-        background: #28a1f2;
+        background:  $startup-theme-color;
       }
       
     }
@@ -43,23 +47,23 @@
   &[data-state='pending'],
   &[data-state='pending_pass'],
   &[data-state='pending_fail'] { 
-    background: #0099ff; 
+    background: $startup-theme-color; 
     transition: background 0.2s ease-in-out;
 
     a:hover {
-      background: #0075c3;
+      background:  $startup-theme-color;
       
       span[class*='workspace-navi-tt-container-'] {
-        background: #0075c3;
+        background:  $startup-theme-color;
       }
       
     }
     
     &:hover {
-      background: #f6a930;
+      background:  $startup-theme-color;
       
       a {
-        background: #e5961b;
+        background:  $startup-theme-color;
         
         // Override Pending icon with Cancellation icon
         &::before {
@@ -166,12 +170,12 @@ div[class*='workspace-dock-navi-button'] > span {
 // WORKSPACE FULLSCREEN READING BUTTON
 div[class*='workspace-dock-navi-button-fullscreen'] > a,
 div[class*='workspace-dock-navi-button-fullscreen'] > span {
-
+  color: $startup-light-color;
   &:hover {
-    background: #1a75ac;
+    background: $startup-theme-color;
     
     span[class*='workspace-navi-tt-container-'] {
-      background: #1a75ac;
+      background: $startup-theme-color;
     }
     
   }
