@@ -95,6 +95,7 @@ blockquote{
   text-decoration:none;  
 }
 
+
 .logged-user {
   position: relative;
   float: right;
@@ -114,8 +115,8 @@ blockquote{
     
     object,
     img {
-      height: 44px;
-      width: 44px;
+      height: 48px;
+      width: 48px;
     }
     
   }
@@ -134,8 +135,8 @@ blockquote{
       color: $environment-logged-in-font-color;
       font-family: $environment-header-font-family;
       float: left;
-      height: 1.5em;
-      margin: 15px 6px 14px 20px;
+      height: 1.2em;
+      margin: 12px 6px 12px 20px;
       max-width: 270px;
       min-width: 100px;
       overflow: hidden;
@@ -145,6 +146,7 @@ blockquote{
       
       a {
         color: $environment-logged-in-font-color;
+        font-size: 15px;
         text-decoration: none;
       }
       

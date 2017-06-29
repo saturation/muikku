@@ -12,7 +12,8 @@
     
     .muikku-connect-field-counterpart:hover,
     .muikku-connect-field-term:hover {
-      background: $taskBoxColor;
+      color: $startup-dark-font-color;
+      background: $startup-dark-color;
       cursor: default;
     }
     
@@ -71,23 +72,26 @@
 
 .muikku-connect-field-counterpart,
 .muikku-connect-field-term {
-  position: relative;
-  @include flexbox;
-  align-items: center;
-  padding: 8px 10px;
-  background: $taskBoxColor;
-  margin: 0 4px 8px 4px;
-  border-radius: 3px;
-  transition: background 0.3s ease-in-out;
+  align-items: center;  
+  background: $startup-dark-color;
+  border: 1px solid $startup-dark-color;
   box-sizing: border-box;
+  color: $taskBoxTextColor;
+  font-size: 16px;
   height: 56px;
   line-height: 20px;
-  font-size: 16px;
+  margin: 0 4px 8px 4px;
+  padding: 8px 10px;
+  position: relative;
+  transition: background 0.3s ease-in-out;
   transition: height 0.2s ease-in-out;
-  color: $taskBoxTextColor;
-  
+  @include flexbox;  
+
   &:hover {
-    background: $taskBoxHoverColor;
+    color: #000;
+    border: 1px solid $startup-alt-dark-color;
+    background: $startup-dark-color;
+    
   }
   
    .term-full-text,
@@ -137,12 +141,13 @@
 	cursor: pointer;
 	
 	&.muikku-connect-field-edited {
-	  background: $taskBoxEditedColor;
+	  color: $startup-light-font-color;
+	  background: $startup-alt-dark-color;
 	}
 	
 	&.muikku-connect-field-term-selected {
-    background: $selectedtaskBoxColor;
-    color: #fff;
+    border: 1px solid $startup-alt-dark-color;
+    color: $startup-dark-font-color;
     font-weight: 400;
 	}
 	
@@ -153,7 +158,8 @@
   cursor: pointer;
 	
 	 &.muikku-connect-field-edited {
-     background: $taskBoxEditedColor;
+	   color: $startup-light-font-color;
+     background: $startup-alt-dark-color;
   }
   
   &.ui-sortable-helper {

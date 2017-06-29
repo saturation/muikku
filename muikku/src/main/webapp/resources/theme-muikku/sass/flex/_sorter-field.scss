@@ -5,7 +5,7 @@ div.muikku-sorter-field {
     opacity: 0.5;
     
     .muikku-sorter-item:hover {
-      background: $taskBoxColor;
+      background: $startup-dark-color;
     }
     
   }
@@ -20,7 +20,7 @@ span.muikku-sorter-field {
     opacity: 0.5;
     
     .muikku-sorter-item:hover {
-      background: $taskBoxColor;
+      background: $startup-dark-color;
     }
     
   }
@@ -39,7 +39,7 @@ div.muikku-sorter-items-container {
     
   div.muikku-sorter-item {
     border-radius: 3px;
-    background: $taskBoxColor;
+    background: $startup-dark-color;
     box-sizing: border-box;
     color: $taskBoxTextColor;
     font-size: 16px;
@@ -54,13 +54,13 @@ div.muikku-sorter-items-container {
     }
     
     &:hover {
-      background: $taskBoxHoverColor;
+      background: $startup-dark-color;
     }
     
     &.ui-sortable-helper {
       z-index: 99;
-      background: $selectedtaskBoxColor; 
-      color: $selectedTaskBoxTextColor;
+      background: $startup-dark-color; 
+      color: $startup-dark-font-color;
     }
 
   }
@@ -79,7 +79,7 @@ span.muikku-sorter-items-container {
   }
   
   span.muikku-sorter-item {
-    background: $taskBoxColor;
+    background: $startup-dark-color;
     border-radius: 3px;
     box-sizing: border-box;
     color: $taskBoxTextColor;
@@ -105,13 +105,13 @@ span.muikku-sorter-items-container {
     }
     
     &:hover {
-      background: $taskBoxHoverColor;
+      background: $startup-dark-color;
     }
     
     &.ui-sortable-helper {
       z-index: 99;
-      background: $selectedtaskBoxColor; 
-      color: $selectedTaskBoxTextColor;
+      background: $startup-dark-color; 
+      color: $startup-dark-font-color;
       padding: 6px 7px;
       height: auto !important;
     }
