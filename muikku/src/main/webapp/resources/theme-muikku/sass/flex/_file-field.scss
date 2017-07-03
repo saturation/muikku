@@ -4,7 +4,7 @@
 }
 
 .muikku-file-input-field-file-label {
-  color: #fff;
+  color: $startup-dark-font-color;
   font-size: 16px;
   font-weight: 400;
   height: 20px;
@@ -32,7 +32,7 @@
 }
 
 .muikku-file-input-field-file-remove, .muikku-file-input-field-file-restore {
-  color: #fff !important;
+  color: $startup-dark-font-color !important;
   display: block;
   font-size: 14px;
   font-weight: 400 !important;
@@ -46,7 +46,7 @@
 .muikku-file-input-field-file-progress {
   
   .ui-progressbar-value {
-    background: #34acfd;
+    background: $startup-dark-color;
     height: 30px;
     border-radius: 0 !important;
   }
@@ -62,8 +62,8 @@
 }
 
 .muikku-file-input-field-file-uploader-container {
-  background: #fff;
-  border: 2px solid #abdbed;
+  background: $startup-dark-color;
+  border: 2px solid $startup-dark-color;
   border-radius: 3px;
   outline: none;
   padding: 5px 10px;
@@ -82,11 +82,11 @@
   }
   
   &:hover {
-    border: 2px solid #8dd6f1;
+    border: 2px solid $startup-dark-color;
   }
   
   a {
-    color: #fff !important;
+    color: $startup-dark-font-color !important;
     text-decoration: none;
     font-size: 14px;
     

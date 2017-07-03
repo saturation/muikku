@@ -40,14 +40,14 @@
   }
   
   .cke_inner { /* CKE top, content and bottom wrapper */
-    border: 2px solid #abdbed;
+    border: 2px solid $startup-dark-color;
     border-radius: 3px;
     
     &:hover {
-      border-color: #8dd6f1;
+      border-color: $startup-dark-color;
       
       .cke_top {
-        background: #8dd6f1;
+        background: $startup-dark-color;
       }
       
     }
@@ -55,7 +55,7 @@
     .cke_top {
       border: 0;
       box-shadow: none;
-      background: #abdbed;
+      background: $startup-dark-color;
       background-image: none;
       padding: 8px 8px 4px;
       border-bottom: 0;
@@ -126,7 +126,7 @@
       box-shadow: none;
       background: #fff;
       background-image: none;
-      border-top: 1px solid #abdbed;
+      border-top: 1px solid $startup-dark-color;
     }
   
   }

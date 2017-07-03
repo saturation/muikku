@@ -121,7 +121,7 @@ div.muikku-text-field {
 input[type="checkbox"],
 input[type="radio"] {
   background: #fff;
-  border: 2px solid #abdbed;
+  border: 2px solid $startup-dark-color;
   border-radius: 3px;
   box-shadow: 0 0 0 3px rgba(215, 215, 215, 0.15);
   display: inline-block;
@@ -136,7 +136,7 @@ input[checked="checked"] {
 // SELECT & OPTION
 select {
   background: #fff;
-  border: 2px solid #abdbed;
+  border: 2px solid $startup-dark-color;
   border-radius: 3px;
   box-shadow: 0 0 0px 3px rgba(215,215,215,0.15);
   color: #000;

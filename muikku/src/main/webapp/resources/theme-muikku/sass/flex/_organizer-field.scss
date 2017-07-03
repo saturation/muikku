@@ -16,10 +16,10 @@
       cursor: default;
       
       &.term-in-use {
-        background: $startup-theme-color;
+        background: $startup-alt-dark-color;
         
         &:hover {
-          background: $startup-theme-color;
+          background: $startup-alt-dark-color;
         } 
          
       }
@@ -60,7 +60,7 @@
       word-wrap: normal;
       
       &.term-in-use {
-        background: $startup-theme-color; 
+        background: $startup-alt-dark-color; 
       }
       
       &:hover {
@@ -122,7 +122,7 @@
       color: $taskBoxTextColor;
       
       &.term-in-use {
-        background: $startup-theme-color; 
+        background: $startup-alt-dark-color; 
       }
       
       .icon-delete {

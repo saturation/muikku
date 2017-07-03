@@ -94,7 +94,7 @@ input[type="text"].muikku-text-field {
 input[type="checkbox"],
 input[type="radio"] {
   background: #fff;
-  border: 2px solid #abdbed;
+  border: 2px solid $startup-dark-color;
   border-radius: 3px;
   box-shadow: 0 0 0 3px rgba(215, 215, 215, 0.15);
   display: inline-block;
@@ -111,7 +111,7 @@ input[type="radio"] {
 /* Select and Option field overrides */
 select {
   background: #fff;
-  border: 2px solid #abdbed;
+  border: 2px solid $startup-dark-color;
   transition: border,box-shadow 0.1s,0.2s ease-in-out;
   outline: none;
   color: #0061a2;

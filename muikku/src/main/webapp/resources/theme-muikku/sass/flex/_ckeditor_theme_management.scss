@@ -1,5 +1,5 @@
 .cke {
-  border: 1px solid #abdbed;
+  border: 1px solid $startup-dark-color;
   box-shadow: none;
   border-radius: 0;
   
@@ -8,7 +8,7 @@
     .cke_top {
       border: 0;
       box-shadow: none;
-      background: #abdbed;
+      background: $startup-dark-color;
       background-image: none;
       padding: 8px 8px 4px;
       border-bottom: 0;
@@ -79,7 +79,7 @@
       box-shadow: none;
       background: #fff;
       background-image: none;
-      border-top: 1px solid #abdbed;
+      border-top: 1px solid $startup-dark-color;
     }
   
   }

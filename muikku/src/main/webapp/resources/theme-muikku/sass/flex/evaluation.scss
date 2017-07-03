@@ -1130,7 +1130,7 @@ body.evaluation {
           border: 0;
           border-radius: 3px;
           box-sizing: border-box;
-          border: 2px solid #abdbed;
+          border: 2px solid $startup-dark-color;
           font-size: 16px;
           color: #000;
           background: #fff;
@@ -1145,7 +1145,7 @@ body.evaluation {
           &:focus,
           &:hover {
             background: #fff;
-            border: 2px solid #8dd6f1;
+            border: 2px solid $startup-dark-color;
             box-shadow: 0 0 0 3px rgba(202,225,252,0.75);
           }
           

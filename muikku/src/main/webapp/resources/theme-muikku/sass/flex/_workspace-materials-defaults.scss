@@ -100,7 +100,7 @@
   input[type="url"] {
     width: auto;
     height: auto;
-    border: 2px solid #abdbed;
+    border: 2px solid $startup-dark-color;
     border-radius: 3px;
     display: inline-block;
     padding: 4px 8px;
@@ -125,7 +125,7 @@
     
     &:focus,
     &:hover {
-      border: 2px solid #8dd6f1;
+      border: 2px solid $startup-dark-color;
       box-shadow: none;
       
       span.muikku-text-field-hint {
@@ -171,7 +171,7 @@
   // TEXTAREA OVERRIDES
   textarea {
     height: auto;
-    border: 2px solid #abdbed;
+    border: 2px solid $startup-dark-color;
     border-radius: 3px;
     display: inline-block;
     padding: 4px 8px;
@@ -198,7 +198,7 @@
     
     &:focus,
     &:hover {
-      border: 2px solid #8dd6f1;
+      border: 2px solid $startup-dark-color;
       box-shadow: none;
     }
   
@@ -225,7 +225,7 @@
   // SELECT & OPTION OVERRIDES */
   select {
     background: #fff;
-    border: 2px solid #abdbed;
+    border: 2px solid $startup-dark-color;
     outline: none;
     color: #000;
     display: inline-block;
@@ -238,15 +238,15 @@
     
     &:focus,
     &:hover {
-      border: 2px solid #8dd6f1;
+      border: 2px solid $startup-dark-color;
     }
     
     &[disabled="disabled"] {
-      border: 2px solid #cae1fc;
+      border: 2px solid $startup-dark-color;
       color: #7c7c7c;
       
       &:hover {
-        border: 2px solid #cae1fc;
+        border: 2px solid $startup-dark-color;
         color: #7c7c7c;
       }
   
@@ -291,10 +291,10 @@
     display: inline-block;
     border-radius: 3px;
     display: inline-block;
-    box-shadow: 0 0 0 2px rgba(0,153,255,0.4);
+    box-shadow: none;
     
     &:hover {
-      box-shadow: 0 0 0 2px rgba(0,153,255,0.6);
+      box-shadow: none;
     }
     
   }
