@@ -45,7 +45,6 @@
     z-index: 2;
     margin-top: -16px;
     border-top: 1px solid #fff;
-    border-radius: 3px;
     margin-left: 4px;
     padding: 4px;
     background: #9cf3c7;
@@ -79,8 +78,6 @@
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       padding: 2px 8px;
       background: #f8ed8e;
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
       color: #4c4c4c;
       white-space: nowrap;
       font-style: italic;
@@ -101,7 +98,6 @@
     width: auto;
     height: auto;
     border: 2px solid $startup-dark-color;
-    border-radius: 3px;
     display: inline-block;
     padding: 4px 8px;
     outline: none;
@@ -172,7 +168,6 @@
   textarea {
     height: auto;
     border: 2px solid $startup-dark-color;
-    border-radius: 3px;
     display: inline-block;
     padding: 4px 8px;
     outline: none;
@@ -230,7 +225,6 @@
     color: #000;
     display: inline-block;
     margin: 4px;
-    border-radius: 3px;
     padding: 0 5px;
     max-width: 100%;
     word-wrap: break-word;
@@ -289,7 +283,6 @@
     background: #fff;
     outline: none;
     display: inline-block;
-    border-radius: 3px;
     display: inline-block;
     box-shadow: none;
     
@@ -553,7 +546,6 @@ blockquote {
       font-size: 13px;
       padding: 4px 8px 8px;
       line-height: 130%;
-      border-radius: 2px;
       box-sizing: border-box;
       text-align: left;
     }
@@ -677,7 +669,6 @@ blockquote {
       background: #71bced;
       box-shadow: none;
       border: 0;
-      border-radius: 2px;
       font-weight: 400;
       text-transform: uppercase;
       padding: 12px;
@@ -771,7 +762,6 @@ blockquote {
     
     .assignment-grade-data {
       background: $evaluation-modal-assignment-evaluated-grade-info-background-color;
-      border-radius: 5px;
       display: inline-block;
       margin: 0 0 0 5px;
       min-width: 16px;
@@ -781,7 +771,6 @@ blockquote {
     
     .assignment-literal-data {
       background: $evaluation-modal-assignment-evaluated-literal-background-color;
-      border-radius: 3px;
       font-size: 14px;
       line-height: 20px;
       padding: 1px 10px;
@@ -796,7 +785,6 @@ blockquote {
   
       
   span.muikku-field-examples {
-    border-radius: 3px;
     padding: 3px;
     width: auto;
     background: #e2ffe2;
@@ -837,7 +825,6 @@ blockquote {
 
   .muikku-page-assignment-type {
     padding: 0 8px;
-    border-radius: 2px;
     font-size: 12px;
     color: #fff;
     text-align: center;
@@ -1001,7 +988,6 @@ blockquote {
 .muikku-word-definition {
   background: #c4ffd6 none repeat scroll 0 0;
   border: 2px solid #fff;
-  border-radius: 3px;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
   color: #000;
   font-size: 14px;
@@ -1017,7 +1003,6 @@ blockquote {
 .explanation-content {
   background: #ebf7ff;
   border: 1px solid #fff;
-  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   color: #000;
   font-size: 14px;

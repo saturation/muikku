@@ -47,7 +47,6 @@
   
     .muikku-term {
       background: $startup-dark-color;
-      border-radius: 3px;
       box-sizing: border-box;
       color: $taskBoxTextColor;
       cursor: move;
@@ -103,7 +102,6 @@
   
   .muikku-category {
     border: 2px solid $startup-dark-color;
-    border-radius: 3px;
     box-sizing: border-box;
     width: 100%;
     min-height: 100px;
@@ -111,7 +109,6 @@
     
     .muikku-term {
       background: $startup-dark-color;
-      border-radius: 3px;
       box-sizing: border-box;
       font-size: 16px;
       margin: 2px 4px 1px 0;

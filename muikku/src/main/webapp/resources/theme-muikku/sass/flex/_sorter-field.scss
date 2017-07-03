@@ -38,7 +38,6 @@ div.muikku-sorter-items-container {
   }
     
   div.muikku-sorter-item {
-    border-radius: 3px;
     background: $startup-dark-color;
     box-sizing: border-box;
     color: $taskBoxTextColor;
@@ -80,7 +79,6 @@ span.muikku-sorter-items-container {
   
   span.muikku-sorter-item {
     background: $startup-dark-color;
-    border-radius: 3px;
     box-sizing: border-box;
     color: $taskBoxTextColor;
     display:inline-block;
