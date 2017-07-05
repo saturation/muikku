@@ -12,7 +12,7 @@
       this.element.on('click', '.tr-task-evaluated', $.proxy(this._onEvaluationClick, this));
       this.element.on('click', '.tr-item-workspace-assessment:not(.open)', $.proxy(this._onWorkspaceAssessmentItemClick, this));
       this.element.on('click', '.tr-view-toolbar .icon-goback', $.proxy(this._goBackRecords, this));
-      this._loadCategory();
+      this._loadRecords();
     },
 
     category: function (categoryId) {
@@ -20,31 +20,31 @@
       this._loadCategory(categoryId);
     },
     _goBackRecords : function () {
-      this._loadCategory('records');
+      this._loadRecords();
     },
     _onCategoryChange: function (event, data) {
       this.category(data.value);
     },
 
-    _loadCategory: function (categoryId) {
-      var selectedCategory = categoryId == null ? $('.tr-category-dropdown li:first-child').attr('data-value') : categoryId;
-      switch (selectedCategory) {
-        case  'forms' :
-          this._loadForms();
-          break;
-        case  'records' :
-          this._loadRecords();
-          break;
-        case  'vops' :
-          this._loadVops();
-          break;
-        case 'hops-form':
-          this._loadHopsForm();
-          break;
-        default :
-          alert('Unknown category');
-      }
-    },
+//    _loadCategory: function (categoryId) {
+//      var selectedCategory = categoryId == null ? $('.tr-category-dropdown li:first-child').attr('data-value') : categoryId;
+//      switch (selectedCategory) {
+//        case  'forms' :
+//          this._loadForms();
+//          break;
+//        case  'records' :
+//          this._loadRecords();
+//          break;
+//        case  'vops' :
+//          this._loadVops();
+//          break;
+//        case 'hops-form':
+//          this._loadHopsForm();
+//          break;
+//        default :
+//          alert('Unknown category');
+//      }
+//    },
 
     _loadForms : function () {
       this.element.addClass('loading');

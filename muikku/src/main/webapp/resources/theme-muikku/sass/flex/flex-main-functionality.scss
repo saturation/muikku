@@ -599,20 +599,9 @@ ul.mf-tool-label-container {
 
 .mf-item {
   box-shadow: $item-shadow;
-  background-color: $item-background-color;
+  background-color: $startup-dark-color;
   margin: 0 5px 5px 5px;
 
-  &.ft-01 {
-    border-left: 3px solid $item-markup-border-color-1;
-  }
-   
-  &.ft-02 {
-    border-left: 3px solid $item-markup-border-color-2;
-  }
-  
-  &.ft-03 {
-    border-left: 3px solid$item-markup-border-color-3;
-  }
 
   .topic {
     padding: 10px 0 0 10px;
@@ -766,6 +755,7 @@ ul.mf-tool-label-container {
 
 .mf-subitem {
   font-weight: 300;
+  background: $startup-light-color;
 }
 
 /* Widgets */

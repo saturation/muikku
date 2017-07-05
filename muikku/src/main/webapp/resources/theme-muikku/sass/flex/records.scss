@@ -405,7 +405,7 @@
   padding-left: 5px;
   
   h3 {
-    color: $environment-item-subheader-font-color;
+    color: $startup-theme-color;
     font-weight: 700;
   }
 }
@@ -422,6 +422,7 @@
 
 
 .tr-curriculum-title {
+  font-family: $environment-header-font-family;
   span {
     font-weight: 700;
     font-size: 16px;
@@ -435,7 +436,7 @@
 
     &.grade {
       box-sizing: border-box;
-      color: $item-grade-font-color;
+      color: $startup-light-color;
       font-size: 12px;
       margin-left: 5px;
       padding: 0 6px;
@@ -467,7 +468,7 @@
     }
 
     &.grade {
-      color: $item-grade-font-color;
+      color: $startup-light-color;
       margin-left: 3px;
       padding: 5px 10px;
 
@@ -546,13 +547,12 @@
 .tr-task-evaluated {
 
   &:hover {
-    background-color: $environment-background-dim-color;
     cursor: pointer;
   }
 
 
   .content-container {
-    background-color: $environment-background-light-dim-color;
+    background-color: $startup-light-color;
   }
 
   .title {
@@ -571,17 +571,23 @@
 
   .content {
     padding: 15px;
+    background-color: $startup-dark-color;
+  }
+  
+  .tr-task-evaluated-verbal {
+
+  
   }
 
 }
 
 .tr-task-evaluated-grade {
-  background-color: $environment-background-dim-color;
-  color: $environment-font-disabled-color;
+  background-color: $startup-alt-dark-color;
+  color: $startup-light-color;
   padding:5px 10px;
 
   &.grade {
-    color: $item-grade-font-color;
+    color: $startup-light-color;
 
     &.passing {
       background-color: $item-grade-passing-color;
@@ -597,6 +603,8 @@
 
 .tr-studydiary-entry-content {
   margin: 0 0 1.5em;
+  padding: 5px;
+  background-color: $startup-light-color;
 }
 
 .tr-studydiary-entry-date {

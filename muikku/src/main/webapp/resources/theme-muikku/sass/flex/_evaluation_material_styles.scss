@@ -97,7 +97,7 @@ span.checkbox-vertical {
 
 // TEXTFIELD & MEMOFIELD
 div.muikku-memo-field {
-  background: #ebf7ff;
+  background: $startup-dark-color;
   border-radius: 3px;
   box-sizing: border-box;  
   line-height: 1.7em;
@@ -107,7 +107,7 @@ div.muikku-memo-field {
 }
 
 div.muikku-text-field {
-  background: #ebf7ff;
+  background: $startup-dark-color;
   border-radius: 3px;
   box-sizing: border-box;
   display: inline-block;

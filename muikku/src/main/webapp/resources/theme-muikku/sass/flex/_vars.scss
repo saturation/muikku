@@ -1,4 +1,3 @@
-
 // Open front page's variables
 
 $of-body-font-family: 'Exo 2',Arial,sans-serif;
@@ -75,8 +74,7 @@ $of-footer-text-color: #fff;
 $body-background-color: #f6fcff;
 $body-font-color: #2c2c2c;
 $environment-icon-family: 'muikku';
-$environment-header-font-family: 'Axis', 'Gentium Basic';
-$environment-font-family: 'Gentium Basic',Arial,sans-serif;
+$environment-font-family: 'Open Sans',Arial,sans-serif;
 
 // Assignments, Exercises and Journal - Colors
 
@@ -396,13 +394,13 @@ $evaluation-modal-workspace-evaluation-form-activate-button-font-color: #fff;
 
 // Evaluation Modal - Forms
 
-$evaluation-modal-texteditor-border-color: $startup-dark-color;
+$evaluation-modal-texteditor-border-color: #abdbed;
 $evaluation-modal-textfield-background-color: #fff;
-$evaluation-modal-textfield-border-color: $startup-dark-color;
+$evaluation-modal-textfield-border-color: #abdbed;
 $evaluation-modal-memofield-background-color: #fff;
-$evaluation-modal-memofield-border-color: $startup-dark-color;
+$evaluation-modal-memofield-border-color: #abdbed;
 $evaluation-modal-select-background-color: #fff;
-$evaluation-modal-select-border-color: $startup-dark-color;
+$evaluation-modal-select-border-color: #abdbed;
 $evaluation-modal-button-font-color: #fff;
 
 // Evaluation Modal - Assignment Evaluation 

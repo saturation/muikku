@@ -32,6 +32,7 @@
   <ui:define name="mf-content-master">
     <div class="records">
       <h2 class="main-functionality-page-title">#{i18n.text['plugin.records.pageTitle']}</h2>
+      <!-- 
       <ui:insert name="mf-content-functions">
         <div class="mf-content-functions flex-row flex-align-items-center">
           <div class="mf-button-container lg-flex-cell-4 md-flex-cell-4 sm-flex-cell-8 sm-flex-order-1 sm-flex-cell-first">
@@ -57,34 +58,35 @@
           </div>
         </div>
       </ui:insert>
+       -->
       <div class="mf-content-area">
-        <div class="tr-study-information">
-          <div class="tr-studydate-item">
-            <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyStartDate)}">
-              <label class="tr-studydate-item-label">#{i18n.text['plugin.records.studyStartDateLabel']}</label>
-              <span class="tr-studydate-item-data">
-                <h:outputText value="#{transcriptofRecordsBackingBean.studyStartDate}">
-                  <f:convertDateTime type="date" dateStyle="short" />
-                </h:outputText>                      
-              </span>
-            </ui:fragment>
-          </div>
+<!--         <div class="tr-study-information"> -->
+<!--           <div class="tr-studydate-item"> -->
+<!--             <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyStartDate)}"> -->
+<!--               <label class="tr-studydate-item-label">#{i18n.text['plugin.records.studyStartDateLabel']}</label> -->
+<!--               <span class="tr-studydate-item-data"> -->
+<!--                 <h:outputText value="#{transcriptofRecordsBackingBean.studyStartDate}"> -->
+<!--                   <f:convertDateTime type="date" dateStyle="short" /> -->
+<!--                 </h:outputText>                       -->
+<!--               </span> -->
+<!--             </ui:fragment> -->
+<!--           </div> -->
           
-          <div class="tr-studydate-item">
-            <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyTimeEnd)}">
-              <label class="tr-studydate-item-label">#{i18n.text['plugin.records.studyTimeEndLabel']}</label>
-              <span class="tr-studydate-item-data">
-                <h:outputText value="#{transcriptofRecordsBackingBean.studyTimeEnd}">
-                  <f:convertDateTime type="date" dateStyle="short" />
-                </h:outputText> 
+<!--           <div class="tr-studydate-item"> -->
+<!--             <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyTimeEnd)}"> -->
+<!--               <label class="tr-studydate-item-label">#{i18n.text['plugin.records.studyTimeEndLabel']}</label> -->
+<!--               <span class="tr-studydate-item-data"> -->
+<!--                 <h:outputText value="#{transcriptofRecordsBackingBean.studyTimeEnd}"> -->
+<!--                   <f:convertDateTime type="date" dateStyle="short" /> -->
+<!--                 </h:outputText>  -->
                                    
-                <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyTimeLeftStr)}">
-                  <h:outputText value=" (#{transcriptofRecordsBackingBean.studyTimeLeftStr})"/>
-                </ui:fragment>
-              </span>
-            </ui:fragment>
-          </div>
-        </div>
+<!--                 <ui:fragment rendered="#{!empty(transcriptofRecordsBackingBean.studyTimeLeftStr)}"> -->
+<!--                   <h:outputText value=" (#{transcriptofRecordsBackingBean.studyTimeLeftStr})"/> -->
+<!--                 </ui:fragment> -->
+<!--               </span> -->
+<!--             </ui:fragment> -->
+<!--           </div> -->
+<!--         </div> -->
         
         <div class="tr-content-main flex-row" data-grades="#{transcriptofRecordsBackingBean.grades}">
         </div>
