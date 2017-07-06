@@ -20,7 +20,41 @@
 .di-content-main {
   background-color: #fff;
 }
+
+
+.mf-primary-function {
   
+  .mf-primary-function-content {
+    text-transform: uppercase;
+    border-radius: 3px;
+    display: inline-block;
+    line-height: 1.3em;
+    color: $environment-button-font-color;
+    cursor: pointer;
+    @include buttonFontShadow;
+    @include button-shadow;  
+    background-color: $environment-button-background-color;
+    border: 1px solid $environment-button-border-color;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: 400;
+     
+    &.disabled {      
+      color: $environment-button-disabled-font-color;
+      text-shadow: none;
+    }
+    
+    .mf-primary-function-text {
+      font-family: $environment-header-font-family;
+      display: inline-block;
+      padding: 12px;
+      white-space: nowrap; 
+    }  
+         
+  }
+  
+}
 .mf-content-functions {
   background-color: #fff;
   font-size: 14px;
@@ -30,24 +64,32 @@
     
     // Overrides mainfunction button styles
     .mf-primary-function { 
-      margin: 0 0 0 15px;
-      box-shadow: none;
-      border: 0;
-      text-shadow: none;
-      background: #0099ff;
-      width: auto;
+      text-transform: uppercase;
       border-radius: 3px;
-      color: #ffffff;
-      cursor: pointer;
-      font-size: 1em;
+      display: inline-block;
       line-height: 1.3em;
-      text-transform: uppercase;       
-      padding: 12px;
+      color: $environment-button-font-color;
+      cursor: pointer;
+      @include buttonFontShadow;
+      @include button-shadow;  
+      background-color: $environment-button-background-color;
+      border: 1px solid $environment-button-border-color;
+      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+      font-weight: 400;
        
       &.disabled {
-        background: #dadada;
-        color: #efefef;
+        color: $environment-button-disabled-font-color;
+        text-shadow: none;
       }
+
+      .mf-primary-function-text {
+        font-family: $environment-header-font-family;
+        display: inline-block;
+        padding: 12px;
+        white-space: nowrap; 
+      }  
 
       span {
         white-space: nowrap;

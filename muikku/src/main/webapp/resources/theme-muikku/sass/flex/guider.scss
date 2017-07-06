@@ -198,7 +198,7 @@
     font-size: 18px;
   }
   .gt-course-details-container {
-    background-color: $environment-background-color;
+    background-color: $startup-dark-color;
     cursor: pointer;    
     
     .gt-course-description {
@@ -241,15 +241,14 @@
 
   margin-bottom: 5px;
   &.open {
-     background-color: #eee;  
     .gt-course-details-container {
       margin-top: -5px;
       padding: 5px;
-      background:$item-border-color-active;
-      color: $environment-alt-font-color;
+      background:$startup-dark-color;
+      color: $startup-theme-color;
       
       .gt-course-header-name {
-        color: $environment-alt-font-color;
+        color: $startup-theme-color;
       }      
     }    
   }  
@@ -261,6 +260,8 @@
   font-size: 14px;
   font-weight: 400;
   background: $item-title-background-color;
+  color: $startup-theme-color;
+  letter-spacing: 1px;
   padding: 5px;
 }
 
@@ -286,10 +287,9 @@
 
 .gt-course-activity-row {
   transition: background 0.3s ease-in-out;
-  padding: 5px;
-  
+  padding: 5px; 
   &:hover {
-    background: $item-background-active-color;
+    background: $startup-dark-color;
     border-radius: 3px;
   }
 }
@@ -419,15 +419,13 @@
   }
 
   .gt-add-flag-widget {
-    background: $item-default-button-background-color;
+    background: $startup-theme-color;
     color: $item-button-font-color;
-    border-radius: 5px;
     padding: 6px 8px 6px 6px;
     display: inline-block;
     cursor: pointer;
     position: relative;
     font-size: 14px;
-    border: 2px solid $item-border-color;
 
     .gt-add-flag-widget-label {
       font-family: $environment-font-family;

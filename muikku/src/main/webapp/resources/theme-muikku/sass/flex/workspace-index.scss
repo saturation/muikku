@@ -224,15 +224,23 @@ h1.workspace-block-title {
 
     &.message {
       align-items: center;
-      background-color: #09f;
       border-radius: 3px;
-      color: #fff;
+      box-sizing: border-box;
+      color: $environment-button-font-color;
       cursor: pointer;
       display: flex;
+      font-size: 12px;
       justify-content: center;
+      padding: 3px;
+      line-height: 1.3em;
       margin: 5px 0 0 5px;
-      max-width: 100px;
-      padding: 5px;
+      max-width: 130px;
+      text-transform: uppercase;
+      background-color: $environment-button-background-color;   
+      @include buttonFontShadow;
+      @include button-shadow;  
+
+
     }
     
     &.vacation-period {

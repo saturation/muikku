@@ -307,7 +307,7 @@
     font-size: 26px;
     height: 26px;
     width: 26px;
-    color: $search-icon-color;
+    color: $startup-theme-color;
     position: absolute;
     left: 10px;
     top: 11px;
@@ -599,7 +599,7 @@ ul.mf-tool-label-container {
 
 .mf-item {
   box-shadow: $item-shadow;
-  background-color: $startup-dark-color;
+  background-color: $startup-light-color;
   margin: 0 5px 5px 5px;
 
 

@@ -1,5 +1,4 @@
 h2,h3,h4,h5,h6 {
-  color: #000;
   font-weight: 300;
   padding: 0 0 0 5px;
 }
@@ -29,7 +28,7 @@ p {
 }
 
 .muikku-word-definition {
-  background: #c4ffd6 none repeat scroll 0 0;
+  background: $startup-dark-color none repeat scroll 0 0;
   border: 2px solid #fff;
   border-radius: 3px;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
