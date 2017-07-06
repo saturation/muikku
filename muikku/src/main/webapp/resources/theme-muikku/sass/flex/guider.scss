@@ -630,6 +630,7 @@
     } 
     
     &.selected {
+      color: $startup-light-font-color;
       background-color: $environment-background-selected-color;
       border-left: 5px solid $environment-border-selected-color;
     }                
