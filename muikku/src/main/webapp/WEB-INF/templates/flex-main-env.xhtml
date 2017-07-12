@@ -163,7 +163,7 @@
                   <a jsf:outcome="/jsf/communicator/index.jsf"><span>#{i18n.text['plugin.communicator.communicator']}</span></a>
                 </div>
                 <!-- DISCUSSION -->
-                <ui:fragment rendered="{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
+                <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('FORUM_ACCESSENVIRONMENTFORUM') and sessionBackingBean.isActiveUser}">
                   <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
                     <a jsf:outcome="/jsf/discussion/index.jsf" class="icon-bubble"><span>#{i18n.text['plugin.forum.forum']}</span></a>
                   </div>

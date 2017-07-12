@@ -3,6 +3,7 @@ package fi.otavanopisto.muikku.plugins.transcriptofrecords.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13,7 +14,9 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,6 +27,11 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Entities.EscapeMode;
+import org.jsoup.safety.Cleaner;
+import org.jsoup.safety.Whitelist;
 
 import fi.otavanopisto.muikku.controller.PermissionController;
 import fi.otavanopisto.muikku.controller.PluginSettingsController;
@@ -36,11 +44,13 @@ import fi.otavanopisto.muikku.model.users.UserGroupEntity;
 import fi.otavanopisto.muikku.model.workspace.WorkspaceEntity;
 import fi.otavanopisto.muikku.model.workspace.WorkspaceUserEntity;
 import fi.otavanopisto.muikku.plugin.PluginRESTService;
+import fi.otavanopisto.muikku.plugins.transcriptofrecords.StudiesViewCourseChoiceController;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.TranscriptOfRecordsController;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.TranscriptOfRecordsFileController;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.TranscriptofRecordsPermissions;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.TranscriptofRecordsUserProperties;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.VopsWorkspace;
+import fi.otavanopisto.muikku.plugins.transcriptofrecords.model.StudiesViewCourseChoice;
 import fi.otavanopisto.muikku.plugins.transcriptofrecords.model.TranscriptOfRecordsFile;
 import fi.otavanopisto.muikku.schooldata.CourseMetaController;
 import fi.otavanopisto.muikku.schooldata.GradingController;
@@ -49,7 +59,9 @@ import fi.otavanopisto.muikku.schooldata.SchoolDataIdentifier;
 import fi.otavanopisto.muikku.schooldata.WorkspaceController;
 import fi.otavanopisto.muikku.schooldata.entity.GradingScale;
 import fi.otavanopisto.muikku.schooldata.entity.GradingScaleItem;
+import fi.otavanopisto.muikku.schooldata.entity.Optionality;
 import fi.otavanopisto.muikku.schooldata.entity.Subject;
+import fi.otavanopisto.muikku.schooldata.entity.TransferCredit;
 import fi.otavanopisto.muikku.schooldata.entity.User;
 import fi.otavanopisto.muikku.schooldata.entity.WorkspaceAssessment;
 import fi.otavanopisto.muikku.security.MuikkuPermissions;
@@ -80,7 +92,7 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
 
   @Inject
   private WorkspaceController workspaceController;
-  
+
   @Inject
   private UserGroupEntityController userGroupEntityController;
 
@@ -109,10 +121,23 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
   private PluginSettingsController pluginSettingsController;
   
   @Inject
+  StudiesViewCourseChoiceController studiesViewCourseChoiceController;
+
+  @Inject
   private GradingController gradingController;
   
   @Inject
   private Logger logger;
+  
+  private String clean(String html) {
+    if (html == null) {
+      return null;
+    }
+    Document doc = Jsoup.parseBodyFragment(html);
+    doc = new Cleaner(Whitelist.none()).clean(doc);
+    doc.outputSettings().escapeMode(EscapeMode.xhtml);
+    return doc.body().html();
+  }
 
   @GET
   @Path("/files/{ID}/content")
@@ -184,6 +209,8 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
       VopsRESTModel result = new VopsRESTModel(null, 0, 0, false);
       return Response.ok(result).build();
     }
+    
+    List<TransferCredit> transferCredits = new ArrayList<>(gradingController.listStudentTransferCredits(studentIdentifier));
 
     List<Subject> subjects = courseMetaController.listSubjects();
     List<VopsRESTModel.VopsRow> rows = new ArrayList<>();
@@ -194,17 +221,63 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
     for (Subject subject : subjects) {
       if (vopsController.subjectAppliesToStudent(student, subject)) {
         List<VopsRESTModel.VopsItem> items = new ArrayList<>();
-        for (int i=1; i<MAX_COURSE_NUMBER; i++) {
+        for (int courseNumber=1; courseNumber<MAX_COURSE_NUMBER; courseNumber++) {
+          boolean hasTransferCredit = false;
+
+          for (TransferCredit transferCredit : transferCredits) {
+            boolean subjectsMatch = Objects.equals(
+                transferCredit.getSubjectIdentifier(),
+                new SchoolDataIdentifier(subject.getIdentifier(), subject.getSchoolDataSource()));
+            boolean courseNumbersMatch = Objects.equals(
+                transferCredit.getCourseNumber(),
+                courseNumber);
+            if (subjectsMatch && courseNumbersMatch) {
+              String grade = "";
+              GradingScaleItem gradingScaleItem = null;
+              Mandatority mandatority = Mandatority.MANDATORY;
+              if (transferCredit.getOptionality() == Optionality.OPTIONAL) {
+                mandatority = Mandatority.UNSPECIFIED_OPTIONAL;
+              }
+
+              if (transferCredit.getGradeIdentifier() != null
+                  && transferCredit.getGradingScaleIdentifier() != null) {
+                gradingScaleItem = findGradingScaleItemCached(
+                    transferCredit.getGradingScaleIdentifier(),
+                    transferCredit.getGradeIdentifier()
+                );
+                if (!StringUtils.isBlank(gradingScaleItem.getName())) {
+                  grade = gradingScaleItem.getName().substring(0, 2);
+                }
+              }
+              items.add(new VopsRESTModel.VopsItem(
+                  courseNumber,
+                  CourseCompletionState.ASSESSED,
+                  (String)null,
+                  mandatority,
+                  grade,
+                  false,
+                  transferCredit.getCourseName(),
+                  ""
+              ));
+              hasTransferCredit = true;
+              break;
+            }
+          }
+
           List<VopsWorkspace> workspaces =
               vopsController.listWorkspaceIdentifiersBySubjectIdentifierAndCourseNumber(
                   subject.getSchoolDataSource(),
                   subject.getIdentifier(),
-                  i);
+                  courseNumber);
           
           List<WorkspaceAssessment> workspaceAssessments = new ArrayList<>();
-          if (!workspaces.isEmpty()) {
+
+          if (!hasTransferCredit && !workspaces.isEmpty()) {
             SchoolDataIdentifier educationSubtypeIdentifier = null;
             boolean workspaceUserExists = false;
+            String name = "";
+            String description = "";
+
             for (VopsWorkspace workspace : workspaces) {
               WorkspaceEntity workspaceEntity =
                   workspaceController.findWorkspaceEntityById(workspace.getWorkspaceIdentifier());
@@ -237,6 +310,20 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
 
               if (workspaceUser != null) {
                 workspaceUserExists = true;
+              }
+            }
+            
+            for (VopsWorkspace workspace : workspaces) {
+              name = workspace.getName();
+              if (name != null) {
+                break;
+              }
+            }
+            
+            for (VopsWorkspace workspace : workspaces) {
+              description = workspace.getDescription();
+              if (description != null) {
+                break;
               }
             }
             
@@ -285,16 +372,32 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
                 break;
               }
             }
+            
+            StudiesViewCourseChoice courseChoice = studiesViewCourseChoiceController.find(
+                new SchoolDataIdentifier(subject.getIdentifier(), subject.getSchoolDataSource()).toId(),
+                courseNumber,
+                studentIdentifierString);
+            if (state == CourseCompletionState.NOT_ENROLLED
+                && courseChoice != null) {
+              state = CourseCompletionState.PLANNED;
+            }
+            
             items.add(new VopsRESTModel.VopsItem(
-                i,
+                courseNumber,
                 state,
                 educationSubtypeIdentifier != null ? educationSubtypeIdentifier.toId() : null,
                 mandatority,
-                grade));
+                grade,
+                courseChoice != null,
+                clean(name),
+                clean(description)));
           }
         }
         if (!items.isEmpty()) {
-          rows.add(new VopsRESTModel.VopsRow(subject.getCode(), items));
+          rows.add(new VopsRESTModel.VopsRow(
+              subject.getCode(),
+              new SchoolDataIdentifier(subject.getIdentifier(), subject.getSchoolDataSource()).toId(),
+              items));
         }
       }
     }
@@ -412,6 +515,55 @@ public class TranscriptofRecordsRESTService extends PluginRESTService {
     }
 
     return Response.ok(response).build();
+  }
+
+  @POST
+  @Path("/plannedCourses/")
+  @RESTPermit(handling=Handling.INLINE)
+  public Response planCourse(
+      VopsPlannedCourseRESTModel model
+  ) {
+    SchoolDataIdentifier loggedUserIdentifier = sessionController.getLoggedUser();
+    boolean hasPermission = Objects.equals(loggedUserIdentifier.toId(), model.getStudentIdentifier());
+    if (!hasPermission) {
+      return Response.status(Status.FORBIDDEN).entity("You don't have the permission to access this").build();
+    }
+    
+    StudiesViewCourseChoice choice = studiesViewCourseChoiceController.find(
+        model.getSubjectIdentifier(),
+        model.getCourseNumber(),
+        model.getStudentIdentifier());
+    if (choice == null) {
+      studiesViewCourseChoiceController.create(
+          model.getSubjectIdentifier(),
+          model.getCourseNumber(),
+          model.getStudentIdentifier());
+    }
+    return Response.ok(model).build();
+  }
+
+  @DELETE
+  @Path("/plannedCourses/")
+  @RESTPermit(handling=Handling.INLINE)
+  public Response unplanCourse(
+      VopsPlannedCourseRESTModel model
+  ) {
+    SchoolDataIdentifier loggedUserIdentifier = sessionController.getLoggedUser();
+    boolean hasPermission = Objects.equals(loggedUserIdentifier.toId(), model.getStudentIdentifier());
+    if (!hasPermission) {
+      return Response.status(Status.FORBIDDEN).entity("You don't have the permission to access this").build();
+    }
+
+    StudiesViewCourseChoice choice = studiesViewCourseChoiceController.find(
+        model.getSubjectIdentifier(),
+        model.getCourseNumber(),
+        model.getStudentIdentifier());
+    if (choice != null) {
+      studiesViewCourseChoiceController.delete(choice);
+      return Response.ok().build();
+    } else {
+      return Response.status(Status.NOT_FOUND).build();
+    }
   }
 
   @PUT
