@@ -911,7 +911,7 @@ div[data-name="settings.content-sidebar.left"] {
 .forumThreadBody, 
 .forumThreadReplyBody {
   border: 1px solid #eeeeff;
-  border-radius: 3px;
+  border-radius: 0;
   margin: 4px;
 }
 
@@ -1001,7 +1001,7 @@ div[data-name="settings.content-sidebar.left"] {
         font-size:18px;
         font-weight:300;
         padding:8px 16px;
-        border-radius:3px;
+        border-radius: 0;
         line-height:2em;
       }
       
@@ -1009,7 +1009,7 @@ div[data-name="settings.content-sidebar.left"] {
         font-size:18px;
         font-weight:300;
         padding:8px 16px;
-        border-radius:3px;
+        border-radius: 0;
         border:0;
         background:#27b91c;
         color:#fff;
@@ -1022,7 +1022,7 @@ div[data-name="settings.content-sidebar.left"] {
         font-size:18px;
         font-weight:300;
         padding:9px 16px;
-        border-radius:3px;
+        border-radius: 0;
         border:0;
         background:#7391a7;
         color:#fff;

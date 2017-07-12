@@ -17,7 +17,7 @@
   
   .mf-primary-function-content {
     text-transform: uppercase;
-    border-radius: 3px;
+    border-radius: 0;
     display: inline-block;
     line-height: 1.3em;
     color: $environment-button-font-color;
@@ -50,7 +50,7 @@
 .mf-dropdown-content {
   background-color: $environment-button-background-color;
   border: 1px solid $environment-button-border-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-sizing: border-box;
   color: $environment-button-font-color;
   cursor: pointer;
@@ -75,7 +75,6 @@
   } 
   
   .mf-dropdown-arrow {
-    border-left: 1px solid $environment-button-dropdown-arrow-border-color;
     font-size: 2.45em;
     padding: 4px 4px 3px 2px;
     position: absolute;
@@ -167,7 +166,7 @@
   position: relative;
   
   &.active .mf-dropdown-content {
-    @include gradient-top-bottom($environment-button-gradient-end-color, $environment-button-gradient-start-color, $environment-button-background-color);
+    background-color: $environment-button-background-color;
   }
   
   ul {
@@ -359,7 +358,7 @@ ul.mf-tool-label-container {
   margin-top: 10px;
   position: relative;
   border: 1px solid $navigation-horizontal-bar-special-menu-border-color;
-  border-radius: 3px;
+  border-radius: 0;
   
   &::after, 
   &::before {
@@ -617,7 +616,7 @@ ul.mf-tool-label-container {
   }
 
   .mf-item-label {
-    border-radius: 3px;
+    border-radius: 0;
     display: inline-block;
     font-size: 10px;
     font-weight: 600;
@@ -931,7 +930,7 @@ ul.mf-tool-label-container {
 .mf-vops-item-menu {
   background-color: $environment-background-color;
   border: 1px solid $environment-border-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: $environment-menu-shadow;
   display: none;
   height: 100px;

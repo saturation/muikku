@@ -455,7 +455,7 @@ h2.frontpage-section-title {
 .frontpage-box {
   background: $of-frontpage-box-background-color;
   border: 1px solid $of-frontpage-box-border-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-sizing: border-box;
   margin: 10px;
 }
@@ -559,7 +559,7 @@ h2.frontpage-section-title {
 // VIDEOS SECTION
 
 .frontpage-videos {
-  border-radius: 3px;
+  border-radius: 0;
   flex: 1 1 calc(100% - 20px);
   max-width: calc(100% - 20px);
   overflow: hidden;

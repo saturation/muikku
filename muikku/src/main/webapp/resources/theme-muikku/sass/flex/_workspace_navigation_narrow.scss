@@ -32,7 +32,7 @@
       
       .navmore-container {
         background: transparent;
-        border-radius: 3px;
+        border-radius: 0;
         box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
         display: none;
         left: 50px;
@@ -51,7 +51,7 @@
           position: absolute;
           pointer-events: none;
           border-color: rgba(76, 102, 105, 0);
-          border-right-color: #4c6669;
+          border-right-color: $startup-alt-dark-color;
           border-width: 4px;
           margin-top: -4px;
         }
@@ -65,7 +65,7 @@
           .workspace-management-item {
             
             a {
-              border-radius: 3px;
+              border-radius: 0;
               color: #fff;
               display: block;
               font-size: 18px;
@@ -84,7 +84,7 @@
               }
               
               &:hover {
-                background: #547d82;
+                background: $startup-dark-color;
               }
               
             }
@@ -102,7 +102,7 @@
           .workspace-student-item {
             
             a {
-              border-radius: 3px;
+              border-radius: 0;
               color: $startup-dark-font-color;
               display: block;
               font-size: 18px;
@@ -157,7 +157,7 @@
             }
             
             a {
-              border-radius: 3px;
+              border-radius: 0;
               color: #fff;
               display: block;
               font-size: 18px;
@@ -188,7 +188,7 @@
           .workspace-fullscreenreading-item {
             
             a {
-              border-radius: 3px;
+              border-radius: 0;
               color: $startup-light-font-color;
               display: block;
               font-size: 18px;

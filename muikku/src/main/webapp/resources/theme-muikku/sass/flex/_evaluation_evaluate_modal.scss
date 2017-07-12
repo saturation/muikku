@@ -195,7 +195,7 @@
   .cke {
     border: 2px solid $evaluation-modal-texteditor-border-color;
     box-shadow: none;
-    border-radius: 3px;
+    border-radius: 0;
   }
   
   label {
@@ -208,7 +208,7 @@
   input[type="date"] {
     background: $evaluation-modal-textfield-background-color;
     border: 2px solid $evaluation-modal-textfield-border-color;
-    border-radius: 3px;
+    border-radius: 0;
     font-family: $environment-font-family;
     font-size: 14px;
     font-weight: 300;
@@ -222,7 +222,7 @@
   textarea {
     background: $evaluation-modal-memofield-background-color;
     border: 2px solid $evaluation-modal-memofield-border-color;
-    border-radius: 3px;
+    border-radius: 0;
     box-sizing: border-box;
     font-family: $environment-font-family;
     font-size: 14px;
@@ -233,7 +233,7 @@
   select {
     background: $evaluation-modal-select-background-color;
     border: 2px solid $evaluation-modal-select-border-color;
-    border-radius: 3px;
+    border-radius: 0;
     font-family: $environment-font-family;
     font-size: 14px;
     margin: 0;
@@ -323,7 +323,7 @@
 
 .assignment-literal-evaluation {
   background: $evaluation-modal-assignment-evaluated-literal-background-color;
-  border-radius: 3px;
+  border-radius: 0;
   margin: 5px 0 10px;
   padding: 10px;
   
@@ -384,7 +384,7 @@
 
 .assignment-grade-data {
   background: $evaluation-modal-assignment-evaluated-grade-info-background-color;
-  border-radius: 3px;
+  border-radius: 0;
   display: inline-block;
   font-size: 15px;
   margin: 0 0 0 5px;
@@ -411,7 +411,7 @@
 
 .assignment-evaluate-button {
   background: $evaluation-requested-color;
-  border-radius: 3px;
+  border-radius: 0;
   color: $evaluation-modal-assignment-evaluate-button-font-color;
   cursor: pointer;
   display: inline-block;

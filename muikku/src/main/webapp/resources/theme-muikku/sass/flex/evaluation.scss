@@ -135,7 +135,7 @@ body.evaluation {
 
         .evaluation-workspace-item {
           padding: 2px 5px;
-          border-radius: 3px;
+          border-radius: 0;
 
           &:hover {
             background: #7ad8ff;
@@ -165,7 +165,7 @@ body.evaluation {
         display: inline-block;
         padding: 0;
         margin: 0;
-        border-radius: 3px;
+        border-radius: 0;
         border-left: 1px solid #cfeefb;
         cursor: pointer;
         position: relative;
@@ -200,7 +200,7 @@ body.evaluation {
           .evaluation-flag {
             padding: 6px 8px;
             margin: 1px 0;
-            border-radius: 3px;
+            border-radius: 0;
 
             &.active {
               background: #a9e6ff;
@@ -452,7 +452,7 @@ body.evaluation {
         box-sizing: border-box;
         padding: 3px 4px;
         background: #fff;
-        border-radius: 3px;
+        border-radius: 0;
         line-height: 1.3em;
         white-space: normal;
         top: 0;
@@ -465,7 +465,7 @@ body.evaluation {
         width: 100%;
         box-sizing: border-box;
         padding: 3px 4px;
-        border-radius: 3px;
+        border-radius: 0;
         line-height: 1.3em;
         white-space: normal;
         top: 27px;
@@ -479,7 +479,7 @@ body.evaluation {
         width: 100%;
         box-sizing: border-box;
         padding: 3px 4px;
-        border-radius: 3px;
+        border-radius: 0;
         line-height: 1.3em;
         white-space: normal;
         top: 54px;
@@ -553,7 +553,7 @@ body.evaluation {
         box-sizing: border-box;
         background: #3a86bd;
         color: #fff;
-        border-radius: 3px;
+        border-radius: 0;
         white-space: normal;
         position: absolute;
         left: 0;
@@ -618,7 +618,7 @@ body.evaluation {
       background: #fff;
       opacity: 0.4;
       position: relative;
-      border-radius: 3px;
+      border-radius: 0;
       border-top:3px solid #fff;
       box-shadow: 0 0 10px 0 rgba(169, 169, 169, 0.2);
 
@@ -835,7 +835,7 @@ body.evaluation {
                   position: relative;
                   margin: 0;
                   background: #fff;
-                  border-radius: 3px;
+                  border-radius: 0;
                   color: #000;
                 
                   > h2 {
@@ -885,7 +885,7 @@ body.evaluation {
                   .evaluation-assignment-literal-assessment {
                     background: #d5ffd2;
                     padding: 8px 16px;
-                    border-radius: 3px;
+                    border-radius: 0;
                     margin: 10px 0;
                     
                     &.no-literal-assessment {
@@ -928,7 +928,7 @@ body.evaluation {
                   position: relative;
                   margin: 0;
                   background: #fff;
-                  border-radius: 3px;
+                  border-radius: 0;
                   color: #000;
                 
                   > h2 {
@@ -1128,7 +1128,7 @@ body.evaluation {
         input[type="text"],
         select {
           border: 0;
-          border-radius: 3px;
+          border-radius: 0;
           box-sizing: border-box;
           border: 2px solid $startup-dark-color;
           font-size: 16px;

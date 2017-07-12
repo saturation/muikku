@@ -269,7 +269,7 @@ div.cke_reset_all {
                 width: 250px;
                 box-sizing: border-box;
                 border: 3px solid #e1f7fc;
-                border-radius: 3px;
+                border-radius: 0;
                 height: 250px;
                 position: relative;
                 display: inline-block;
@@ -322,7 +322,7 @@ div.cke_reset_all {
                     
                     .organizer-term {
                       background: #e1f7fc;
-                      border-radius: 3px;
+                      border-radius: 0;
                       box-sizing: border-box;
                       font-size: 14px;
                       margin: 0 0 4px;
@@ -355,7 +355,7 @@ div.cke_reset_all {
               .organizer-add-category-container {
                 width: 250px;
                 box-sizing: border-box;
-                border-radius: 3px;
+                border-radius: 0;
                 height: 250px;
                 position: relative;
                 cursor: default;
@@ -451,7 +451,7 @@ div.cke_reset_all {
         width: auto;
         height: auto;
         border: 1px solid #eee;
-        border-radius: 3px;
+        border-radius: 0;
         display: inline-block;
         padding: 3px 5px;
         transition: border,box-shadow 0.1s,0.2s ease-in-out;
@@ -508,7 +508,7 @@ div.cke_reset_all {
         outline: none;
         display: inline-block;
         box-shadow: 0 0 0 3px rgba(215,215,215,0.15);
-        border-radius: 3px;
+        border-radius: 0;
         display: inline-block;
         
         &:focus,
@@ -531,7 +531,7 @@ div.cke_reset_all {
         display: inline-block;
         margin: 4px 0px;
         box-shadow: 0 0 0 3px rgba(215,215,215,0.15);
-        border-radius: 3px;
+        border-radius: 0;
         max-width: 100%;
         word-wrap: break-word;
         

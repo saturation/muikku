@@ -2,7 +2,7 @@
 .bt-generic {
   text-transform:uppercase;
   font-family: $environment-header-font-family;  
-  border-radius:3px;
+  border-radius: 0;
   display:inline-block;
   line-height:1.5em;
   color:#ffffff;
@@ -112,7 +112,7 @@
 
 .bt-main-functionality {
   text-transform:uppercase;
-  border-radius:3px;
+  border-radius: 0;
   display:inline-block;
   line-height:1.3em;
   color:#ffffff;
@@ -170,7 +170,7 @@ input[type="button"],
 input[type="submit"],
 input[type="reset"] {
   text-transform:uppercase;
-  border-radius:3px;
+  border-radius: 0;
   display:inline-block;
   padding:8px 12px;
   line-height:0.5em;
@@ -194,7 +194,7 @@ input[type="reset"] {
   &.bt-generic {
     font-family: $environment-header-font-family;   
     text-transform:uppercase;
-    border-radius:3px;
+    border-radius: 0;
     display:inline-block;
     padding:8px 12px;
     line-height:1.5em;

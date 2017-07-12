@@ -38,7 +38,7 @@ p {
   z-index: 9999;
   background: #c4ffd6 none repeat scroll 0 0;
   border: 2px solid #fff;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
   color: #000;
   font-size: 14px;
@@ -61,7 +61,7 @@ mark[data-muikku-word-definition] {
 textarea,
 input[type="text"] {
   font-family: 'Open Sans', Arial, sans-serif !important;
-  border-radius: 3px;
+  border-radius: 0;
   background: #ebf7ff;
   padding: 5px 10px;
   margin: 0;
@@ -93,7 +93,7 @@ input[type="checkbox"],
 input[type="radio"] {
   background: #fff;
   border: 2px solid $startup-dark-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 0 3px rgba(215, 215, 215, 0.15);
   display: inline-block;
   margin: 0 10px;
@@ -116,7 +116,7 @@ select {
   display: inline-block;
   margin: 4px;
   box-shadow: 0 0 0 3px rgba(215,215,215,0.15);
-  border-radius: 3px;
+  border-radius: 0;
   max-width: 100%;
   word-wrap: break-word;
   vertical-align: middle;

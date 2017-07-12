@@ -41,7 +41,7 @@
   
   .cke_inner { /* CKE top, content and bottom wrapper */
     border: 2px solid $startup-dark-color;
-    border-radius: 3px;
+    border-radius: 0;
     
     &:hover {
       border-color: $startup-dark-color;
@@ -71,7 +71,7 @@
           background-image: none;
           
           a:hover {
-            border-radius: 3px;
+            border-radius: 0;
             background: #9ed7ff;
             box-shadow: none;
             border: 0;

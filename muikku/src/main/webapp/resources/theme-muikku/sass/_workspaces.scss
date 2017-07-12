@@ -182,33 +182,33 @@ body[class^='workspace'] {
     &[data-state='pending'],
     &[data-state='pending_pass'],
     &[data-state='pending_fail'] { /* Evaluation Request Pending */
-      background:#0099ff; 
+      background: $startup-theme-color; 
       transition: background 0.2s ease-in-out;
 
       a:hover {
-        background:#0075c3;
+        background: $startup-theme-color;
         
         span[class*='workspace-navi-tt-container-'] {
-          background:#0075c3;
+          background: $startup-theme-color;
         }
         
       }
       
       &:hover {
-        background:#f6a930;
+        background: $startup-theme-color;
         
         a {
-          background:#e5961b;
+          background: $startup-theme-color;
           
           &:before {
             content: "\e9f3"; /* Override Pending icon with Cancellation icon */
           }
           
           &:hover {
-            background:#e5961b;
+            background: $startup-theme-color;
           
             span[class*='workspace-navi-tt-container-'] {
-              background:#e5961b;
+              background: $startup-theme-color;
             }
           
           }
@@ -220,13 +220,13 @@ body[class^='workspace'] {
     }
 
     &[data-state='pass'] { /* Evaluation of Workspace - Pass */
-      background:#1ec30c;
+      background: $startup-theme-color;
       
       a:hover {
-        background:#16a506;
+        background: $startup-theme-color;
         
         span[class*='workspace-navi-tt-container-'] {
-          background:#16a506;
+          background: $startup-theme-color;
         }
         
       }
@@ -234,13 +234,13 @@ body[class^='workspace'] {
     }
     
     &[data-state='fail'] { /* Evaluation of Workspace - Fail */
-      background:#ea7401;
+      background: $startup-theme-color;
       
       a:hover {
-        background:#d66b03;
+        background: $startup-theme-color;
         
         span[class*='workspace-navi-tt-container-'] {
-          background:#d66b03;
+          background: $startup-theme-color;
         }
         
       }

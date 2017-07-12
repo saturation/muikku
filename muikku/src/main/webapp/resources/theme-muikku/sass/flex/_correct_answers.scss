@@ -22,7 +22,7 @@
   // EXAMPLE ANSWERS
   span.muikku-field-examples {
     background: #e2ffe2;
-    border-radius: 3px;
+    border-radius: 0;
     display: inline-block;
     font-size: 14px;
     font-style: italic;
@@ -54,7 +54,7 @@
   textarea.muikku-field-correct-answer,
   select.muikku-field-correct-answer {
     border: 2px solid #00ff2a;
-    border-radius: 3px;
+    border-radius: 0;
     box-shadow: none;
     
     &:hover {
@@ -72,7 +72,7 @@
   select.muikku-field-incorrect-answer {
     border: 2px solid #f64e4e;
     box-shadow: none;
-    border-radius: 3px;
+    border-radius: 0;
     
     &:hover {
       border: 2px solid #f64e4e;
@@ -124,7 +124,7 @@
     
     .muikku-category.muikku-field-correct-answer {
       border: 2px solid #00ff2a;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {
@@ -136,7 +136,7 @@
     
     .muikku-category.muikku-field-semi-correct-answer {
       border: 2px solid #dab33d;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {
@@ -148,7 +148,7 @@
     
     .muikku-category.muikku-field-incorrect-answer {
       border: 2px solid #f64e4e;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {
@@ -165,7 +165,7 @@
     
     .muikku-sorter-items-container.muikku-field-correct-answer {
       border: 2px solid #00ff2a;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {
@@ -177,7 +177,7 @@
     
     .muikku-sorter-items-container.muikku-field-semi-correct-answer {
       border: 2px solid #dab33d;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {
@@ -189,7 +189,7 @@
     
     .muikku-sorter-items-container.muikku-field-incorrect-answer {
       border: 2px solid #f64e4e;
-      border-radius: 3px;
+      border-radius: 0;
       box-shadow: none;
       
       &:hover {

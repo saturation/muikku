@@ -30,7 +30,7 @@ p {
 .muikku-word-definition {
   background: $startup-dark-color none repeat scroll 0 0;
   border: 2px solid #fff;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
   color: #000;
   font-size: 14px;
@@ -97,7 +97,7 @@ span.checkbox-vertical {
 // TEXTFIELD & MEMOFIELD
 div.muikku-memo-field {
   background: $startup-dark-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-sizing: border-box;  
   line-height: 1.7em;
   margin: 4px 0;
@@ -107,7 +107,7 @@ div.muikku-memo-field {
 
 div.muikku-text-field {
   background: $startup-dark-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-sizing: border-box;
   display: inline-block;
   margin: 4px 3px;
@@ -121,7 +121,7 @@ input[type="checkbox"],
 input[type="radio"] {
   background: #fff;
   border: 2px solid $startup-dark-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 0 3px rgba(215, 215, 215, 0.15);
   display: inline-block;
   margin: 0 10px;
@@ -136,7 +136,7 @@ input[checked="checked"] {
 select {
   background: #fff;
   border: 2px solid $startup-dark-color;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 0px 3px rgba(215,215,215,0.15);
   color: #000;
   display: inline-block;

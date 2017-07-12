@@ -16,7 +16,7 @@ body.workspace-materials-management #contentWorkspaceMaterialsManagement {
     z-index:2;
     margin-top:-16px;
     border-top:1px solid #fff;
-    border-radius:3px;
+    border-radius: 0;
     margin-left:4px;
     padding:4px;
     background:#9cf3c7;
@@ -753,7 +753,7 @@ body.workspace-materials-management #contentWorkspaceMaterialsManagement {
     }
     
     span.muikku-field-examples {
-      border-radius:3px;
+      border-radius: 0;
       padding:3px;
       width:auto;
       background:#e2ffe2;
@@ -812,7 +812,7 @@ body.workspace-materials-management #contentWorkspaceMaterialsManagement {
     &:hover:after {
       background: #c4ffd6 none repeat scroll 0 0;
       border: 2px solid #fff;
-      border-radius: 3px;
+      border-radius: 0;
       bottom: 25px;
       box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
       color: #000;

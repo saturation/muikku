@@ -18,7 +18,7 @@
 .workspace-dock-navi-button-evaluation {
   width: 60px;
   margin-bottom: 10px;
-  border-radius: 3px;
+  border-radius: 0;
   
   a {
     text-shadow: none;
@@ -71,10 +71,10 @@
         }
         
         &:hover {
-          background: #e5961b;
+          background: $startup-theme-color;
         
           span[class*='workspace-navi-tt-container-'] {
-            background: #e5961b;
+            background: $startup-theme-color;
           }
         
         }
@@ -129,7 +129,7 @@ div[class*='workspace-dock-navi-button'] > span {
   display: inline-block;
   position: relative;
   width: 34px;
-  border-radius: 3px;
+  border-radius: 0;
   
   span[class*='workspace-navi-tt-container-'] {
     opacity: 0;
@@ -168,8 +168,12 @@ div[class*='workspace-dock-navi-button'] > span {
 
 
 // WORKSPACE FULLSCREEN READING BUTTON
+
+
 div[class*='workspace-dock-navi-button-fullscreen'] > a,
-div[class*='workspace-dock-navi-button-fullscreen'] > span {
+div[class*='workspace-dock-navi-button-fullscreen'] > span,
+div[class*='workspace-dock-navi-button-evaluation'] > a,
+div[class*='workspace-dock-navi-button-evaluation'] > span {
   color: $startup-light-color;
   &:hover {
     background: $startup-theme-color;
@@ -182,19 +186,20 @@ div[class*='workspace-dock-navi-button-fullscreen'] > span {
   
 }
 
+
 // WORKSPACE MANAGEMENT BUTTONS
 div.workspace-dock-navi-button-workspace-management {
   
   .navmore-container {
     display: none;
     position: absolute;
-    background: #4c6669;
+    background: $startup-alt-dark-color;
     z-index: 99;
     left: 57px;
     top: -2px;
     padding: 10px;
     text-align: left;
-    border-radius: 3px;
+    border-radius: 0;
     box-shadow: 0 3px 5px rgba(0,0,0,0.3);
     
     &::after {
@@ -207,7 +212,7 @@ div.workspace-dock-navi-button-workspace-management {
       position: absolute;
       pointer-events: none;
       border-color: rgba(76, 102, 105, 0);
-      border-right-color: #4c6669;
+      border-right-color: $startup-alt-dark-color;
       border-width: 8px;
       margin-top: -8px;
     }
@@ -227,10 +232,9 @@ div.workspace-dock-navi-button-workspace-management > div.icon-startup-settings 
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 0;
   
   &:hover {
-    background: #1a2122;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 0;
@@ -251,11 +255,11 @@ div.workspace-dock-navi-button-workspace-management > div.icon-startup-settings 
         font-weight: 300;
         display: block;
         padding: 10px;
-        border-radius: 3px;
+        border-radius: 0;
         text-decoration: none;
         
         &:hover {
-          background: #547d82;
+          background: $startup-dark-color;
         }
         
       }
@@ -277,5 +281,5 @@ div[class*='workspace-dock-navi-button-edit-'] > a {
   display: inline-block;
   position: relative;
   width: 34px;
-  border-radius: 3px;
+  border-radius: 0;
 }
