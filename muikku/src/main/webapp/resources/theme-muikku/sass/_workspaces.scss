@@ -182,33 +182,33 @@ body[class^='workspace'] {
     &[data-state='pending'],
     &[data-state='pending_pass'],
     &[data-state='pending_fail'] { /* Evaluation Request Pending */
-      background: $startup-theme-color; 
+      background:#0099ff; 
       transition: background 0.2s ease-in-out;
 
       a:hover {
-        background: $startup-theme-color;
+        background:#0075c3;
         
         span[class*='workspace-navi-tt-container-'] {
-          background: $startup-theme-color;
+          background:#0075c3;
         }
         
       }
       
       &:hover {
-        background: $startup-theme-color;
+        background:#f6a930;
         
         a {
-          background: $startup-theme-color;
+          background:#e5961b;
           
           &:before {
             content: "\e9f3"; /* Override Pending icon with Cancellation icon */
           }
           
           &:hover {
-            background: $startup-theme-color;
+            background:#e5961b;
           
             span[class*='workspace-navi-tt-container-'] {
-              background: $startup-theme-color;
+              background:#e5961b;
             }
           
           }
@@ -220,13 +220,13 @@ body[class^='workspace'] {
     }
 
     &[data-state='pass'] { /* Evaluation of Workspace - Pass */
-      background: $startup-theme-color;
+      background:#1ec30c;
       
       a:hover {
-        background: $startup-theme-color;
+        background:#16a506;
         
         span[class*='workspace-navi-tt-container-'] {
-          background: $startup-theme-color;
+          background:#16a506;
         }
         
       }
@@ -234,13 +234,13 @@ body[class^='workspace'] {
     }
     
     &[data-state='fail'] { /* Evaluation of Workspace - Fail */
-      background: $startup-theme-color;
+      background:#ea7401;
       
       a:hover {
-        background: $startup-theme-color;
+        background:#d66b03;
         
         span[class*='workspace-navi-tt-container-'] {
-          background: $startup-theme-color;
+          background:#d66b03;
         }
         
       }
