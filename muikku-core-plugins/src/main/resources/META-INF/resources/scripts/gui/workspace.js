@@ -70,7 +70,10 @@
   });
 
   $(document).on('click', '.workspace-dock-navi-button-evaluation', function (event) {
-    if ($.inArray($(this).attr('data-state'), ['unassessed', 'pending', 'canceled', 'pass', 'fail']) >= 0) {
+    if ($.inArray($(this).attr('data-state'), ['pending', 'pending_pass', 'pending_fail']) >= 0) {
+      confirmEvaluationCancellation();
+    }
+    else {
       confirmEvaluationRequest(); 
     }
   });
