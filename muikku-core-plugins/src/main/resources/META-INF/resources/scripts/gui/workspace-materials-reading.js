@@ -64,19 +64,19 @@
       offset: 50
     });
     
-    $('.material-page[data-assignment-type="EXERCISE"]').each(function (index, page) {
-      $(page).prepend($('<div>')
-          .addClass('muikku-page-assignment-type exercise')
-          .text(getLocaleText("plugin.workspace.materialsLoader.exerciseAssignmentLabel"))
-      );
-    });
-    
-    $('.material-page[data-assignment-type="EVALUATED"]').each(function (index, page) {
-      $(page).prepend($('<div>')
-          .addClass('muikku-page-assignment-type assignment')
-          .text(getLocaleText("plugin.workspace.materialsLoader.evaluatedAssignmentLabel"))
-      );
-    });
+//    $('.material-page[data-assignment-type="EXERCISE"]').each(function (index, page) {
+//      $(page).prepend($('<div>')
+//          .addClass('muikku-page-assignment-type exercise')
+//          .text(getLocaleText("plugin.workspace.materialsLoader.exerciseAssignmentLabel"))
+//      );
+//    });
+//    
+//    $('.material-page[data-assignment-type="EVALUATED"]').each(function (index, page) {
+//      $(page).prepend($('<div>')
+//          .addClass('muikku-page-assignment-type assignment')
+//          .text(getLocaleText("plugin.workspace.materialsLoader.evaluatedAssignmentLabel"))
+//      );
+//    });
 
     $(window).data('initializing', false);
   });
