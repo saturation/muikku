@@ -2,6 +2,24 @@
 
 (function() { 'use strict';
 
+
+
+
+
+
+//$('#workspaceNavigationWrapper').waypoint('sticky');
+
+//  var stickyNav = new Waypoint.Sticky({
+//    element: $('#workspaceNavigationWrapper')[0]
+//  });
+
+
+
+var sticky = new Waypoint.Sticky({
+  element: $('#workspaceNavigationWrapper')[0],
+  wrapper: false
+})
+
   $.widget("custom.workspaceTeachers", {
     options: {
       workspaceEntityId: undefined,

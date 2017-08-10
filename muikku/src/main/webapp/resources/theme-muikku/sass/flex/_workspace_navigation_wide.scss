@@ -7,12 +7,18 @@
 
 // WORKSPACE NAVIGATION CONTAINER
 #workspaceNavigationWrapper { 
-  position: fixed;
-  top: 212px;
+  position: absolute;
+  top: 4px;
   z-index: 21;
   left: 50%;
   margin-left: -550px;
+  
+  &.stuck {
+    position:fixed;
+    top: 15px; 
+  }
 } 
+
 
 // WORKSPACE EVALUATION REQUEST BUTTONS  
 .workspace-dock-navi-button-evaluation {

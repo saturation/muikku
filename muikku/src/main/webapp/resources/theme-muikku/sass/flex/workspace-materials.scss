@@ -97,10 +97,10 @@ body {
   font-size: 14px;
   line-height: 1.5em;
   max-height: 74px;
-  position: fixed;
+/*   position: fixed; */
   text-align: left;
   text-shadow: none;
-  top: 212px;
+/*   top: 212px; */
   width: 290px;
   z-index: 12;
 }
@@ -114,6 +114,20 @@ body {
 
 // TOC
 
+#TOCContainer {
+  
+
+}
+
+.tocWrapper {
+  position:absolute;
+
+  &.stuck {
+   position:fixed;
+   top: 15px;
+  }
+  
+}
 nav.workspace-materials-toc-wrapper {
   background: #fff;
   text-align: left;
@@ -122,10 +136,10 @@ nav.workspace-materials-toc-wrapper {
   color: #000;
   font-size: 14px;
   line-height: 1.5em;
-  z-index: 11;
-  position: fixed;
-  top: 280px;
-  bottom: 0;
+// z-index: 11;
+//  position: fixed;
+// top: 280px;
+// bottom: 0;
   width: 290px;
   
   &:hover > span {
@@ -161,8 +175,8 @@ nav.workspace-materials-toc-wrapper {
   padding: 4px;
   width: 100%;
   box-sizing: border-box;
-  position: absolute;
-  top: 40px;
+  /*   position: absolute; */
+  /*   top: 40px; */
   bottom: 60px;
 }
 

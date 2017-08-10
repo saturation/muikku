@@ -1,6 +1,17 @@
 (function() {
   'use strict';
   
+  
+  var stickyNav = new Waypoint.Sticky({
+    element: $('#workspaceNavigationWrapper')[0],
+    wrapper: false
+  });
+
+  var stickyTOC = new Waypoint.Sticky({
+    element: $('.tocWrapper')[0],
+    wrapper: false
+  });  
+
    function scrollToPage(workspaceMaterialId, animate) {
     var topOffset = 90;
     var scrollTop = $('#page-' + workspaceMaterialId).offset().top - topOffset;

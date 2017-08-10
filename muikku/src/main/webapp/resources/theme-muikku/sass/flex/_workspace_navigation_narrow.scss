@@ -1,4 +1,4 @@
-
+@import "_vars-startup-lukio";
 
 @media screen and  (max-width: 1099px) {
   
@@ -134,7 +134,7 @@
         .navmore-evaluation-links {
           margin-top: 3px;
           padding: 0;
-          background: #36b497;
+          background: $startup-theme-color;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
@@ -237,7 +237,7 @@
   // WORKSPACE NAVIGATION BUBLE CONTAINER
   #workspaceNavigationWrapperBuble {
     display: block;
-    background: #36b497;
+    background: $startup-theme-color;
     border: 2px solid #fff;
     border-radius: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
@@ -284,7 +284,7 @@
         }
         
         .navmore-management-links {
-          background: #4c6669;
+          background: $startup-theme-color;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           padding: 5px;
@@ -311,7 +311,8 @@
               }
               
               &:hover {
-                background: #547d82;
+                background: $startup-light-color;
+                color: $startup-theme-color;
               }
               
             }
@@ -321,7 +322,7 @@
         }
         
         .navmore-student-links {
-          background: #36b497;
+          background: $startup-dark-color;
           border-bottom-left-radius: 3px;
           border-bottom-right-radius: 3px;
           padding: 5px;
@@ -330,7 +331,7 @@
             
             a {
               border-radius: 3px;
-              color: #fff;
+              color: $startup-dark-font-color;
               display: block;
               font-size: 16px;
               font-weight: 300;
@@ -348,7 +349,8 @@
               }
               
               &:hover {
-                background: #56ccb1;
+                background: $startup-theme-color;
+                color: $startup-light-font-color;    
               }
               
             }
@@ -360,7 +362,7 @@
         .navmore-evaluation-links {
           margin-top: 3px;
           padding: 0;
-          background: #36b497;
+          background: $startup-theme-color;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
@@ -408,14 +410,14 @@
         }
         
         .navmore-fullscreenreading-links {
-          background: #288fcd;
+          background: $startup-theme-color;
           padding: 5px;
           
           .workspace-fullscreenreading-item {
             
             a {
               border-radius: 3px;
-              color: #fff;
+              color: $startup-light-font-color;
               display: block;
               font-size: 16px;
               font-weight: 300;
@@ -433,7 +435,8 @@
               }
               
               &:hover {
-                background: #1a75ac;
+                background: $startup-light-color;
+                color: $startup-dark-font-color;
               }
               
             }
