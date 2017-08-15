@@ -1,5 +1,7 @@
 @import "base";
 @import "workspaces";
+@import "_vars-startup-lukio";
+
 
 
 body[class^='workspace'] { 
@@ -23,7 +25,7 @@ body[class^='workspace'] {
     td.workspace-permission-column-label {
       padding:2px 4px;
       text-transform:uppercase;
-      background:#eaf8fe;
+      background:$startup-dark-color;
     }
     
     td.workspace-permission-column-data {

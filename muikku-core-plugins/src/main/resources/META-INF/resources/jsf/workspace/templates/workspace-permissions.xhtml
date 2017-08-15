@@ -6,7 +6,7 @@
   xmlns:h="http://java.sun.com/jsf/html" 
   xmlns:m="http://www.ofw.fi/xml/2013/muikku/components-taglib.xsd"
   xmlns:composite="http://java.sun.com/jsf/composite/composite" 
-  template="/jsf/workspace/templates/workspace-base-template.xhtml">
+  template="/WEB-INF/templates/flex-main-workspace.xhtml">
 
   <!-- Lets set the base body class per view -->
   <ui:param name="bodyClass" value="workspace-permissions" />
@@ -19,6 +19,17 @@
   
   <ui:define name="viewCss">
     <h:outputStylesheet library="#{sessionBackingBean.resourceLibrary}" name="css/flex/workspaces-permissions.css" />  
+    <link rel="stylesheet" type="text/css" href="/css/flex/workspace-index.css"/>      
   </ui:define>
+  
+  <ui:insert name="grid-content">
+      <main id="content" class="container_24">
+        <section>
+          <ui:insert name="workspace.content.top.static"></ui:insert>
+          <ui:insert name="workspace.content"></ui:insert>
+          <ui:insert name="workspace.content.bottom.static"></ui:insert>
+        </section>
+      </main>
+    </ui:insert>
 
 </ui:composition>

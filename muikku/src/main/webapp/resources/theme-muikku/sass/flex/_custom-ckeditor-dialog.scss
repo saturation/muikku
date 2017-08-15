@@ -38,7 +38,7 @@ div.cke_reset_all {
 
       div.cke_dialog_title {
         color: #fff;
-        background: #7391a7;
+        background: $startup-theme-color;
         padding: 8px 12px;
         text-transform: uppercase;
       }
@@ -408,7 +408,7 @@ div.cke_reset_all {
             &.cke_dialog_ui_button_cancel,
             &.cke_dialog_ui_button_cancel:focus,
             &.cke_dialog_ui_button_cancel:active {
-              background: #7391a7;
+              background: $startup-theme-color;
 
               span {
                 font-size: inherit;

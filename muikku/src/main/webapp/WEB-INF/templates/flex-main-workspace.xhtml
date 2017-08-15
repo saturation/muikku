@@ -317,16 +317,7 @@
                           <span>#{i18n.text['plugin.workspace.dock.editIndex']}</span>
                         </a>
                       </div>
-                    </ui:fragment>
-                    
-                    <ui:fragment rendered="#{sessionBackingBean.hasWorkspacePermission('MANAGE_WORKSPACE_HELP')}">
-                      <!-- EDIT HELPPAGE -->
-                      <div class="workspace-management-item">
-                        <a class="icon-edit" title="#{i18n.text['plugin.workspace.dock.editHelp']}" jsf:outcome="/jsf/workspace/helppage-management.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
-                          <span>#{i18n.text['plugin.workspace.dock.editHelp']}</span>
-                        </a>
-                      </div>
-                    </ui:fragment>
+                    </ui:fragment>                    
                   </div>
                 </div>
               </div>  
@@ -344,14 +335,6 @@
               <div class="workspace-dock-navi-button-home">
                 <a class="icon-startup-home tooltip" title="#{i18n.text['plugin.workspace.dock.home']}" jsf:outcome="/jsf/workspace/workspace.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
                   <span class="workspace-navi-tt-container-home">#{i18n.text['plugin.workspace.dock.home']}</span>
-                </a>
-              </div>
-            </ui:fragment>
-            <ui:fragment rendered="#{workspaceBackingBean.guidesVisible}">
-              <!-- WORKSPACE GUIDES -->
-              <div class="workspace-dock-navi-button-guides">
-                <a class="icon-startup-help tooltip" title="#{i18n.text['plugin.workspace.dock.guides']}" jsf:outcome="/jsf/workspace/help.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
-                  <span class="workspace-navi-tt-container-guides">#{i18n.text['plugin.workspace.dock.guides']}</span>
                 </a>
               </div>
             </ui:fragment>
@@ -472,16 +455,7 @@
                       <span class="workspace-management-item-label">#{i18n.text['plugin.workspace.dock.editIndex']}</span>
                     </a>
                   </div>
-                </ui:fragment>
-                
-                <ui:fragment rendered="#{sessionBackingBean.hasWorkspacePermission('MANAGE_WORKSPACE_HELP')}">                
-                  <!-- EDIT HELPPAGE -->
-                  <div class="workspace-management-item">
-                    <a class="icon-edit" title="#{i18n.text['plugin.workspace.dock.editHelp']}" jsf:outcome="/jsf/workspace/helppage-management.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
-                      <span class="workspace-management-item-label">#{i18n.text['plugin.workspace.dock.editHelp']}</span>
-                    </a>
-                  </div>
-                </ui:fragment>
+                </ui:fragment>                
               </div>
             </ui:fragment>
             
@@ -495,14 +469,6 @@
                 <div class="workspace-student-item">
                   <a class="icon-startup-home" title="#{i18n.text['plugin.workspace.dock.home']}" jsf:outcome="/jsf/workspace/workspace.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
                     <span class="workspace-student-item-label">#{i18n.text['plugin.workspace.dock.home']}</span>
-                  </a>
-                </div>
-              </ui:fragment>
-              <ui:fragment rendered="#{workspaceBackingBean.guidesVisible}">
-                <!-- WORKSPACE GUIDES -->
-                <div class="workspace-student-item">
-                  <a class="icon-startup-help" title="#{i18n.text['plugin.workspace.dock.guides']}" jsf:outcome="/jsf/workspace/help.jsf?workspaceUrlName=#{workspaceBackingBean.workspaceUrlName}">
-                    <span class="workspace-student-item-label">#{i18n.text['plugin.workspace.dock.guides']}</span>
                   </a>
                 </div>
               </ui:fragment>

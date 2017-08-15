@@ -47,7 +47,7 @@ h2.workspace-management-generic-title {
   padding: 10px 20px;
   font-weight: 300;
   text-transform: uppercase;
-  background: #eaf8fe;
+  background: $startup-dark-color;
 }
 
 .workspace-management-name {
@@ -66,7 +66,7 @@ h2.workspace-management-generic-title {
   
   .external-view-url,
   .copy-workspace-link {
-    background: #7391a7;
+    background: $startup-theme-color;
     border: 0;
     color: #fff;
     cursor: pointer;
@@ -83,11 +83,12 @@ h2.workspace-management-generic-title {
   }
   
   .external-view-url {
-    background: #7391a7;
+    background: $startup-theme-color;
   }
   
   .copy-workspace-link {
-    background: #00b8c8;
+    background: $startup-theme-color;
+    color: $startup-light-font-color;
   }
 
   img {
@@ -268,7 +269,7 @@ h2.workspace-management-generic-title {
       }
       
       &.cancel {
-        background: #7391a7;
+        background: $startup-theme-color;
       }
       
     }
