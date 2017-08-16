@@ -11,18 +11,21 @@
   <!-- Lets set the base body class per view -->
   <ui:param name="bodyClass" value="workspace-permissions" />
   
-  <ui:define name="viewScripts">
-    <h:outputScript name="scripts/gui/workspace.js"/>
-    <h:outputScript name="scripts/gui/workspace-navigation.js"/>
+  <ui:define name="workspace-view-scripts">
+      <script type="text/javascript" src="//cdn.muikkuverkko.fi/libs/jquery.klass/0.1a/jquery.klass-0.1a.js"></script>  
+      <h:outputScript name="scripts/gui/widgetcontroller.js" />
+<!--     <h:outputScript name="scripts/gui/workspace.js"/> -->
+<!--     <h:outputScript name="scripts/gui/workspace-navigation.js"/> -->
     <h:outputScript name="scripts/gui/workspace-permissions.js"/>
   </ui:define>
   
-  <ui:define name="viewCss">
-    <h:outputStylesheet library="#{sessionBackingBean.resourceLibrary}" name="css/flex/workspaces-permissions.css" />  
-    <link rel="stylesheet" type="text/css" href="/css/flex/workspace-index.css"/>      
+  
+  
+  <ui:define name="workspace-view-styles">
+    <link rel="stylesheet" type="text/css" href="/css/flex/workspaces-permissions.css"/>      
   </ui:define>
   
-  <ui:insert name="grid-content">
+  <ui:define name="grid-content">
       <main id="content" class="container_24">
         <section>
           <ui:insert name="workspace.content.top.static"></ui:insert>
@@ -30,6 +33,6 @@
           <ui:insert name="workspace.content.bottom.static"></ui:insert>
         </section>
       </main>
-    </ui:insert>
+    </ui:define>
 
 </ui:composition>

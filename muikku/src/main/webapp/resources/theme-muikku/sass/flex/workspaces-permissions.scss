@@ -4,7 +4,7 @@
 
 
 
-body[class^='workspace'] { 
+
   
   .workspace-generic-view-title {
     background: #fff;
@@ -17,10 +17,13 @@ body[class^='workspace'] {
   }
   
   /* WORKSPACE PERMISSIONS VIEW */
-  
+    .userGroupPermissionsWidget {
+      margin-left:20px;
+    }      
   table#environmentUserRolePermissionsTable {
     border:0;
     border-collapse:collapse;
+
   
     td.workspace-permission-column-label {
       padding:2px 4px;
@@ -39,4 +42,4 @@ body[class^='workspace'] {
   
   }
   
-}
+
