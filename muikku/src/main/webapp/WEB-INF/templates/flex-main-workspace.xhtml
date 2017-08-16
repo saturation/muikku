@@ -99,13 +99,6 @@
         <div class="dock-logo lg-flex-hide md-flex-hide #{activeTrail eq 'index' ? 'active-trail' : ''}" title="#{i18n.text['plugin.home.home']}">
           <a jsf:outcome="/index.jsf"></a>
         </div>
-        <!-- COURSEPICKER -->
-        <div class="dock-static-navi-button-coursepicker sm-flex-hide #{activeTrail eq 'coursepicker' ? 'active-trail' : ''}" title="#{i18n.text['plugin.coursepicker.coursepicker']}">
-          <a jsf:outcome="/jsf/coursepicker/index.jsf" class="tooltip">
-            #{i18n.text['plugin.coursepicker.coursepicker']}
-            <span style="display:none" class="dock-notification"></span>
-          </a>
-        </div>
         <!-- COMMUNICATOR -->
         <ui:fragment rendered="#{sessionBackingBean.loggedIn and sessionBackingBean.isActiveUser}">
           <div class="dock-static-navi-button-communicator sm-flex-hide #{activeTrail eq 'communicator' ? 'active-trail' : ''}" title="#{i18n.text['plugin.communicator.communicator']}">
@@ -169,10 +162,6 @@
                 <!-- HOME -->
                 <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
                   <a jsf:outcome="/index.jsf"><span>#{i18n.text['plugin.home.home']}</span></a>
-                </div>
-                <!-- COURSEPICKER -->
-                <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
-                  <a jsf:outcome="/jsf/coursepicker/index.jsf"><span>#{i18n.text['plugin.coursepicker.coursepicker']}</span></a>
                 </div>
                 <!-- COMMUNICATOR -->
                 <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
