@@ -11,6 +11,8 @@
 @import "notif-queue";
 @import "connectionlost"; 
 @import "environment_print";
+@import "startup_progress_bar";
+
 
 html {
   height: 100%;
@@ -469,6 +471,44 @@ main.content {
 }
 
 /* Frontpage Boxes When User Logged In  */
+
+.startup-frontpage-course {}
+.startup-frontpage-course-link {
+  display:block;
+  
+}
+.startup-frontpage-course-description {
+  box-sizing: border-box;
+  padding: 10px;
+  background: url('/gfx/workspace-default-header.jpg') no-repeat;
+  @include bgrGrayscale();
+  height:240px;
+  
+  h3 {
+    color: $startup-light-font-color;
+  }
+}
+.startup-frontpage-course-progress {
+  background-color: #c2b8d1;
+  height: 45px;
+
+  
+  div {
+    height: 45px;
+    background-color: $startup-theme-color;     
+    color: $startup-light-font-color;
+    dispLay: flex;
+    align-items: center;
+    justify-content: center;
+    
+/*     span { */
+/*       margin-left: 20px; */
+/*     } */
+  }
+}
+
+@include progress-bar-x;
+
 #visits {
   
 }

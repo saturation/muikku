@@ -1,0 +1,10 @@
+// Startup progress bar
+
+@mixin progress-bar-x {
+  @for $i from 0 through 100 {
+    $decimals : $i / 100;
+      .progress-#{$i}-percent { 
+        width: percentage($decimals);
+      }
+  }
+}

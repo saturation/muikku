@@ -1,1 +1,12 @@
-<li><a href="/workspace/{urlName}">{name} {?nameExtension}({nameExtension}){/nameExtension}</a></li>
+<div class="startup-frontpage-course lg-flex-cell-8">
+  <a class="startup-frontpage-course-link" href="/workspace/{urlName}/materials">
+   <div class="startup-frontpage-course-description">
+     <h3>{name} {?nameExtension}({nameExtension}){/nameExtension}</h3>
+   </div>
+<!-- Removed until passed through    
+   <div class="startup-frontpage-course-progress">
+     <div class="progress-{donePercentage}-percent"><span>{donePercentage}</span></div>
+   </div>
+-->
+  </a>
+</div>

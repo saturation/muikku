@@ -8,7 +8,8 @@ $(document).ready(function(){
     	if( err ){
             $('.notification-queue').notificationQueue('notification', 'error', getLocaleText('TODO: Virheilmoitus', err));
     	}else{
-        renderDustTemplate('frontpage/widget_workspaces.dust', {
+    	  
+    	  renderDustTemplate('frontpage/widget_workspaces.dust', {
         	workspaces:workspaces
         }, function (text) {
             $('#workspaces').append($.parseHTML(text));
