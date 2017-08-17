@@ -3,12 +3,22 @@ $(document).ready(function(){
 
     mApi({async: false}).workspace.workspaces
     .read({ userId: MUIKKU_LOGGED_USER_ID })
+    .on('$', $.proxy(function (workspace, workspaceCallback){
+      var workspaceId = workspace.id;
+      
+      mApi().guider.workspaces.activity
+      .read(workspaceId)
+      .callback($.proxy(function (err, activity) {        
+        var donePercent = activity.evaluablesDonePercent ? activity.evaluablesDonePercent : 0;        
+        workspace.donePercent = donePercent;
+      }));
+      workspaceCallback();
+    },this))
     .callback( function (err, workspaces) {
-    	
+      
     	if( err ){
             $('.notification-queue').notificationQueue('notification', 'error', getLocaleText('TODO: Virheilmoitus', err));
-    	}else{
-    	  
+    	}else{    	  
     	  renderDustTemplate('frontpage/widget_workspaces.dust', {
         	workspaces:workspaces
         }, function (text) {

@@ -475,6 +475,7 @@ main.content {
 .startup-frontpage-course {}
 .startup-frontpage-course-link {
   display:block;
+  text-decoration: none !important;
   
 }
 .startup-frontpage-course-description {
@@ -484,14 +485,16 @@ main.content {
   @include bgrGrayscale();
   height:240px;
   
-  h3 {
+  h1, h2, h3 {
     color: $startup-light-font-color;
   }
 }
+  
+
 .startup-frontpage-course-progress {
   background-color: #c2b8d1;
   height: 45px;
-
+  position:relative;
   
   div {
     height: 45px;
@@ -501,11 +504,17 @@ main.content {
     align-items: center;
     justify-content: center;
     
-/*     span { */
-/*       margin-left: 20px; */
-/*     } */
   }
+  .progress-semantic {
+    position: absolute;  
+    margin-left: 20px;
+    background-color: transparent;
+  }
+
 }
+
+
+
 
 @include progress-bar-x;
 
