@@ -8,9 +8,8 @@ $(document).ready(function(){
       
       mApi().guider.workspaces.activity
       .read(workspaceId)
-      .callback($.proxy(function (err, activity) {        
-        var donePercent = activity.evaluablesDonePercent ? activity.evaluablesDonePercent : 0;        
-        workspace.donePercent = donePercent;
+      .callback($.proxy(function (err, activity) {         
+        workspace.donePercent = activity.evaluablesDonePercent;
       }));
       workspaceCallback();
     },this))

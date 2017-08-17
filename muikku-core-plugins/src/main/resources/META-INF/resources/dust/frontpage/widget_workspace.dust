@@ -3,10 +3,20 @@
    <div class="startup-frontpage-course-description">
      <h2>{name} {?nameExtension}({nameExtension}){/nameExtension}</h2>
    </div>
+   
 
    <div class="startup-frontpage-course-progress">
-     <div class="progress-semantic"><span>{#localize key="plugin.frontPage.workspaces.progress" arg0=donePercent/}</span></div>
-     <div class="progress-{donePercent}-percent"></div>
+   
+    <!-- If the workspace does not have any exercises, it seems to return "undefined" even though it is checked in javascript, so that's why it's here -->
+    
+    {@eq key=donePercent value="undefined"}
+      <div class="progress-semantic"><span>{#localize key="plugin.frontPage.workspaces.progress" arg0=0/}</span></div>
+      <div class="progress-0-percent"></div>
+    {:else}
+      <div class="progress-semantic"><span>{#localize key="plugin.frontPage.workspaces.progress" arg0=donePercent/}</span></div>
+      <div class="progress-{donePercent}-percent"></div>
+    {/eq}
    </div>
+
   </a>
 </div>
