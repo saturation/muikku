@@ -7,6 +7,7 @@ $(document).ready(function(){
       var workspaceId = workspace.id;
       
       mApi().guider.workspaces.activity
+      .cacheClear()
       .read(workspaceId)
       .callback($.proxy(function (err, activity) {         
         workspace.donePercent = activity.evaluablesDonePercent;

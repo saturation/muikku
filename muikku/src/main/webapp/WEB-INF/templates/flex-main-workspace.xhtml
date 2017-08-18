@@ -126,15 +126,6 @@
             </a>
           </div>
         </ui:fragment>
-        <!-- TRANSCRIPT of RECORDS -->
-        <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('TRANSCRIPT_OF_RECORDS_VIEW')}">
-          <div class="dock-static-navi-button-records sm-flex-hide #{activeTrail eq 'records' ? 'active-trail' : ''}" title="#{i18n.text['plugin.records.records']}">
-            <a jsf:outcome="/jsf/records/index.jsf" >
-              #{i18n.text['plugin.records.records']}
-              <span style="display:none" class="dock-notification"></span>
-            </a>
-          </div>
-        </ui:fragment>
         <!-- EVALUATION -->
         <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('EVALUATION_VIEW_INDEX')}">
           <div class="dock-static-navi-button-evaluation sm-flex-hide" title="#{i18n.text['plugin.evaluation.evaluation']}">
@@ -177,12 +168,6 @@
                 <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('GUIDER_VIEW')}">
                   <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
                     <a jsf:outcome="/jsf/guider/index.jsf"><span>#{i18n.text['plugin.guider.guider']}</span></a>
-                  </div>
-                </ui:fragment>
-                <!-- TRANSCRIPT of RECORDS -->
-                <ui:fragment rendered="#{sessionBackingBean.hasEnvironmentPermission('TRANSCRIPT_OF_RECORDS_VIEW')}">
-                  <div class="dock-static-navi-button-discussion lg-flex-hide md-flex-hide">
-                    <a jsf:outcome="/jsf/records/index.jsf"><span>#{i18n.text['plugin.records.records']}</span></a>
                   </div>
                 </ui:fragment>
                 <!-- EVALUATION -->
