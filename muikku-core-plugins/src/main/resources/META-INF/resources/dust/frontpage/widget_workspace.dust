@@ -9,7 +9,7 @@
    
     <!-- If the workspace does not have any exercises, it seems to return "undefined" even though it is checked in javascript, so that's why it's here -->
     
-    {@eq key=donePercent value="undefined"}
+    {@eq key=donePercent value="undefined" type="string"}
       <div class="progress-semantic"><span>{#localize key="plugin.frontPage.workspaces.progress" arg0=0/}</span></div>
       <div class="progress-0-percent"></div>
     {:else}
