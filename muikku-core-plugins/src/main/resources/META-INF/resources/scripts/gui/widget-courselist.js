@@ -1,11 +1,11 @@
  
 $(document).ready(function(){
 
-    mApi({async: true}).workspace.workspaces
+  mApi().workspace.workspaces
     .read({ userId: MUIKKU_LOGGED_USER_ID })
     .on('$', $.proxy(function (workspace, workspaceCallback){
       var workspaceId = workspace.id; 
-      mApi({async: true}).guider.workspaces.activity
+      mApi().guider.workspaces.activity
       .cacheClear()
       .read(workspaceId)
       .callback($.proxy(function (err, activity) {         
