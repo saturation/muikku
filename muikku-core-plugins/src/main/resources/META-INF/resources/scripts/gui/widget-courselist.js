@@ -4,13 +4,14 @@ $(document).ready(function(){
     mApi({async: true}).workspace.workspaces
     .read({ userId: MUIKKU_LOGGED_USER_ID })
     .on('$', $.proxy(function (workspace, workspaceCallback){
+      var workspaceId = workspace.id; 
       mApi({async: true}).guider.workspaces.activity
       .cacheClear()
-      .read(workspace.id)
+      .read(workspaceId)
       .callback($.proxy(function (err, activity) {         
         workspace.donePercent = activity.evaluablesDonePercent;
+        workspaceCallback();
       }));
-      workspaceCallback();
     },this))
     .callback( function (err, workspaces) { 
       
