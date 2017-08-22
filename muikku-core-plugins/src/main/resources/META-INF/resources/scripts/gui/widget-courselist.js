@@ -1,20 +1,18 @@
  
 $(document).ready(function(){
 
-    mApi({async: false}).workspace.workspaces
+    mApi({async: true}).workspace.workspaces
     .read({ userId: MUIKKU_LOGGED_USER_ID })
     .on('$', $.proxy(function (workspace, workspaceCallback){
-      var workspaceId = workspace.id;
-      
-      mApi().guider.workspaces.activity
+      mApi({async: true}).guider.workspaces.activity
       .cacheClear()
-      .read(workspaceId)
+      .read(workspace.id)
       .callback($.proxy(function (err, activity) {         
         workspace.donePercent = activity.evaluablesDonePercent;
       }));
       workspaceCallback();
     },this))
-    .callback( function (err, workspaces) {
+    .callback( function (err, workspaces) { 
       
     	if( err ){
             $('.notification-queue').notificationQueue('notification', 'error', getLocaleText('TODO: Virheilmoitus', err));
