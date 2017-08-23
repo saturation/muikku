@@ -131,8 +131,8 @@ input[type="text"]{
       padding: 12px;
        
       &.disabled {
-        background: #dadada;
-        color: #efefef;
+        background: $startup-dark-color;
+        color: $startup-light-font-color;
       }
 
       span {
