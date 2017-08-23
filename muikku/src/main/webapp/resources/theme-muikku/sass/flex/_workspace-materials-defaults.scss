@@ -492,7 +492,7 @@ blockquote {
         font-size: 26px;
         line-height: 1;
         color: #fff;
-        background: #0099ff;
+        background: $startup-theme-color;
         border-radius: 100%;
         float: right;
         margin: 0 5px 0 0;
@@ -513,7 +513,7 @@ blockquote {
         }
         
         a {
-          color: #0099ff;
+          color: $startup-theme-color;
           padding: 0;
           line-height: 140%;
           word-wrap: break-word;

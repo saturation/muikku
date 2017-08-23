@@ -117,11 +117,10 @@ input[type="text"]{
     background-color: transparent;
     
     .mf-primary-function {
-      margin: 0 0 0 15px;
       box-shadow: none;
       border: 0;
       text-shadow: none;
-      background: #0099ff;
+      background: $startup-theme-color;
       width: auto;
       border-radius: 0;
       color: #ffffff;

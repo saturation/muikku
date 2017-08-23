@@ -115,11 +115,11 @@ body {
     }
 
     .workspace-users-archive {
-      background: #f6a930;
+      background: $startup-dark-color;
     }
 
     .workspace-users-unarchive {
-      background: #0099ff;
+      background: $startup-theme-color;
     }
 
     .workspace-users-delete {
