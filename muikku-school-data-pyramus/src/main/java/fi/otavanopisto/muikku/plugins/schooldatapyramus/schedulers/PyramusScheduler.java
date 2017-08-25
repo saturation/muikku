@@ -9,127 +9,90 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
-import javax.enterprise.event.Observes;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import fi.otavanopisto.muikku.events.ContextDestroyedEvent;
-import fi.otavanopisto.muikku.events.ContextInitializedEvent;
 import fi.otavanopisto.muikku.plugins.schooldatapyramus.SchoolDataPyramusPluginDescriptor;
 
+@Startup
 @Singleton
+@ApplicationScoped
 public class PyramusScheduler {
 
-  private static final int INITIAL_TIMEOUT = 1000 * 180; // 180 sec
-  private static final int TIMEOUT = 1000 * 15; // 15 sec 
-  private static final int ERROR_TIMEOUT = 1000 * 60; // 60 sec 
-  
+  private static final int INITIAL_TIMEOUT = 1000 * 600; // 10 minutes
+  private static final int TIMEOUT = 1000 * 15; // 15 sec
+  private static final int ERROR_TIMEOUT = 1000 * 60; // 60 sec
+
   @Any
   @Inject
   private Instance<PyramusUpdateScheduler> updateSchedulers;
-  
+
   @Resource
   private TimerService timerService;
-  
+
   @Inject
   private Logger logger;
-  
+
   @PostConstruct
   public void init() {
-    contextInitialized = false;
-    running = false;
+    logger.info("initial PyramusScheduler timeout");
+    if (!SchoolDataPyramusPluginDescriptor.SCHEDULERS_ACTIVE || "true".equals(System.getProperty("tests.running"))) {
+      return;
+    }
     schedulerIndex = 0;
-  }
-  
-  public void onContextInitialized(@Observes ContextInitializedEvent event) {
-    contextInitialized = true;
     startTimer(INITIAL_TIMEOUT);
   }
 
-  public void onContextDestroyed(@Observes ContextDestroyedEvent event) {
-    contextInitialized = false;
-    
-    if (this.timer != null) {
-      timer.cancel();
-      timer = null;
-    }
-  }
-  
   @Timeout
   public void syncTimeout(Timer timer) {
     try {
       synchronizePyramusData();
-
       startTimer(TIMEOUT);
-    } catch (Exception ex) {
-      logger.log(Level.SEVERE, "synchronization failed.", ex);
-      
+    }
+    catch (Exception ex) {
+      logger.log(Level.SEVERE, "Synchronization failed.", ex);
       startTimer(ERROR_TIMEOUT);
     }
   }
-  
+
   public void synchronizePyramusData() {
-    if (!SchoolDataPyramusPluginDescriptor.SCHEDULERS_ACTIVE) {
-      return;
-    }
-    
-    if (contextInitialized) {
-      if (running) {
-        return;  
+    @SuppressWarnings("unchecked")
+    List<PyramusUpdateScheduler> schedulers = IteratorUtils.toList(updateSchedulers.iterator());
+    Collections.sort(schedulers, new Comparator<PyramusUpdateScheduler>() {
+      @Override
+      public int compare(PyramusUpdateScheduler o1, PyramusUpdateScheduler o2) {
+        return o1.getPriority() - o2.getPriority();
       }
+    });
 
-      @SuppressWarnings("unchecked")
-      List<PyramusUpdateScheduler> schedulers = IteratorUtils.toList(updateSchedulers.iterator());
-      Collections.sort(schedulers, new Comparator<PyramusUpdateScheduler>() {
-        @Override
-        public int compare(PyramusUpdateScheduler o1, PyramusUpdateScheduler o2) {
-          return o1.getPriority() - o2.getPriority();
-        }
-      });
-      
-      PyramusUpdateScheduler updateScheduler = schedulers.get(schedulerIndex);
+    PyramusUpdateScheduler updateScheduler = schedulers.get(schedulerIndex);
 
-      try {
-        running = true;
-        updateScheduler.synchronize();
-      } catch (Exception ex) {
-        logger.log(Level.SEVERE, "Synchronization failed", ex);
-      } finally {
-        running = false;
-      }
-
-      schedulerIndex = (schedulerIndex + 1) % schedulers.size();
+    try {
+      updateScheduler.synchronize();
     }
+    catch (Exception ex) {
+      logger.log(Level.SEVERE, String.format("Scheduler %s failed", StringUtils.substringBefore(updateScheduler.getClass().getSimpleName(), "$")), ex);
+    }
+
+    schedulerIndex = (schedulerIndex + 1) % schedulers.size();
   }
-  
+
   private void startTimer(int duration) {
-    if (!contextInitialized)
-      return;
-    
-    if ("true".equals(System.getProperty("tests.running"))) { 
-        return;
-    }
-    
-    if (this.timer != null) {
-      this.timer.cancel();
-      this.timer = null;
-    }
-    
     TimerConfig timerConfig = new TimerConfig();
     timerConfig.setPersistent(false);
-    
-    this.timer = timerService.createSingleActionTimer(duration, timerConfig);
+    timerService.createSingleActionTimer(duration, timerConfig);
   }
-  
-  private Timer timer;
-  private boolean contextInitialized;
-  private boolean running;
+
   private int schedulerIndex;
+
 }

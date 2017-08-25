@@ -43,7 +43,6 @@
   
   $(window).load(function() {
     if ($(window).data('initial-page')) {
-      var test = $(window).data('initial-page');
       scrollToPage($(window).data('initial-page'), true);
     }
   });
@@ -104,8 +103,7 @@
 //      );
 //    });
 
-    $('.material-page')
-    .waypoint({
+    $('.material-page').waypoint({
       handler : function(direction) {
         if ($(window).data('scrolling') !== true && $(window).data('initializing') !== true) {
           var workspaceMaterialId = $(this.element).data('workspace-material-id');

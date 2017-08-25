@@ -15,10 +15,10 @@ $(document).ready(function(){
         if (workspace.urlName === "tervetuloa-startup-high-shooliin"){
           workspace.indexNo = 0;
         }
-        else if (workspace.urlName === "su1-startup-yrittajan-ajattelun-taidot"){
+        else if (workspace.urlName === "su2-startup-yrittajan-tietopaketti"){
           workspace.indexNo = 1;          
         }
-        else if (workspace.urlName === "su2-startup-yrittajan-tietopaketti"){
+        else if (workspace.urlName === "su1-startup-yrittajan-ajattelun-taidot"){
           workspace.indexNo = 2;          
         }
         else if (workspace.urlName === "su3-startup-yrittajan-projektikurssi"){
@@ -27,6 +27,7 @@ $(document).ready(function(){
         else {
           workspace.indexNo = 5;          
         }
+             
         workspaceCallback();        
       }));
     },this))
@@ -48,8 +49,11 @@ $(document).ready(function(){
             $('.notification-queue').notificationQueue('notification', 'error', getLocaleText('TODO: Virheilmoitus', err));
     	}else{    	  
     	  renderDustTemplate('frontpage/widget_workspaces.dust', {
-        	workspaces:workspaces
-        }, function (text) {
+        	isStudent: MUIKKU_LOGGED_USER.indexOf('STAFF') == -1,
+          workspaces: workspaces
+        },
+        
+        function (text) {
             $('#workspaces').append($.parseHTML(text));
             var is_xs = $(window).width() < 769;
             if (!is_xs) {
