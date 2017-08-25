@@ -29,7 +29,7 @@ $(document).ready(function(){
         }
              
         workspaceCallback();        
-      }));
+      }, this));
     },this))
     .callback( function (err, workspaces) { 
        
