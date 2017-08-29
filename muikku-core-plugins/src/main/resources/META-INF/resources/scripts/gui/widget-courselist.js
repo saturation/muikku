@@ -12,7 +12,7 @@ $(document).ready(function(){
       .callback($.proxy(function (err, activity) {         
         workspace.donePercent = activity.evaluablesDonePercent;
         
-        if (workspace.urlName === "tervetuloa-startup-high-shooliin"){
+        if (workspace.urlName === "tervetuloa-startup-high-schooliin"){
           workspace.indexNo = 0;
         }
         else if (workspace.urlName === "su2-startup-yrittajan-tietopaketti"){
