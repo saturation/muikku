@@ -97,12 +97,16 @@ body {
   font-size: 14px;
   line-height: 1.5em;
   max-height: 74px;
-/*   position: fixed; */
   text-align: left;
   text-shadow: none;
-/*   top: 212px; */
   width: 290px;
   z-index: 12;
+  &.stuck {
+   position: fixed;
+   top: 15px;
+  
+  }
+
 }
 
 .workspace-materials-progress-container {
@@ -119,13 +123,16 @@ body {
 
 }
 
+// general stuck class
+
+.stuck {
+   top: 15px;
+}
+
 .tocWrapper {
   position:absolute;
 
-  &.stuck {
-   position:fixed;
-   top: 15px;
-  }
+
   
 }
 nav.workspace-materials-toc-wrapper {
@@ -136,11 +143,15 @@ nav.workspace-materials-toc-wrapper {
   color: #000;
   font-size: 14px;
   line-height: 1.5em;
-// z-index: 11;
-//  position: fixed;
-// top: 280px;
-// bottom: 0;
+  position: fixed;
+  top: 280px;
+  bottom: 45px;
+  overflow:hidden;
   width: 290px;
+  
+  &.stuck {
+    top: 90px;
+  }
   
   &:hover > span {
     display: none;

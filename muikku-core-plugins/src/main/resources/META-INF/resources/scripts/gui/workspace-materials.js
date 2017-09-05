@@ -2,16 +2,21 @@
   'use strict';
   
   
-  var stickyNav = new Waypoint.Sticky({
-    element: $('#workspaceNavigationWrapper')[0],
-    wrapper: false
-  });
+    var stickyNav = new Waypoint.Sticky({
+      element: $('#workspaceNavigationWrapper')[0],
+      wrapper: false
+    });
+    var stickyTOC = new Waypoint.Sticky({
+      element: $('#workspaceMaterialsTOCWrapper')[0],
+      wrapper: false
+    });  
 
-  var stickyTOC = new Waypoint.Sticky({
-    element: $('.tocWrapper')[0],
-    wrapper: false
-  });  
-
+    var stickyProg = new Waypoint.Sticky({
+      element: $('.workspace-materials-progress-wrapper')[0],
+      wrapper: false
+    });  
+    
+    
    function scrollToPage(workspaceMaterialId, animate) {
     var topOffset = 90;
     var scrollTop = $('#page-' + workspaceMaterialId).offset().top - topOffset;
@@ -19,7 +24,7 @@
       $(window).data('scrolling', true);
       $('html,body').animate({
         scrollTop : scrollTop
-      }, {
+      }, { 
         duration : 500,
         easing : "easeInOutQuad",
         complete : function() {
@@ -76,7 +81,7 @@
       $(window).data('initial-page', window.location.hash.substring(3)); 
     }
     
-    $("#materialsScrollableTOC").perfectScrollbar({
+    $("#workspaceMaterialsTOCWrapper").perfectScrollbar({
       wheelSpeed:3,
       swipePropagation:false
     });
