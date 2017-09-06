@@ -1,6 +1,6 @@
 <div class="startup-frontpage-course lg-flex-cell-8 md-flex-cell-8 sm-flex-cell-full">
   <a class="startup-frontpage-course-link" href="/workspace/{urlName}/materials">
-   <div class="startup-frontpage-course-description">
+   <div class="startup-frontpage-course-description" style="background: url({imagePath})">
      <h2>{name} {?nameExtension}({nameExtension}){/nameExtension}</h2>
    </div>
    

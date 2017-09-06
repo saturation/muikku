@@ -27,7 +27,11 @@ $(document).ready(function(){
         else {
           workspace.indexNo = 5;          
         }
-             
+         
+        var workspaceBgrImage = workspace.hasCustomImage == true ?  '/rest/workspace/workspaces/' + 2  + '/workspacefile/workspace-frontpage-image-cropped' : '/gfx/workspace-default-header.jpg' ;
+        
+        workspace.imagePath = workspaceBgrImage;
+        
         workspaceCallback();        
       }, this));
     },this))
@@ -55,6 +59,10 @@ $(document).ready(function(){
         
         function (text) {
             $('#workspaces').append($.parseHTML(text));
+            
+            
+             
+            
             var is_xs = $(window).width() < 769;
             if (!is_xs) {
               $('#workspaces').perfectScrollbar({
