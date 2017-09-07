@@ -28,7 +28,7 @@ $(document).ready(function(){
           workspace.indexNo = 5;          
         }
          
-        var workspaceBgrImage = workspace.hasCustomImage == true ?  '/rest/workspace/workspaces/' + 2  + '/workspacefile/workspace-frontpage-image-cropped' : '/gfx/workspace-default-header.jpg' ;
+        var workspaceBgrImage = workspace.hasCustomImage == true ?  '/rest/workspace/workspaces/' + workspace.id  + '/workspacefile/workspace-frontpage-image-cropped' : '/gfx/workspace-default-header.jpg' ;
         
         workspace.imagePath = workspaceBgrImage;
         
