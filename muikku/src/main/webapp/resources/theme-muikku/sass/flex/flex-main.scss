@@ -513,6 +513,50 @@ main.content {
 
 }
 
+// In cooperation - footer
+
+.cooperation-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    align-items: center;
+
+  .cooperation-participant {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+
+    &.op{
+      background-image: url('/gfx/op.png');
+      height: 54px;
+      width: 54px;
+    }
+    &.otavan-opisto{
+      background-image: url('/gfx/of-organization-logo.jpg');    
+      height: 43px;
+      width: 113px;
+    }
+    &.slush{
+      background-image: url('/gfx/slush.png');    
+      height: 53px;
+      width:149px;
+    }
+    &.hundred{
+      background-image: url('/gfx/hundred_purple.png');    
+      height: 33px;
+      width: 149px;
+
+    } 
+    &.tt100{
+      background-image: url('/gfx/tt100.png');
+      height: 41px;    
+      width:168px;
+
+    }       
+  }
+}
+
 
 
 
