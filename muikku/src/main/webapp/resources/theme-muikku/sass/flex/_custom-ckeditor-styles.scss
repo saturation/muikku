@@ -159,6 +159,19 @@
   
 }
 
+// DIARY BOX
+.material-diarybox {
+  background-color: #ffd7f9;
+  border-top: 2px solid #e993e7;
+  text-shadow: -1px 1px 20px rgba(255,255,255,1), 1px -1px 20px rgba(255,255,255,1);
+  color: #000;
+  
+  &::after {
+    background-image: url("/gfx/icons/64x64/diary-icon.png");
+  }
+  
+}
+
 // MATERIAL TEXT STYLES
 .material-styles-text { 
   max-width: 920px;
