@@ -27,7 +27,7 @@ class AnnouncementsAside extends React.Component<AnnouncementsAsideProps, Announ
             <div className="item-list item-list--panel-announcements">
               {this.props.announcements.map((announcement: AnnouncementType)=>{
                 return <Link key={announcement.id} className={`item-list__item item-list__item--announcements ${announcement.workspaces ? "item-list__item--has-workspaces" : ""}`}
-                  href={`/announcements?announcementId=${announcement.id}`}>
+                  href={`/announcements#${announcement.id}`}>
                   <span className="item-list__icon item-list__icon--announcements icon-announcer"></span>
                   <span className="text item-list__text-body item-list__text-body--multiline">
                     {announcement.caption}
