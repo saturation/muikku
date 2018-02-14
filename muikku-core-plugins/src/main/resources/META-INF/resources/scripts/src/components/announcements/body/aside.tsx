@@ -6,6 +6,11 @@ import {i18nType} from '~/reducers/base/i18n';
 import {AnnouncementListType, AnnouncementType} from '~/reducers/main-function/announcer/announcements';
 import '~/sass/elements/buttons.scss';
 import '~/sass/elements/item-list.scss';
+import '~/sass/elements/ordered-container.scss';
+
+
+
+
 
 interface AnnouncementsAsideProps {
   i18n: i18nType,

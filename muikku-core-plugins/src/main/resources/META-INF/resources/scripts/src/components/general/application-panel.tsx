@@ -15,8 +15,6 @@ interface ApplicationPanelProps {
   children?: React.ReactElement<any> | Array<React.ReactElement<any>>,
 }
 
-//{this.props.asideBefore ? <div className="application-panel__helper-container" style={{height: this.state.remainingHeight}}>{this.props.aside}</div> : null}
-//{this.props.asideAfter ? <div className="application-panel__helper-container" style={{height: this.state.remainingHeight}}>{this.props.aside}</div> : null}
 
 interface ApplicationPanelState {
   sticky: boolean,
@@ -82,16 +80,15 @@ export default class ApplicationPanel extends React.Component<ApplicationPanelPr
   render(){
     return (        
     <div className={`application-panel application-panel--${this.props.modifier}`} ref="top-reference">
-      <div className="application-panel__container">                
-        
+      <div className="application-panel__container">                        
         <div className="application-panel__header">
-        {this.props.title ? 
-          <div className="application-panel__header-title">{this.props.title}</div>
-        : null}
-        {this.props.icon ? 
-          <div className="application-panel__header-actions">{this.props.icon}</div>
-        : null}
-        </div>
+          {this.props.title ? 
+            <div className="application-panel__header-title">{this.props.title}</div>
+          : null}
+          {this.props.icon ? 
+            <div className="application-panel__header-actions">{this.props.icon}</div>
+          : null}
+        </div>          
         <div className="application-panel__body">
           <div style={{display: this.state.sticky ? "block" : "none"}}></div>          
          {this.props.toolbar ?

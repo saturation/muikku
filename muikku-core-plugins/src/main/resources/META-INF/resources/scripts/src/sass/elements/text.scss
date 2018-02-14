@@ -411,11 +411,19 @@ b {
 }
 
 // Announcer
+
 .text--announcer-times {
   display: inline-block;
   margin-left: 5px;
-  font-weight: 600;
+  font-weight: 300;
 }
+
+.text--announcements-times {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: 300;
+}
+
 
 .text--announcer-times-decor {
   color: #fff;
@@ -431,8 +439,9 @@ b {
 }
 
 .text--announcer-announcement-caption {
-  font-weight: 600;  
-  padding: 10px; 
+  font-weight: 300;  
+  padding: 10px;
+  font-size: 1.5rem; 
 }  
 
 .text--announcer-announcement-content {

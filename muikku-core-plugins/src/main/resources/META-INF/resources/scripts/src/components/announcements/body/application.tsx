@@ -1,18 +1,22 @@
 import * as React from 'react';
 import {connect, Dispatch} from 'react-redux';
 
-import ApplicationPanel from '~/components/general/application-panel';
+import ApplicationPanel from '~/components/general/application-panel-reading-view';
 import Announcements from './application/announcements';
 import Link from '~/components/general/link';
 
 import {i18nType} from '~/reducers/base/i18n';
+{/*
 import '~/sass/elements/text.scss';
 import '~/sass/elements/link.scss';
 import '~/sass/elements/container.scss';
-{/* Application panel's css */}
+
+ Application panel's css */}
 
 import '~/sass/elements/application-panel.scss';
 import '~/sass/elements/loaders.scss';
+
+
 
 interface AnnouncementsApplicationProps {
   aside: React.ReactElement<any>,

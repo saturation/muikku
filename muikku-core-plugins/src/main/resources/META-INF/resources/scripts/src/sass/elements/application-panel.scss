@@ -34,6 +34,19 @@
   }
 }
 
+.application-panel__body--reading-view {
+  background-color: transparent;
+  box-shadow: 0 2px 3px $color-panel-shadow;
+  display: flex;
+  flex-direction: column;
+  
+  @include breakpoint($breakpoint-pad) {
+    border: 0;    
+    box-shadow: none;
+  }
+}
+
+
 .application-panel__header {
   display: none;
   
@@ -44,13 +57,31 @@
     flex-basis: auto;
     flex-grow: 0;
     flex-shrink: 0;
-    justify-content: center;
     margin: 10px;
     position: relative;
     max-width: calc($breakpoint-max-usable-screen - 20px);
     width: calc(100% - 20px);
   }
 }
+
+.application-panel__header--reading-view {
+  display: none;
+  
+  @include breakpoint($breakpoint-pad) {
+    align-items: center;
+    background-color: $color-default-body;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 10px;
+    position: relative;
+    max-width: calc($breakpoint-max-usable-screen - 20px);
+    width: calc(100% - 20px);
+  }
+}
+
+
 
 .application-panel__header-title {
   flex-basis: auto;
@@ -121,6 +152,28 @@
   @include breakpoint($breakpoint-pad) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
     flex-basis: 220px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    margin: 0 12px;
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    padding: 12px 0;
+    width: 220px; 
+    z-index: 1;
+    
+    &::-webkit-scrollbar { 
+      display: none; 
+    }
+  }
+}
+
+.application-panel__helper-container--reading-view {
+  display: none;
+
+  @include breakpoint($breakpoint-pad) {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    flex-basis: 400px;
     flex-grow: 0;
     flex-shrink: 0;
     display: flex;

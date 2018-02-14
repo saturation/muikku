@@ -31,31 +31,31 @@ class Announcement extends React.Component<AnnouncementProps, AnnouncementState>
     return (
       <div className="application-list application-list--open">
         <div className={`application-list__item ${this.props.announcement.workspaces.length ? "application-list__item--workspace-announcement" : "application-list__item--environment-announcement"}`}>
-          <div className="application-list__item-header  application-list__item-header--announcer-announcement">
-            <div className="container container--announcer-announcement-meta">
-              <div className="application-list__item-header-main application-list__item-header-main--announcer-announcement-dates">
-                <div className="text text--announcer-announcement-header">
-                  <span className="text__icon icon-clock"></span>
-                  <span className="text text--announcer-times">
-                    {this.props.i18n.time.format(this.props.announcement.startDate)} - {this.props.i18n.time.format(this.props.announcement.endDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+
           <div className="application-list__item-body">
             <header className="text text--announcer-announcement-caption">{this.props.announcement.caption}</header>
+            <div className="container container--announcer-announcement-date">
+              <span className="text__icon icon-clock"></span>
+              <span className="text text--announcements-times">
+                {this.props.i18n.time.format(this.props.announcement.startDate)} - {this.props.i18n.time.format(this.props.announcement.endDate)}
+              </span>
+            </div>
+            
             <section className="text text--announcer-announcement-content" dangerouslySetInnerHTML={{__html: this.props.announcement.content}}></section>                                
           </div>  
+                
+         ${this.props.announcement.workspaces.length ?      
           <div className="application-list__item-meta">
-            {/* This should be shown only if announcement has workspaces set */}
             <div className="text text--announcer-announcement-workspaces">
               <div className="text text--announcer-workspace"> 
                 <span className="text__icon text__icon--anouncement-workspace icon-books"></span>
-                <span className="text text--announcement-workspace-name"></span>
+             {/* This needs mapping of workspaces
+                <span className="text text--announcement-workspace-name">{this.props.workspaces}</span>
+             */}
               </div>
             </div>
           </div>     
+          : null}
         </div>                 
       </div>      
     );
