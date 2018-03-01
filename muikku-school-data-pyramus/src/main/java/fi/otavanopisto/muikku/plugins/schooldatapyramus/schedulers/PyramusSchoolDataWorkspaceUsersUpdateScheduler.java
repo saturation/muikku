@@ -42,9 +42,13 @@ public class PyramusSchoolDataWorkspaceUsersUpdateScheduler extends PyramusDataS
     try {
       logger.fine("Synchronizing Pyramus workspace users");
 
+      updateOffset(currentOffset + BATCH_SIZE);
+
+      if (true)
+        throw new RuntimeException("NAKS");
+      
       List<WorkspaceEntity> workspaceEntities = workspaceEntityController.listWorkspaceEntitiesByDataSource(
           SchoolDataPyramusPluginDescriptor.SCHOOL_DATA_SOURCE, currentOffset, BATCH_SIZE);
-      updateOffset(currentOffset + workspaceEntities.size());
       if (workspaceEntities.size() == 0) {
         updateOffset(0);
       }

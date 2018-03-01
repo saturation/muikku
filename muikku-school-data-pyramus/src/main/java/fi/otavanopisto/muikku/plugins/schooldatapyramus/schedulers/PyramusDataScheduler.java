@@ -8,17 +8,22 @@ import fi.otavanopisto.muikku.controller.PluginSettingsController;
 
 public abstract class PyramusDataScheduler {
 
+//  @Inject
+//  private PluginSettingsController pluginSettingsController;
+  
   @Inject
-  private PluginSettingsController pluginSettingsController;
+  private OffsetUpdaterThing thing;
   
   public abstract String getSchedulerName();
 
   protected int getOffset() {
-    return NumberUtils.toInt(pluginSettingsController.getPluginSetting("school-data-pyramus", "pyramus-updater." + getSchedulerName() + ".offset"));
+    return thing.getOffset(getSchedulerName());
+//    return NumberUtils.toInt(pluginSettingsController.getPluginSetting("school-data-pyramus", "pyramus-updater." + getSchedulerName() + ".offset"));
   }
   
   protected void updateOffset(int newOffset) {
-    pluginSettingsController.setPluginSetting("school-data-pyramus", "pyramus-updater." + getSchedulerName() + ".offset", String.valueOf(newOffset));
+    thing.updateOffset(getSchedulerName(), newOffset);
+//    pluginSettingsController.setPluginSetting("school-data-pyramus", "pyramus-updater." + getSchedulerName() + ".offset", String.valueOf(newOffset));
   }
   
 }
