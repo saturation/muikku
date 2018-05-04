@@ -3,7 +3,7 @@ import { i18nType } from "~/reducers/base/i18n";
 import { RecordsGradesType, MaterialType } from "~/reducers/main-function/records/records";
 import { WorkspaceType } from "~/reducers/main-function/workspaces";
 
-import MaterialLoader from "~/components/base/material-loader";
+//import MaterialLoader from "~/components/base/material-loader";
 
 interface MaterialProps {
   material: MaterialType,
@@ -53,7 +53,7 @@ export default class Material extends React.Component<MaterialProps, MaterialSta
           <span className="text text--list-item-title">{this.props.material.assignment.title}</span>
         </div>
         {this.state.opened ? <div className="application-list__item-body text">
-          <MaterialLoader material={this.props.material} workspace={this.props.workspace}/>
+          
         </div> : null}
       </div>
     </div>

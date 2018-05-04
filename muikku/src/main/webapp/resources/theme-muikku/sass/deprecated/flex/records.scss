@@ -1,3 +1,5 @@
+.__deprecated {
+
 @import "vars";
 @import "styles";
 
@@ -17,7 +19,6 @@
 
 
 // Classes 
-
 
 .tr-content-main {
   background-color: #fff;
@@ -704,4 +705,6 @@
   text-align: right;
   top: -3px;
   width: 40px;
+}
+
 }
