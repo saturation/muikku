@@ -5,6 +5,7 @@ branches:
   only:
     - master
     - devel
+    - test-specific
 jdk:
 - oraclejdk8
 cache:
