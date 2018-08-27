@@ -20,7 +20,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
         TestEnvironments.Browser.FIREFOX,
         TestEnvironments.Browser.INTERNET_EXPLORER,
         TestEnvironments.Browser.EDGE,
-        TestEnvironments.Browser.SAFARI
+        TestEnvironments.Browser.SAFARI,
+        TestEnvironments.Browser.CHROME_HEADLESS
       }
     )
   public void courseDiscussionSendMessageTest() throws Exception {
@@ -60,7 +61,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
         TestEnvironments.Browser.FIREFOX,
         TestEnvironments.Browser.INTERNET_EXPLORER,
         TestEnvironments.Browser.EDGE,
-        TestEnvironments.Browser.SAFARI
+        TestEnvironments.Browser.SAFARI,
+        TestEnvironments.Browser.CHROME_HEADLESS
       }
     )
   public void courseDiscussionAdminCreateAreaTest() throws Exception {
@@ -97,7 +99,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
         TestEnvironments.Browser.FIREFOX,
         TestEnvironments.Browser.INTERNET_EXPLORER,
         TestEnvironments.Browser.EDGE,
-        TestEnvironments.Browser.SAFARI
+        TestEnvironments.Browser.SAFARI,
+        TestEnvironments.Browser.CHROME_HEADLESS
       }
     )
   public void courseDiscussionReplyTest() throws Exception {
@@ -140,7 +143,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
         TestEnvironments.Browser.FIREFOX,
         TestEnvironments.Browser.INTERNET_EXPLORER,
         TestEnvironments.Browser.EDGE,
-        TestEnvironments.Browser.SAFARI
+        TestEnvironments.Browser.SAFARI,
+        TestEnvironments.Browser.CHROME_HEADLESS
       }
     )
   public void courseDiscussionDeleteThreadTest() throws Exception {
@@ -187,7 +191,8 @@ public class CourseDiscussionTestsBase extends AbstractUITest {
         TestEnvironments.Browser.FIREFOX,
         TestEnvironments.Browser.INTERNET_EXPLORER,
         TestEnvironments.Browser.EDGE,
-        TestEnvironments.Browser.SAFARI
+        TestEnvironments.Browser.SAFARI,
+        TestEnvironments.Browser.CHROME_HEADLESS
       }
     )
   public void courseDiscussionReplyReplyTest() throws Exception {

@@ -306,7 +306,7 @@ public class DiscussionTestsBase extends AbstractUITest {
           waitForPresent(".text--discussion-message-content>p");
           assertTextIgnoreCase(".text--discussion-message-content>p", "Testing testing daa daaing");
           waitForPresent(".text--discussion-last-modifier");
-          assertTextIgnoreCase(".text--discussion-last-modifier", "Muokattu: 13.08.2018");
+          assertTextStartsWith(".text--discussion-last-modifier", "Muokattu:");
         } finally {
           deleteDiscussionThread(discussionGroup.getId(), discussion.getId(), thread.getId());
         }
