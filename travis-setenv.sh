@@ -6,7 +6,7 @@ export test_suite=false
 export deploy_snapshot=false
 export deploy_release=false
 
-if [[ $TRAVIS_PULL_REQUEST != "false" && $TRAVIS_BRANCH == "devel" || $TRAVIS_BRANCH == "test-spesific" ]]; then
+if [[ $TRAVIS_PULL_REQUEST != "false" && $TRAVIS_BRANCH == "devel" || $TRAVIS_BRANCH == "test-specific" ]]; then
   export test_suite="headless"
   export run_tests="true"
 fi;
