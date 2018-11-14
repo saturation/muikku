@@ -5,10 +5,10 @@
     options: {
       bufferSize: 0,
       numberOfAudioChannels: 1,
-      sampleRate: 44100, 
+      desiredSampleRate: 8000,
       leftChannel: false,
       disableLogs: false,
-      maxClipLength: 60000 * 5,  
+      maxClipLength: 60000 * 5,
       uploadUrl: CONTEXTPATH + '/tempFileUploadServlet'
     },
     
