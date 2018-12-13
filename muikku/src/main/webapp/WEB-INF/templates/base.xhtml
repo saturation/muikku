@@ -51,7 +51,9 @@
       SHOW_FULL_NAME_PERMISSION: #{sessionBackingBean.hasEnvironmentPermission('FORUM_SHOW_FULL_NAMES')},
       FORUM_CREATEENVIRONMENTFORUM: #{sessionBackingBean.hasEnvironmentPermission('FORUM_CREATEENVIRONMENTFORUM')},
       FORUM_UPDATEENVIRONMENTFORUM: #{sessionBackingBean.hasEnvironmentPermission('FORUM_UPDATEENVIRONMENTFORUM')},
-      FORUM_DELETEENVIRONMENTFORUM: #{sessionBackingBean.hasEnvironmentPermission('FORUM_DELETEENVIRONMENTFORUM')}
+      FORUM_DELETEENVIRONMENTFORUM: #{sessionBackingBean.hasEnvironmentPermission('FORUM_DELETEENVIRONMENTFORUM')},
+
+      CREATE_PERMANENT_CHATROOM: #{sessionBackingBean.hasEnvironmentPermission('CREATE_PERMANENT_CHATROOM')}
     }
   </script>
 

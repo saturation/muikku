@@ -2,7 +2,6 @@ import Websocket from '~/util/websocket';
 import mApi from '~/lib/mApi';
 import {Action} from 'redux';
 import { updateUnreadMessageThreadsCount } from '~/actions/main-function/messages';
-import converse from '~/lib/converse';
 import { StateType } from '~/reducers';
 import { Store } from 'redux';
 import $ from '~/lib/jquery';
@@ -32,23 +31,7 @@ export default function(store: Store<StateType>){
     if (state.status.loggedIn){
       mApi().chat.status.read().callback(function(err:Error, result:{mucNickName:string,enabled:boolean}) {
         if (result && result.enabled) {
-          converse.initialize({
-            bosh_service_url : '/http-bind/',
-            authentication : "prebind",
-            keepalive : true,
-            prebind_url : "/rest/chat/prebind",
-            jid: state.status.userId,
-            auto_login : true,
-            muc_domain : 'conference.' + location.hostname,
-            muc_nickname : result.mucNickName,
-            muc_show_join_leave: false,
-            hide_muc_server : true,
-            ping_interval: 45,
-            auto_minimize: true,
-            i18n: state.locales.current,
-            hide_occupants:true,
-            limit_room_controls:true
-          });
+          initializeChat(state, result.mucNickName);
         }
       });
     }
@@ -59,4 +42,37 @@ export default function(store: Store<StateType>){
   });
   
   return websocket;
+}
+
+function initializeChat(state: StateType, mucNickName: string){
+  let script = document.createElement("script");
+  script.src = "//cdn.muikkuverkko.fi/libs/converse-muikku/1.1.8/converse-no-jquery.min.js";
+  script.onload = ()=>{
+    (<any>window).converse.initialize({
+      bosh_service_url : '/http-bind/',
+      authentication : "prebind",
+      keepalive : true,
+      prebind_url : "/rest/chat/prebind",
+      jid: state.status.userId,
+      auto_login : true,
+      muc_domain : 'conference.' + location.hostname,
+      muc_nickname : mucNickName,
+      muc_show_join_leave: false,
+      hide_muc_server : true,
+      ping_interval: 45,
+      auto_minimize: true,
+      i18n: state.locales.current,
+      hide_occupants:true,
+      limit_room_controls:true,
+      auto_list_rooms: true,
+      show_checkbox_persistent: state.status.permissions["CREATE_PERMANENT_CHATROOM"]
+    });
+  }
+  document.head.appendChild(script);
+  
+  let link = document.createElement("link");
+  link.href = "//cdn.muikkuverkko.fi/libs/converse-muikku/1.1.8/converse.min.css";
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  document.head.appendChild(link);
 }
